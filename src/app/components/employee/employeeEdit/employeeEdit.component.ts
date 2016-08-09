@@ -1,4 +1,4 @@
-import { Component, Input, Output, NgZone } from '@angular/core';
+import { Component, Input, Output, NgZone, ViewChild } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { Http, Response, HTTP_PROVIDERS } from '@angular/http';
 import 'rxjs/Rx';
@@ -10,6 +10,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { UserApi, CommonApi, EmployeeApi } from 'client';
 import { MainLogoComponent, PageFooterComponent, NavbarComponent, MenusComponent, SearchBarComponent } from 'common';
 import { EmployeeFormComponent } from '../employeeForm/employeeForm.component';
+import { DialogService } from 'services';
 
 @Component({
   moduleId: module.id,
@@ -17,14 +18,16 @@ import { EmployeeFormComponent } from '../employeeForm/employeeForm.component';
   template: require('./employeeEdit.html'),
   styles: [require('./employeeEdit.scss')],
   directives: [ROUTER_DIRECTIVES,  NavbarComponent, MenusComponent, EmployeeFormComponent, SearchBarComponent, PageFooterComponent],
-  providers: [HTTP_PROVIDERS, UserApi, CommonApi, Md5, EmployeeApi]
+  providers: [HTTP_PROVIDERS, UserApi, CommonApi, Md5, EmployeeApi, DialogService]
 })
 
 export class EmployeeEditComponent {
   employee: any;
   id: string;
   sub: any;
-  constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private eApi: EmployeeApi) {
+  oldEmployee: string = '';
+	@ViewChild(EmployeeFormComponent) ef: EmployeeFormComponent;
+  constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private eApi: EmployeeApi, private dialogService: DialogService) {
   }
 
   ngOnInit() {
@@ -40,8 +43,9 @@ export class EmployeeEditComponent {
       this.id = params['id'];
       if (this.id) {
         this.eApi.employeeEmployeeIdGet('', this.id).subscribe(data => {
-          console.log(data);
+          console.log('edit', data);
           this.employee = data.data;
+          this.oldEmployee = Md5.hashStr(JSON.stringify(this.employee), false).toString();
         }, err => {
           console.error(err);
         });
@@ -52,4 +56,15 @@ export class EmployeeEditComponent {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
+  canDeactivate(): Observable<boolean> | boolean {
+		let current = Md5.hashStr(JSON.stringify(this.ef.employee), false).toString();
+		if ( this.ef.hasSave || current === this.oldEmployee ) {
+			return true;
+		}
+		let p = this.dialogService.confirm('当前页面尚有信息未保存，是否离开？点击确定则显示搜索结果，点击取消还原原页面');
+		let o = Observable.fromPromise(p);
+		return o;
+	}
+
 }

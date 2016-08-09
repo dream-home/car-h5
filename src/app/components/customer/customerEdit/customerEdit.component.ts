@@ -10,6 +10,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { UserApi, CommonApi, CustomerApi, Customer } from 'client';
 import { MainLogoComponent, PageFooterComponent, NavbarComponent, MenusComponent, SearchBarComponent } from 'common';
 import { CustomerFormComponent } from '../customerForm/customerForm.component';
+import { DialogService } from 'services';
 
 @Component({
 	moduleId: module.id,
@@ -17,7 +18,7 @@ import { CustomerFormComponent } from '../customerForm/customerForm.component';
 	template: require('./customerEdit.html'),
 	styles: [require('./customerEdit.scss')],
 	directives: [ROUTER_DIRECTIVES,  NavbarComponent, MenusComponent, CustomerFormComponent, SearchBarComponent, PageFooterComponent],
-	providers: [HTTP_PROVIDERS, UserApi, CommonApi, Md5, CustomerApi ]
+	providers: [HTTP_PROVIDERS, UserApi, CommonApi, Md5, CustomerApi, DialogService ]
 })
 
 export class CustomerEditComponent {
@@ -26,7 +27,7 @@ export class CustomerEditComponent {
 	sub:any;
 
 	@ViewChild(CustomerFormComponent) cf: CustomerFormComponent;
-	constructor(private router: Router, fb: FormBuilder, private route: ActivatedRoute,  private cApi: CustomerApi) {
+	constructor(private router: Router, fb: FormBuilder, private route: ActivatedRoute,  private cApi: CustomerApi, private dialogService: DialogService ) {
 
 	}
 
@@ -52,6 +53,14 @@ export class CustomerEditComponent {
 		}, err => console.error(err));
 	}
 
+	canDeactivate(): Observable<boolean> | boolean {
+		if ( this.cf.hasChange() ) {
+			return true;
+		}
+		let p = this.dialogService.confirm('当前页面尚有信息未保存，是否离开？点击确定则显示搜索结果，点击取消还原原页面');
+		let o = Observable.fromPromise(p);
+		return o;
+	}
 
 
 }

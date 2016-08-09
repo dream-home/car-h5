@@ -4,7 +4,7 @@ import { NoContent } from 'common';
 
 // components
 import * as components from 'components';
-import { MissionService,AuthGuard,AuthService } from './services';
+import { AuthGuard,CanDeactivateGuard } from './services';
 
 export const routes:RouterConfig = [
 
@@ -17,14 +17,14 @@ export const routes:RouterConfig = [
   { path: 'dashbroad',component: components.DashbroadComponent,
     children: [
       { path: 'my-account', component: components.MyAccountComponent },
-      { path: 'modify-store', component: components.ModifyStoreComponent },
-      { path: 'add-store', component: components.AddStoreComponent },
-      { path: 'modify-pwd', component: components.ModifyPwdComponent },
-      { path: 'employee-add', component: components.EmployeeAddComponent },
-      { path: 'employee-edit', component: components.EmployeeEditComponent },
+      { path: 'modify-store', component: components.ModifyStoreComponent, canDeactivate: [CanDeactivateGuard] },
+      { path: 'add-store', component: components.AddStoreComponent, canDeactivate: [CanDeactivateGuard] },
+      { path: 'modify-pwd', component: components.ModifyPwdComponent, canDeactivate: [CanDeactivateGuard] },
+      { path: 'employee-add', component: components.EmployeeAddComponent, canDeactivate: [CanDeactivateGuard] },
+      { path: 'employee-edit', component: components.EmployeeEditComponent, canDeactivate: [CanDeactivateGuard] },
       { path: 'employee-list', component: components.EmployeeListComponent },
-      { path: 'customer-add', component: components.CustomerAddComponent },
-      { path: 'customer-edit', component: components.CustomerEditComponent },
+      { path: 'customer-add', component: components.CustomerAddComponent, canDeactivate: [CanDeactivateGuard] },
+      { path: 'customer-edit', component: components.CustomerEditComponent, canDeactivate: [CanDeactivateGuard] },
       { path: 'customer-detail', component: components.CustomerDetailComponent },
       { path: 'customer-list', component: components.CustomerListComponent },
       { path: 'search-list', component: components.SearchListComponent },

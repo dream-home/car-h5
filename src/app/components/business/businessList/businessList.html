@@ -33,10 +33,10 @@
         <tr *ngFor="let item of list?.content, let i = index">
           <td>{{i+1}}</td>
           <td>{{item.date|date:'shortTime'}}</td>
-          <td><a [routerLink]="['../customer-detai',{id: item.id}]" routerLinkActive="active" [attr.title]="item.licence">{{item.licence}}</a></td>
+          <td><a [routerLink]="['../customer-detail',{id: item.id}]" routerLinkActive="active" [attr.title]="item.licence">{{item.licence}}</a></td>
           <td>{{item.customer}}</td>
           <td>{{item.mobile}}</td>
-          <td><a [routerLink]="['../customer-detai',{id: item.id}]" routerLinkActive="active" [attr.title]="item.services">{{item.services}}</a></td>
+          <td><a [routerLink]="['../customer-detail',{id: item.id}]" routerLinkActive="active" [attr.title]="item.services">{{item.services}}</a></td>
           <td>{{item.employee}}</td>
           <td>{{item.score}}</td>
         </tr>

@@ -1,4 +1,4 @@
-import { Component, Input, Output, NgZone } from '@angular/core';
+import { Component, Input, Output, NgZone, ViewChild } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { Http, Response, HTTP_PROVIDERS } from '@angular/http';
 import 'rxjs/Rx';
@@ -10,6 +10,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { UserApi, CommonApi } from 'client';
 import { MainLogoComponent, PageFooterComponent, NavbarComponent, MenusComponent, SearchBarComponent } from 'common';
 import { StoreFormComponent } from '../../storeForm/storeForm.component.ts';
+import { DialogService } from 'services';
 
 @Component({
 	moduleId: module.id,
@@ -17,11 +18,13 @@ import { StoreFormComponent } from '../../storeForm/storeForm.component.ts';
 	template: require('./addStore.html'),
 	styles: [require('./addStore.scss')],
 	directives: [ROUTER_DIRECTIVES,  NavbarComponent, MenusComponent, SearchBarComponent, PageFooterComponent, StoreFormComponent],
-	providers: [ HTTP_PROVIDERS ]
+	providers: [ HTTP_PROVIDERS, DialogService ]
 })
 
 export class AddStoreComponent {
-	constructor(private router: Router, private route: ActivatedRoute) {
+	@ViewChild(StoreFormComponent) sf: StoreFormComponent;
+	isSuccess: boolean = false;
+	constructor(private router: Router, private route: ActivatedRoute, private dialogService: DialogService) {
 
 	}
 
@@ -29,7 +32,15 @@ export class AddStoreComponent {
 
 	}
 	onSuccess(data){
+		this.isSuccess = true;
 		this.router.navigate(['/dashbroad/my-account']);
 	}
-
+	canDeactivate(): Observable<boolean> | boolean {
+		if ( this.isSuccess || this.sf.hasChange() ) {
+			return true;
+		}
+		let p = this.dialogService.confirm('当前页面尚有信息未保存，是否离开？点击确定则显示搜索结果，点击取消还原原页面');
+		let o = Observable.fromPromise(p);
+		return o;
+	}
 }

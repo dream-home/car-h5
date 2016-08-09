@@ -1,4 +1,4 @@
-import { Component, Input, Output, NgZone, OnChanges, SimpleChange } from '@angular/core';
+import { Component, Input, Output, NgZone, OnChanges, SimpleChange, DoCheck } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { Http, Response, HTTP_PROVIDERS } from '@angular/http';
 import 'rxjs/Rx';
@@ -34,6 +34,7 @@ export class CustomerFormComponent {
 	submitting: Boolean = false;
 	customerDefault: any;
 	customerCurrent: any;
+	customerOldString: string = '';
 	searchTermStream = new Subject<string>();
 	tempPlate: string = '';
 	items: Observable<any> = this.searchTermStream
@@ -43,6 +44,7 @@ export class CustomerFormComponent {
 				console.log('term: ', term, i);
 				return this.cApi.customerVehicleVehicleLicenceGet(encodeURI(term));
 			});
+	hasSave: boolean = false;
 	constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private cApi: CustomerApi) {
 
 		const currentYear = +(new Date()).getFullYear();
@@ -107,13 +109,37 @@ export class CustomerFormComponent {
 	}
 
 	ngOnChanges( changes ) {
-		console.log(changes);
+		console.log('changes: ', changes);
+	}
+
+	// ngDoCheck() {
+	// 	console.log('Check: ', this.customerCurrent);
+	// 	let current = Md5.hashStr(JSON.stringify(this.customerCurrent), false).toString();
+	// 	GlobalVar.needFormSave = this.customerOldString === current ? false : true;
+	// 	console.log('', GlobalVar.needFormSave);
+	// }
+
+	// canDeactivate(): Observable<boolean> | boolean {
+	// 	let current = Md5.hashStr(JSON.stringify(this.customerCurrent), false).toString();
+	// 	console.log(this.customerOldString, current );
+	// 	if ( this.customerOldString === current ) {
+	// 		return true;
+	// 	}
+	// 	let p = this.dialogService.confirm('当前页面尚有信息未保存，是否离开？点击确定则显示搜索结果，点击取消还原原页面');
+	// 	let o = Observable.fromPromise(p);
+	// 	return o;
+	// }
+
+	hasChange() {
+		let current = Md5.hashStr(JSON.stringify(this.customerCurrent), false).toString();
+		return this.hasSave || this.customerOldString === current;
 	}
 
 	initFb() {
 		console.log('this_customer: ', this.customer);
 		this.customerCurrent = Object.assign({}, this.customer || this.customerDefault);
-		console.log('customerCurrent', this.customerCurrent);
+		this.customerOldString = Md5.hashStr(JSON.stringify(this.customerCurrent), false).toString();
+		console.log('customerOldString', this.customerOldString);
 
 		this.active = false;
         setTimeout(() => this.active = true, 0);
@@ -165,6 +191,7 @@ export class CustomerFormComponent {
 					return;
 				}
 				// 添加一次
+				this.hasSave = true;
 				if (isNew) {
 					this.gotoListPage();
 				} else {

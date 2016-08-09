@@ -1,4 +1,4 @@
-import { Component, Input, Output, NgZone,Injectable } from '@angular/core';
+import { Component, Input, Output, NgZone, Injectable } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { Http, Response, HTTP_PROVIDERS } from '@angular/http';
 import { ControlGroup, FormBuilder, Control, NgControlGroup } from '@angular/common';
@@ -7,19 +7,18 @@ import { Observable } from 'rxjs/Observable';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
-import { DATEPICKER_DIRECTIVES,PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
+import { DATEPICKER_DIRECTIVES, PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 
-import { BusinessApi, BusinessList,BusinessListResponse } from 'client';
+import { BusinessApi, BusinessList, BusinessListResponse } from 'client';
 import { PaginationComponent } from 'common';
 import { MissionService } from '../../../services';
-import { BusinessAddComponent } from '../businessAdd/businessAdd.component.ts';
 
 @Component({
   selector: 'business-list',
   template: require('./businessList.html'),
   styles: [require('./businessList.scss')],
-  directives: [DATEPICKER_DIRECTIVES,ROUTER_DIRECTIVES,PaginationComponent,BusinessAddComponent],
-  providers: [HTTP_PROVIDERS, BusinessApi,MissionService],
+  directives: [DATEPICKER_DIRECTIVES, ROUTER_DIRECTIVES, PaginationComponent],
+  providers: [HTTP_PROVIDERS, BusinessApi],
   // host: {
   //   '(click)': 'closeDatePicker($event)'
   // }
@@ -30,13 +29,14 @@ export class BusinessListComponent {
   date: Date = moment().toDate();
   page: any = {};
   dateShow: boolean = false;
-  timeout:any;
+  timeout: any;
 
-  constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi,private missionService: MissionService) {
-      missionService.businessAddAnnounced$.subscribe(
+  constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi, private missionService: MissionService) {
+    missionService.businessAddAnnounced$.subscribe(
       astronaut => {
-        console.log('businessAddAnnounced$');
-        this.getList();
+        if (astronaut == 'customer-detail') {
+          this.getList();
+        }
       });
   }
 
@@ -59,7 +59,7 @@ export class BusinessListComponent {
     return moment(date).format('YYYY-MM-DD');
   }
 
-  onPickerChange(event){
+  onPickerChange(event) {
     this.date = event;
     this.getList();
   }
@@ -89,19 +89,19 @@ export class BusinessListComponent {
 
   getList() {
     window.clearTimeout(this.timeout);
-    this.timeout = window.setTimeout(()=>{
+    this.timeout = window.setTimeout(() => {
       this.bApi.businessListGet(this.moment(this.date), this.page.current).subscribe(data => {
         if (data.meta.code === 200) {
           this.list = data.data;
-          this.page.current = data.meta.current||1;
-          this.page.limit = data.meta.limit||20;
-          this.page.total = data.meta.total||0;
+          this.page.current = data.meta.current || 1;
+          this.page.limit = data.meta.limit || 20;
+          this.page.total = data.meta.total || 0;
         }
       })
-    },500)
+    }, 500)
   }
 
-  onOpenBusinessAdd(){
-    this.missionService.confirmBusinessAdd({selector: 'business-list'});
+  onOpenBusinessAdd() {
+    this.missionService.confirmBusinessAdd({ selector: 'business-list' });
   }
 }

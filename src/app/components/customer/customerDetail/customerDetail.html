@@ -29,7 +29,7 @@
           <td>车架号</td>
           <td>{{customer?.vehicleFrame}}</td>
           <td>年龄</td>
-          <td>{{customer?.birthYear}}年 &nbsp; &nbsp; {{customer?.age}}岁</td>
+          <td>{{customer?.birthYear ? customer.birthYear + '年' : '' }} &nbsp; &nbsp; {{customer?.age ? customer.age + '岁' : ''}}</td>
         </tr>
         <tr>
           <td>购买年份</td>
@@ -38,7 +38,7 @@
           <td>{{customer?.vehicleMiles}}</td>
         </tr>
         <tr>
-          <td colspan="4" class="cd-base-op">最后入店时间: {{customer?.lastEnterDate}} <a [routerLink]="['../customer-edit',{id: customerId}]" routerLinkActive="active">编辑客户信息</a></td>
+          <td colspan="4" class="cd-base-op">最后入店时间: {{customer?.lastEnterDate | date: 'y-MM-dd'}} <a [routerLink]="['../customer-edit',{id: customerId}]" routerLinkActive="active">编辑客户信息</a></td>
 
         </tr>
       </table>
@@ -49,7 +49,7 @@
       历史服务记录
       <div class="cd-r-btn">
         合计 <span>{{customerDetail?.historiesTotol}}</span> 次
-        <a href="" class="g-btn g-btn-green">+  新服务</a>
+        <a  (click)="onOpenBusinessAdd()" class="g-btn g-btn-green">+  新服务</a>
       </div>
     </div>
     <div class="cd-records">
@@ -64,14 +64,14 @@
               <th>客户满意度</th>
             </tr>
           </thead>
-        
+
           <tbody *ngFor="let hs of histories">
             <tr>
-              <td>{{hs.paidDate || '-'}}</td>
+              <td>{{ (hs.enterDate | date:'y-MM-dd') || '-'}}</td>
               <td>{{hs.name || '-'}}</td>
               <td>{{hs.employee || '-'}}</td>
               <td>{{hs.description || '-'}}</td>
-              <td class="cd-r-satisfaction"><a href="javascript:;" (click)="onShowCommentWin(hs)">点击邀请顾客做服务评价</a></td>
+              <td class="cd-r-satisfaction"><a  (click)="onShowCommentWin(hs)">点击邀请顾客做服务评价</a></td>
             </tr>
             <tr>
               <td></td>
@@ -156,7 +156,7 @@
         <div class="fwin-btns g-btns">
           <div class="g-btn" [ngClass]="{'g-btn-green': !hasSend, 'g-btn-gray': hasSend }" (click)="onSend()">{{ hasSend ? '已发送' : '立即发送' }}</div>
           <div class="pa resend" *ngIf="hasSend" (click)="onResend()">重新发送</div>
-          <a [attr.href]="commentUrl.url" class="g-btn g-btn-green">马上评价</a>
+          <a [routerLink]="['../../survey-pc',{url: commentUrl.url}]"  target="_blank" class="g-btn g-btn-green">马上评价</a>
         </div>
       </div>
     </div>

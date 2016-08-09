@@ -6,9 +6,11 @@ export * from './common';
 export * from './components';
 export * from './services';
 
-import { MissionService } from './services';
+import { MissionService,DialogService,CanDeactivateGuard } from './services';
 
 // Application wide providers
 export const APP_PROVIDERS = [
-  MissionService
+  MissionService,
+  DialogService,
+  CanDeactivateGuard
 ];

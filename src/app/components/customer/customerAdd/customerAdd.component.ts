@@ -1,4 +1,4 @@
-import { Component, Input, Output, NgZone } from '@angular/core';
+import { Component, Input, Output, NgZone, ViewChild } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { Http, Response, HTTP_PROVIDERS } from '@angular/http';
 import 'rxjs/Rx';
@@ -10,20 +10,20 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { UserApi, CommonApi, CustomerApi, Customer } from 'client';
 import { MainLogoComponent, PageFooterComponent, NavbarComponent, MenusComponent, SearchBarComponent } from 'common';
 import { CustomerFormComponent } from '../customerForm/customerForm.component';
-
+import { DialogService } from 'services';
 @Component({
 	moduleId: module.id,
 	selector: 'customer-add',
 	template: require('./customerAdd.html'),
 	styles: [require('./customerAdd.scss')],
 	directives: [ROUTER_DIRECTIVES,  NavbarComponent, MenusComponent, CustomerFormComponent, SearchBarComponent, PageFooterComponent],
-	providers: [HTTP_PROVIDERS, UserApi, CommonApi, Md5, CustomerApi ]
+	providers: [HTTP_PROVIDERS, UserApi, CommonApi, Md5, CustomerApi, DialogService ]
 })
 
 export class CustomerAddComponent {
 	customerFields: any;
-	
-	constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private cApi: CustomerApi) {
+	@ViewChild(CustomerFormComponent) cf: CustomerFormComponent;
+	constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private cApi: CustomerApi, private dialogService: DialogService ) {
 		
 	}
 
@@ -41,6 +41,15 @@ export class CustomerAddComponent {
 			'vehicleYear': '',
 			'vehicleMiles': ''
 		}
+	}
+
+	canDeactivate(): Observable<boolean> | boolean {
+		if ( this.cf.hasChange() ) {
+			return true;
+		}
+		let p = this.dialogService.confirm('当前页面尚有信息未保存，是否离开？点击确定则显示搜索结果，点击取消还原原页面');
+		let o = Observable.fromPromise(p);
+		return o;
 	}
 
 }
