@@ -1,0 +1,55 @@
+.init-store {
+  position: relative;
+  background: #8cc63e;
+  padding: 127px 0;
+  min-height: 100%;
+
+  .register-progress-rate {
+    background: url("/assets/images/register-progress-rate.png") 0 0 no-repeat;
+    display: block;
+    width: 613px;
+    height: 109px;
+    margin: 10px auto;
+  }
+  .init-store-block {
+    border-radius: 15px 15px 0 15px;
+    padding: 46px;
+    background: #fff;
+    width: 800px;
+    margin: 0 auto;
+    position: relative;
+    .right-arrow {
+      background: url("/assets/images/right-corner.png") 0 0 no-repeat;
+      position: absolute;
+      right: 0;
+      bottom: -41px;
+      width: 45px;
+      height: 41px;
+    }
+    .init-store-btn-submit {
+      background: #008b3d;
+      color: #fff;
+      width: 100%;
+      line-height: 35px;
+      border: 1px solid transparent;
+      &:hover,
+      :active {
+        background: #38b549;
+      }
+      &.disabled,
+      [disabled] {
+        background: #c0c0c0;
+      }
+    }
+
+    i.arrow-up {
+      background: url("/assets/images/arrow-up.png") 0 0 no-repeat;
+      width: 13px;
+      height: 17px;
+      display: inline-block;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+    
+  }
+}

@@ -1,0 +1,59 @@
+<business-add></business-add>
+<!-- 主内容标题 -->
+<div class="sub-header tc">
+  <div class="dib fl date-directive">
+    <a href="javascript:void(0);" class="last" (click)="onLastDate()"> &lt; </a> &nbsp;&nbsp;&nbsp;&nbsp; <span (click)="onToggleDate($event)">{{moment(date)}}</span> &nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:void(0);" class="next" (click)="onNextDate()"> 	&gt; </a>
+    <div class="datepicker-tip" *ngIf="dateShow">
+      <datepicker [ngModel]="date" [initDate]="date" (ngModelChange)="onPickerChange($event)" [showWeeks]="false" ></datepicker>
+    </div>
+  </div>
+  <h5 class="dib title">记录新服务</h5>
+  <div class="dib fr business-info">
+    合计: <span class="warning">{{page?.total||0}}</span> 笔服务 平均 <span class="warning">{{list?.score||0}}</span> 分
+  </div>
+</div>
+<!-- 主内容标题 end -->
+<!-- 主内容 -->
+<div class="c-main">
+  <div class="business-list c-table">
+    <table>
+      <thead>
+        <tr>
+          <th>序号</th>
+          <th>时间</th>
+          <th>车牌</th>
+          <th>顾客姓名</th>
+          <th>手机号码</th>
+          <th>服务项目</th>
+          <th>主理技师</th>
+          <th>满意度评分</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="list?.content">
+        <tr *ngFor="let item of list?.content, let i = index">
+          <td>{{i+1}}</td>
+          <td>{{item.date|date:'shortTime'}}</td>
+          <td><a [routerLink]="['../customer-detai',{id: item.id}]" routerLinkActive="active" [attr.title]="item.licence">{{item.licence}}</a></td>
+          <td>{{item.customer}}</td>
+          <td>{{item.mobile}}</td>
+          <td><a [routerLink]="['../customer-detai',{id: item.id}]" routerLinkActive="active" [attr.title]="item.services">{{item.services}}</a></td>
+          <td>{{item.employee}}</td>
+          <td>{{item.score}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- 列表分页 -->
+    <pagination *ngIf="list?.content" (pageChanged)="changePage($event)"  [boundaryLinks]="true" [rotate]="false"  [totalItems]="page.total" [itemsPerPage]="page.limit" [maxSize]="7" [(ngModel)]="page.current"></pagination>
+    <!-- 列表分页 end -->
+
+  </div>
+  <div class="list-empty" *ngIf="!list?.content">
+    <div class="le-img"></div>
+    <div class="le-txt tc">
+      当前未添加服务
+      <a class="g-btn g-btn-green" (click)="onOpenBusinessAdd()">+  添加新服务</a>
+    </div>
+  </div>
+
+</div>
+<!-- 主内容 end -->

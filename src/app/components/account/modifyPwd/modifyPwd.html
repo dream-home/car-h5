@@ -1,0 +1,55 @@
+<!-- 主内容标题 -->
+<div class="c-header">修改密码</div>
+<!-- 主内容标题 end -->
+<!-- 表单 -->
+<div class="c-form c-modify-pwd">
+  <form [ngFormModel]="mpwdForm" *ngIf="active">
+    <!-- 密码表单字段 -->
+    <div class="pr g-fields">
+      <div class="g-field">
+        <label for="pwd_current" class="g-label">当前密码</label>
+        <div class="g-ipt">
+          <input type="password" id="pwd_current" class="g-wxm" ngControl="oldPassword" required minlength="6" maxlength="16" (focus)="onCurrentPwdFocus()" pattern="^[\x21-\x7E]{6,20}$">
+          <div class="g-field-tip" [class.warning]="mpwdForm.controls.oldPassword.errors && mpwdForm.controls.oldPassword?.touched && !mpwdForm.controls.oldPassword?.valid" *ngIf="mpwdForm.controls.oldPassword.errors && mpwdForm.controls.oldPassword?.touched && !mpwdForm.controls.oldPassword?.valid">
+            <span>*</span>请输入6~16位由英文字母、数字或符号组成的密码
+          </div>
+          <div class="g-field-tip warning" *ngIf="submitedErrMsg">
+            <span>*</span>{{submitedErrMsg}}
+          </div>
+        </div>
+      </div>
+
+      <div class="g-field">
+        <label for="pwd_new" class="g-label">新密码</label>
+        <div class="g-ipt">
+          <input type="password" id="pwd_new" class="g-wxm" ngControl="password" required pattern="^[\x21-\x7E]{6,20}$">
+          <div class="g-field-tip" [class.warning]="mpwdForm.controls.password.errors && mpwdForm.controls.password?.touched && !mpwdForm.controls.password?.valid" *ngIf="mpwdForm.controls.password.errors && mpwdForm.controls.password?.touched && !mpwdForm.controls.password?.valid">
+            <span>*</span>请输入6~16位由英文字母、数字或符号组成的密码
+          </div>
+        </div>
+      </div>
+      <div class="g-field">
+        <label for="pwd_renew" class="g-label">确认新密码</label>
+        <div class="g-ipt">
+          <input type="password" id="pwd_renew" class="g-wxm" ngControl="rePassword" required (blur)="onRepasswordBlur()" (focus)="onRepasswordFocus()" pattern="^[\x21-\x7E]{6,20}$">
+          <div class="g-field-tip" [class.warning]="mpwdForm.controls.rePassword.errors && mpwdForm.controls.rePassword?.touched && !mpwdForm.controls.rePassword?.valid" *ngIf="mpwdForm.controls.rePassword.errors && mpwdForm.controls.rePassword?.touched && !mpwdForm.controls.rePassword?.valid">
+            <span>*</span>请输入6~16位由英文字母、数字或符号组成的密码
+          </div>
+          <div class="g-field-tip" [class.warning]="!isEqual" *ngIf="!isEqual">
+            <span>*</span>两次密码不一致，请重新输入
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <!-- 密码表单字段 end -->
+    <!-- 密码表单按钮  -->
+    <div class="g-btns">
+      <div class="g-btn g-btn-green" (click)="onSave()">保存</div>
+      <div class="g-btn g-btn-gray" (click)="onCancel()">取消</div>
+    </div>
+    <!-- 密码表单按钮 end -->
+  </form>
+</div>
+<!-- 表单 end -->

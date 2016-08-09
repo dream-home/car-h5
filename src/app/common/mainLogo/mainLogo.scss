@@ -1,0 +1,27 @@
+.main-logo {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    margin-left: -219px;
+    margin-top: -40px;
+    width:438px;
+    text-align: center;
+    font-size:0;
+    i {
+        background: url(/assets/images/white-main-logo.png) 0 0 no-repeat;
+        width: 64px;
+        height: 75px;
+        display: inline-block;
+        z-index: 100;
+        background-size: cover;
+        margin: 0 auto;
+        vertical-align: middle;
+    }
+    .title {
+        display:inline-block;
+        color: #fff;
+        font-size: 24px;
+        vertical-align: middle;
+        margin-left:26px;
+    }
+}

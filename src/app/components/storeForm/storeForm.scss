@@ -1,0 +1,141 @@
+.c-modify-store .g-btns,
+.c-modify-store .g-fields {
+  width: 520px;
+}
+.sf-btns {
+    position: relative;
+    text-align: left;
+}
+.c-form {
+  padding: 0 50px;
+  color: #777;
+  min-width: 715px;
+  .center{
+    text-align: center;
+  }
+  .title-underline {
+    border-bottom: 2px solid #38b549;
+    padding: 5px 0;
+    color: #343434;
+  }
+  .g-field {
+    .g-wl,
+    .g-wml {
+      width: 430px;
+    }
+    .g-ws {
+      width: 208px;
+    }
+    &.fs14 {
+      font-size: 14px;
+    }
+    .g-checkbox-group {
+      line-height: 36px;
+    }
+    .checkbox-label {
+      display: inline-block;
+      margin: 0 20px 20px 0;
+      height: 36px;
+      line-height: 36px;
+      .checkbox-input {
+        height: 14px;
+      }
+    }
+  }
+  .g-op {
+    position: absolute;
+    height: 16px;
+    font-size: 14px;
+    padding-left: 24px;
+    line-height: 16px;
+    cursor: pointer;
+  }
+  .g-op:before {
+    position: absolute;
+    display: block;
+    font-size: 12px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    top: 0;
+    left: 0;
+  }
+  .g-del {
+    color: #777;
+    right: 0;
+    bottom: 9px;
+    &:before {
+      content: 'X';
+      background: #f32c52;
+    }
+  }
+  .g-add {
+    color: #38b549;
+    left: 0;
+    top: 9px;
+    font-size: 14px;
+    &:before {
+      content: '+';
+      background: #38b549;
+    }
+  }
+  .add-store {
+    color: #38b549;
+    float: right;
+    display: inline-block;
+    width: 81px;
+    height: 35px;
+    margin-left: 15px;
+    font-size: 14px;
+    text-decoration: none;
+    line-height: 35px;
+    &:before {
+      content: '+';
+      background: #38b549;
+      color: #fff;
+      border-radius: 25px;
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      line-height: 20px;
+      text-align: center;
+      font-style: normal;
+      margin-right: 5px;
+    }
+  }
+  .del-store {
+    color: #777;
+    float: right;
+    display: inline-block;
+    width: 100px;
+    height: 35px;
+    margin-left: 15px;
+    font-size: 14px;
+    text-decoration: none;
+    line-height: 35px;
+    &:before {
+      content: 'X';
+      background: #f32c52;
+      color: #fff;
+      border-radius: 25px;
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      line-height: 20px;
+      text-align: center;
+      font-style: normal;
+      margin-right: 5px;
+    }
+  }
+  .border-bottom-underline{
+    border-bottom: 1px dashed #ddd;
+  }
+  .h36{
+    height: 36px;
+  }
+  .center{
+    text-align: center;
+  }
+}

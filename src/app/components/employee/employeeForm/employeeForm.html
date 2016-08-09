@@ -1,0 +1,38 @@
+<!-- 门店表单 -->
+<div class="c-form employee-form">
+    <!-- 门店表单字段 -->
+    <div class="pr g-fields">
+        <div class="g-field">
+            <label for="employee_name" class="g-label">技师姓名</label>
+            <div class="g-ipt">
+                <input type="text" id="employee_name" class="g-w343" [ngModel]="employee?.name" (ngModelChange)="employee.name = $event" (focus)="onHideTip('required');onHideTip('lenerr')" maxlength="20" >
+                <div class="g-field-tip warning" [class.warning]="formErr.required" *ngIf="!formErr.lenerr" ><span>*</span>技师姓名与技师编号至少填一项</div>
+                <div class="g-field-tip warning" *ngIf="formErr.lenerr"><span>*</span>技师姓名与技师编号任一项不超过20个字</div>
+            </div>
+        </div>
+        <div class="g-field">
+            <label for="employee_code" class="g-label">技师编号</label>
+            <div class="g-ipt">
+                <input type="text" id="employee_code" class="g-w343" [ngModel]="employee?.code" (ngModelChange)="employee.code = $event" (focus)="onHideTip('required');onHideTip('lenerr')" maxlength="20" >
+
+            </div>
+        </div>
+        <div class="g-field">
+            <label for="employee_tel" class="g-label">技师手机号</label>
+            <div class="g-ipt">
+                <input type="text" id="employee_tel" class="g-w343" [ngModel]="employee?.mobile" (ngModelChange)="employee.mobile = $event" (focus)="onHideTip('mobile')" (blur)="onCheckMobile()">
+                <div class="g-field-tip warning" *ngIf="formErr.mobile">请输入正确格式的手机号</div>
+            </div>
+        </div>
+
+    </div>
+    <!-- 门店表单字段 end -->
+    <!-- 门店表单按钮  -->
+    <div class="g-btns">
+        <div class="g-btn g-btn-green" (click)="onSave()">保存</div>
+        <div class="g-btn g-btn-green" (click)="onSaveAndNew()" *ngIf="!employee?.id">保存并新建</div>
+        <div class="g-btn g-btn-gray" (click)="onReset()">取消</div>
+    </div>
+    <!-- 门店表单按钮 end -->
+</div>
+<!-- 门店表单 end -->

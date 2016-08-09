@@ -1,0 +1,116 @@
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 63px;
+    background: #34383c;
+    color: #bfbfbf;
+    padding-left: 64px;
+    z-index: 1001;
+}
+
+.topbar> a {
+    display: block;
+    position: absolute;
+    width: 64px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: #1e2226 url(/assets/images/logo.png) no-repeat center center;
+}
+
+
+
+.topbar h1 {
+    display: inline-block;
+    margin: 0;
+    font-size: 18px;
+    font-weight: normal;
+    padding-left: 20px;
+    line-height: 63px;
+}
+
+.topbar .info {
+    font-size: 0;
+}
+
+.topbar .info> div,
+.topbar .info> span {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 63px;
+}
+
+.topbar .info> span {
+    margin-right: 12px;
+}
+
+.topbar .c-drop {
+    margin-right: 34px;
+}
+
+.topbar .c-drop-store .legend a {
+    color: #8dc63f;
+}
+
+.c-drop {
+    &:hover{
+        .c-drop-cont {
+            display: block;
+            top:63px;
+            right:0;
+            padding-top:7px;
+            &:before {
+                content: '';
+                display:block;
+                width:0;
+                height:0;
+                border:4px solid #34383c;
+                position:absolute;
+                top:0;
+                right:0;
+                border-top:4px dashed transparent;
+                border-left:4px dashed transparent;
+            }
+        }
+    }
+    ul {
+        display: block;
+        border-radius:2px 0 2px 2px;
+        background: #34383c;
+        margin: 0;
+        padding: 8px 0;
+        width:auto;
+        a {
+            display:block;
+            line-height: 28px;
+            padding:0 20px;
+            text-decoration: none;
+            font-size:12px;
+            min-width:89px;
+            white-space:nowrap;
+            color: #fff;
+            &:visited {
+                color:#fff;
+            }
+            &:focus {
+                color:#fff;
+            }
+            &:active {
+                color:#fff;
+            }
+            &:hover {
+                color:#fff;
+            }
+        }
+
+    }
+
+}
+
+@media print {
+  a::after {
+    content: none;
+  }
+}

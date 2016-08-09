@@ -1,0 +1,121 @@
+<!-- 顾客表单 -->
+      <div class="business-add customer-add-form">
+        <form  #customerForm="ngForm" autocomplete="off" *ngIf="active">
+          <div class="c-form customer-form">
+            <!-- 顾客表单字段 -->
+            <div class="pr  ">
+              <div class="g-field">
+                <label for="customer_plate" class="g-label">
+                  <span class="warning">*</span>车牌号</label>
+                <div class="g-ipt">
+                  <input type="text" id="customer_plate" placeholder="必填项" class="g-w343" required [(ngModel)]="customerCurrent.vehicleLicence" name="vehicleLicence" #vehicleLicence="ngModel" (keyup)="subjectAjax()" (focus)="onVehiclePlateFocus()" >
+                  <div class="g-field-tip warning" *ngIf ="vehiclePlateNull || vehiclePlateLen || vehiclePlateHas">
+                    <div *ngIf="vehiclePlateNull">
+                        <span>*</span>请填写车牌号 
+                    </div>
+                    <div *ngIf="vehiclePlateLen" >
+                        <span>*</span>请填写正确的车牌号
+                    </div>
+                    <div *ngIf="vehiclePlateHas">
+                        <span>*</span>该车牌号已存在
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="g-field">
+                <label for="employee_code" class="g-label">手机号</label>
+                <div class="g-ipt">
+                  <input type="tel" id="employee_code" placeholder="" class="g-w343" [(ngModel)]="customerCurrent.mobile" name="mobile" #mobile="ngModel"  (blur)="onMobileValid()" (focus)="onMobileFocus()">
+                  <div class="g-field-tip warning" *ngIf="mobileFormatValid">
+                    <div>
+                        <span>*</span>请填写正确的手机号
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="g-field">
+                <label for="employee_tel" class="g-label">车架号</label>
+                <div class="g-ipt">
+                  <input type="text" id="employee_tel" placeholder="" class="g-w343"  [(ngModel)]="customerCurrent.vehicleFrame" name="vehicleFrame" #vehicleFrame="ngModel"  maxlength="20">
+                </div>
+              </div>
+            </div>
+            <h5>
+              <i class="arrow-up"></i>
+              <span class="ml20 suctip">填写更多信息(选填)</span>
+            </h5>
+            <div class="pr ">
+              <div class="g-field">
+                <label for="employee_name" class="g-label">姓名</label>
+                <div class="g-ipt">
+                  <input type="text" id="employee_name" placeholder="" class="g-w343" [(ngModel)]="customerCurrent.name" name="name" #name="ngModel" maxlength="20">
+                  <div class="g-field-tip suctip" >
+                    车主信息越完善有助于您更好管理顾客
+
+                  </div>
+                </div>
+              </div>
+              <div class="g-field">
+                <label for="employee_code" class="g-label">出生年月</label>
+                <div class="g-ipt">
+                  <select class="g-w343" [(ngModel)]="customerCurrent.birthYear" name="birthYear" #birthYear="ngModel">
+                    <option value="">请选择</option>
+                    <option value="{{year}}" *ngFor="let year of birthdayYearArr">{{year}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="g-field">
+                <label for="employee_tel" class="g-label">性别</label>
+                <div class="g-ipt">
+                  <select class="g-w343" [(ngModel)]="customerCurrent.gender" name="gender" #gender="ngModel">
+                    <option value="">请选择</option>
+                    <option value="1">男</option>
+                    <option value="0">女</option>
+                  </select>
+                </div>
+              </div>
+              <div class="g-field">
+                <label for="employee_name" class="g-label">车品牌</label>
+                <div class="g-ipt">
+                  <input type="text" id="employee_name" placeholder="" class="g-w343" [(ngModel)]="customerCurrent.vehicleBrand" name="vehicleBrand" #vehicleBrand="ngModel" maxlength="50">
+                </div>
+              </div>
+              <div class="g-field">
+                <label for="employee_code" class="g-label">车型号</label>
+                <div class="g-ipt">
+                  <input type="text" id="employee_code" placeholder="" class="g-w343" [(ngModel)]="customerCurrent.vehicleModel" name="vehicleModel" #vehicleModel="ngModel" maxlength="50">
+                </div>
+              </div>
+              <div class="g-field">
+                <label for="employee_tel" class="g-label">购买年份</label>
+                <div class="g-ipt">
+                  <select class="g-w343" [(ngModel)]="customerCurrent.vehicleYear" name="vehicleYear" #vehicleYear="ngModel" >
+                    <option value="">请选择</option>
+                    <option [value]="year" *ngFor="let year of vehicleYearArr">{{year}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="g-field">
+                <label for="employee_tel" class="g-label">行驶里程数</label>
+                <div class="g-ipt">
+                  <select class="g-w343" [(ngModel)]="customerCurrent.vehicleMiles" name="vehicleMiles" #vehicleMiles="ngModel" >
+                    <option value="">请选择</option>
+                    <option [value]="mile" *ngFor="let mile of miles">{{mile}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!-- 顾客表单字段 end -->
+            <!-- 顾客表单按钮  -->
+            <div class="g-btns">
+              <div class="g-btn g-btn-green" (click)="onSave()">保存</div>
+              <div class="g-btn g-btn-green" (click)="onSave(true)" *ngIf="!customerCurrent?.id">保存并新建</div>
+              <div class="g-btn g-btn-gray" (click)="gotoListPage()">取消</div>
+            </div>
+            <!-- 顾客表单按钮 end -->
+          </div>
+        </form>
+      </div>
+      <!-- 顾客表单 end -->

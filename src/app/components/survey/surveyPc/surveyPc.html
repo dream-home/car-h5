@@ -1,0 +1,129 @@
+<div class="sv">
+    <div class="sv-container" *ngIf="showSurvey === 1">
+        <div class="sv-head">
+            <h1 class="tc">{{survey?.title}}</h1>
+            <p>
+                欢迎选择本店为阁下提供汽车保养修理服务。请您花2-3分钟的时间，对本店的各项服务进行评价。
+                您的意见将被聆听，得到改进，最终我们能够更好地为您提供服务。感谢您的参与!
+            </p>
+        </div>
+        <div class="sv-main">
+            <div class="sv-q" *ngFor = "let q of surveyQustions; let i = index;" >
+                <!-- 多项评分题 -->
+                <div class="sv-q-mscore" *ngIf="q.type == 'score_multi'">
+                    
+                    <div class="sv-q-t"><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
+                    <div class="sv-q-c">
+                        <div class="sv-q-score" *ngFor="let subq of q.children; let j = index;">
+                            <div class="sv-q-t" [class.warning]="subq.hasErr">{{ subq.title }}</div>
+                            <div class="sv-q-score-0" *ngIf="subq.zeroOption" (click)="onMscore(q, subq, j, subq.zeroOption)" [ngClass]="{'active': 0 === subq.tempPoint}" >不知道</div>
+                            <div class="sv-q-c sv-q-ico-engines" >
+                                <span *ngFor="let ans of subq.options; let m = index;" (click)="onMscore(q, subq, j, ans)" [ngClass]="{'active-prev': ans.point < subq.tempPoint, 'active': ans.point === subq.tempPoint}" >{{ans.point}}</span>
+                            </div>
+                        </div>
+                        <!--<div class="sv-q-score">
+                            <div class="sv-q-t">服务时长</div>
+                            <div class="sv-q-score-0 active">不知道</div>
+                            <div class="sv-q-c sv-q-ico-engines">
+                                <span class="active-prev">1</span>
+                                <span class="active-prev">2</span>
+                                <span class="active-prev">3</span>
+                                <span class="active-prev">4</span>
+                                <span class="active-prev">5</span>
+                                <span class="active-prev">6</span>
+                                <span class="active">7</span>
+                                <span>8</span>
+                                <span>9</span>
+                                <span>10</span>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <!-- 多项评分题 end -->
+                <!-- 单项项评分题 -->
+                <div class="sv-q-score" *ngIf="q.type == 'score'">
+                    <div class="sv-q-t" [class.warning]="q.hasErr  && q.answer === ''"><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
+                    <div class="sv-q-score-0" *ngIf="q.zeroOption" (click)="onScore(q, q.zeroOption)" [ngClass]="{'active': 0 === q.tempPoint}" >不知道</div>
+                    <div class="sv-q-c sv-q-ico-engines">
+                        <span *ngFor="let ans of q.options;" (click)="onScore(q, ans)" [ngClass]="{'active-prev': ans.point < q.tempPoint, 'active': ans.point === q.tempPoint}" >{{ans.point}}</span>
+                    </div>
+                </div>
+                <!-- 单项项评分题 -->
+                <!-- 性别题 -->
+                <div class="sv-q-sex" *ngIf="q.type == 'sex'">
+                    <div class="sv-q-t" [class.warning]="q.hasErr  && q.answer === ''"><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
+                    <div class="sv-q-c ">
+                        <label *ngFor="let ans of q.options; let j = index;" >
+                            <input type="radio" name="sex" (change)="onSex(q, ans)" [checked]="q.answer === ans.id">
+                            <span></span>
+                        </label>
+                        <!--<label>
+                            <input type="text" type="radio" name="sex">
+                            <span></span>
+                        </label>-->
+
+                    </div>
+                </div>
+                <!-- 性别题 end -->
+                <!-- 年龄题 -->
+                <div class="sv-q-age" *ngIf="q.type == 'age'">
+                    <div class="sv-q-t" [class.warning]="q.hasErr  && q.answer === ''"><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
+                    <div class="sv-q-c ">
+                        <select name="" id="" class="sv-ipt" [(ngModel)] = "q.answer">
+                            <option value="">请选择年龄</option>
+                            <option *ngFor="let ans of q.options; let j = index;" [value]="ans.id">{{ans.title}}</option>
+                        </select>
+
+                    </div>
+                </div>
+                <!-- 年龄题 end -->
+                <!-- 单行输入题 -->
+                <div class="sv-q-stext" *ngIf="q.type == 'stext'">
+                    <div class="sv-q-t" [class.warning]="q.hasErr  && q.answer === ''"><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
+                    <div class="sv-q-c ">
+                        <input type="text" class="sv-ipt" [(ngModel)] = "q.answer" >
+                    </div>
+                </div>
+                <!-- 单行输入题 end -->
+                <!-- 单选题 -->
+                <div class="sv-q-radio" *ngIf="q.type == 'radio'">
+                    <div class="sv-q-t" [class.warning]="q.hasErr && q.answer === ''"><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
+                    <div class="sv-q-c sv-ck-wrap">
+                        <div class="sv-ck" *ngFor="let ans of q.options">
+                            <input type="radio" [attr.id]="ans.eid"  (change)="q.answer = ans.id" [checked]="q.answer === ans.id">
+                            <label [attr.for]="ans.eid">{{ans.title}}</label>
+                        </div>
+                        <!--<div class="sv-ck">
+                            <input type="radio" id="sv-10-0">
+                            <label for="sv-10-0">2005年及以前</label>
+                        </div>-->
+                        
+                        
+
+                    </div>
+                </div>
+                <!-- 单选题 end -->
+            </div>
+            
+            
+
+            
+           
+
+        </div>
+
+        <div class="sv-foot">
+            <div class="g-btn g-btn-green" (click)="onSave()">提交</div>
+        </div>
+    </div>
+    <div class="sv-suc" *ngIf="showSurvey === 3">
+        <div></div>
+    </div>
+    <div class="sv-suc sv-suc-complete" *ngIf="showSurvey === 2">
+        <div></div>
+    </div>
+    <footer class="tc" [class.sv_foot_bar] = "showSurvey !== 1">
+        由<img src="./assets/images/survey/sv_logo.png" >车门店提供支持<br>
+        2006-2016 All rights reserved 上海皓煦数据技术有限公司 沪ICP备08012157号-5
+    </footer>
+</div>

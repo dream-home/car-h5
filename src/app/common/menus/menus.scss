@@ -1,0 +1,17 @@
+.menu { position:fixed; top:0; left:0; bottom:0; width:64px; background:#8dc63f; z-index:1000;  }
+.menu .menus { margin-top: 87px;}
+.menu .menus a { position:relative; display:block; width:64px; height:62px; text-decoration:none; padding:19px 0 }
+.menu .menus a.active, .menu .menus a:hover { background:url(/assets/images/arr-left.png) no-repeat right center; }
+.menu .menus a div { position:absolute; display:none; width:106px; color:#343434; border:1px solid #8dc63f; height:40px; left:100%; top:11px; bottom:0; background:#f6f6f6; line-height:38px; border-left:none; text-align:center; }
+.menu .menus a:hover div { display:block; }
+.menu .menus .menu-ico { display:block; width:24px; height:24px; margin:0 auto; background:url(/assets/images/menus-ico.png) no-repeat;  }
+.menu .menus .ico-business { background-position: 0 -50px; }
+.menu .menus .ico-week-chart { background-position: 0 -150px; }
+.menu .menus a:hover .ico-business, .menu .menus a.active .ico-business { background-position: 0 0; }
+.menu .menus a:hover .ico-week-chart, .menu .menus a.active .ico-week-chart { background-position: 0 -100px; }
+.menu .exit { position:absolute; width:64px; height:64px; left:0; bottom: 10px; background: url(/assets/images/menus-ico.png) no-repeat 15px -226px; cursor:pointer; }
+.menu .exit:hover { background-position: 15px -176px; }
+
+@media print {
+    .menu { display:none; }
+}

@@ -1,0 +1,29 @@
+.employee-del-win {
+    .fwin-box { width:447px; height:231px; margin:-115px 0 0 -223px; }
+    .fwin-content { 
+        padding:42px 0 0;
+        h1 { 
+            text-align: center;
+            margin-bottom:20px;
+            +div {
+                line-height: 30px;
+            }
+        }
+        > div {
+            width:280px;
+            margin:0 auto;
+            padding:0;
+            &:before {
+                content: none;
+            }
+        }
+    }
+    .g-btns {
+        bottom:28px;
+        >.g-btn {
+            &:first-child {
+                margin-left:0;
+            }
+        }
+    }
+}

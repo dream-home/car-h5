@@ -1,0 +1,282 @@
+.sv {
+    width:100vw;
+    height:100vh;
+    overflow:auto;
+    background:#f5fff8 url(./assets/images/survey/bg.jpg) no-repeat center top;
+    background-size: cover;
+    font-size:14px; 
+    color:#343434;
+    position:relative;
+}
+.sv-ipt {
+    width: 266px;
+    height: 36px;
+    border:1px solid #c0c0c0;
+    line-height: 34px;
+    padding:0 0 0 12px;
+    -webkit-appearance:inherit;
+    -moz-appearance:normal;
+}
+select.sv-ipt {
+    padding:0 24px 0 12px;
+}
+.sv-ck-wrap {
+    font-size:0;
+}
+.sv-ck {
+    font-size:14px;
+    display:inline-block;
+}
+.sv-ck input {
+    display:none;
+}
+.sv-ck label {
+    display:block;
+    position:relative;
+    width: 168px;
+    height:18px;
+    padding-left:34px;
+    line-height: 18px;
+}
+.sv-ck label:before, .sv-ck label:after {
+    position:absolute;
+    display:block;
+    content: '';
+    border-radius:50%;
+    box-sizing:border-box;
+}
+.sv-ck label:before {
+    width:18px;
+    height:18px;
+    top:0;
+    left:0;
+    border:1px solid #b4c3cd;
+}
+.sv-ck label:after {
+    opacity:0;
+    width:8px; 
+    height:8px;
+    top:5px;
+    left:5px;
+    background:#fff;
+}
+.sv-ck input:checked + label:before {
+    background:#97c568;
+}
+.sv-ck input:checked + label:after {
+    opacity:1;
+}
+
+.sv footer {
+    line-height: 28px;
+    padding: 10px 0 14px;
+}
+.sv footer img {
+    margin: 0 6px 0 8px;
+}
+
+.sv-container { 
+    width:800px; 
+    margin:94px auto 0;
+    border:1px solid #d6d6d6;
+    background:#fff;
+}
+.sv-head {
+    font-size:14px;
+    line-height: 30px;
+    padding:47px 99px 40px;
+    
+    h1 {
+        font-size:18px;
+    }
+    p {
+        color:#9a9a9a;
+    }
+}
+.sv-q {
+    border-top:1px solid #aeaeae;
+    padding:28px 17px;
+    line-height: 1;
+}
+.sv-q-t .sv-q-index { 
+    display:inline-block;
+    width: 49px;
+}
+.sv-q > div > .sv-q-c {
+    padding-left:49px;
+}
+
+.sv-suc {
+    width:100%;
+    height:100%;
+    padding-bottom:80px;
+    box-sizing:border-box;
+}
+.sv-suc div {
+    height:100%;
+    background:url(./assets/images/survey/sv_suc.png) no-repeat center center;
+}
+.sv-suc-complete div {
+    background-image: url(./assets/images/survey/sv_complete.png);
+}
+.sv .sv_foot_bar {
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+/* question type */
+.sv-q-mscore {
+    .sv-q-t {
+        padding-bottom:26px;
+    }
+    
+    .sv-q-c {
+        .sv-q-t {
+            padding-bottom:35px;
+            margin-top:28px;
+            
+        }
+    }
+    .sv-q-score {
+        &:first-child {
+            .sv-q-t {
+                margin-top:0;
+            }
+        }
+    }
+}
+
+.sv-q-score {
+    position:relative; 
+    .sv-q-score-0 {
+        position:absolute;
+        width:78px;
+        height:26px;
+        border:2px solid #aaa;
+        background:#aaa;
+        line-height:22px;
+        text-align:center;
+        color:#fff;
+        border-radius:4px;
+        top:-6px;
+        right:39px;
+        cursor:pointer;
+        &.active {
+            background:#f16557;
+            border-color:#32323a;
+        }
+    }
+    .sv-q-c {
+        font-size:0;
+        > span {
+            display:inline-block;
+            width:59px;
+            height:40px;
+            padding:4px 0 0 6px;
+            margin-right:10px;
+            font-size:12px;
+            line-height: 36px;
+            text-align: center;
+            color:#fff;
+            cursor:pointer;
+            background: url(./assets/images/survey/bg_engine.png) 5px 3px no-repeat;
+            &:hover {
+                background-position: 0 -50px;
+                padding:4px 0 0 0;
+            }
+            &.active-prev {
+                background-position: 0 -50px;
+                padding:4px 0 0 0;
+            }
+            &.active {
+                background-position: 0 -100px;
+                padding:4px 0 0 0;
+            }
+
+        }
+    }
+    .sv-q-t {
+        padding-bottom:34px;
+    }
+}
+
+.sv-q-sex {
+    .sv-q-t { 
+        margin-bottom:23px;
+    }
+    .sv-q-c {
+        font-size:0;
+    }
+    label {
+        display:inline-block;
+        position:relative;
+        height:75px;
+        width:115px;
+        margin-right:28px;
+        background:url(./assets/images/survey/bg_sex.png) no-repeat bottom right;
+        &:first-child {
+            background-position:top right;
+        }
+    }
+    input[type="radio"] {
+        display:none;
+        + span {
+            position:absolute;
+            display:block;
+            width:18px;
+            height:18px;
+            border:1px solid #b4c3cd;
+            border-radius:50%;
+            top:29px;
+        }
+        &:checked {
+            +span {
+                background:#8dc640;
+                &:before {
+                    display:block;
+                    content:'';
+                    position:absolute;
+                    width:8px;
+                    height:8px;
+                    border-radius:50%;
+                    background:#fff;
+                    top:50%;
+                    left:50%;
+                    margin:-4px 0 0 -4px;
+                }
+            }
+        }
+    }
+
+}
+
+.sv-q-stext {
+    .sv-q-t {
+        margin-bottom:27px;
+    }
+}
+.sv-q-age {
+    .sv-q-t {
+        margin-bottom:27px;
+    }
+}
+
+.sv-q-radio {
+    
+    .sv-ck {
+        padding-top: 28px;
+    }
+}
+
+.sv-foot {
+    text-align:center;
+    padding:28px 0 26px;
+    border-top:1px solid #aeaeae;
+    .g-btn {
+        height:26px;
+        width:84px;
+        line-height: 26px;
+    }
+}

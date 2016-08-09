@@ -1,0 +1,44 @@
+<div class="login-min">
+  <main-logo></main-logo>
+  <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+    <div class="login-min-block animated rubberBand" [class.jump-animation-target]="loginForm.submited">
+      <div class="">
+        <h2 class="login-min-title">登录<a routerLink="/register" routerLinkActive="active" class="login-min-register-link fr">注册新账户</a>
+        </h2>
+        <div class="login-min-input" [class.error]="!phone?.valid && phone?.dirty">
+          <input type="text" name="phone" [(ngModel)]="user.phone" #phone="ngModel" required placeholder="请输入您的手机号码"  pattern="^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$" >
+          <div class="msg">
+            <span class="text-error" *ngIf="!phone?.valid && phone?.dirty">
+              <span *ngIf="phone.errors?.required">手机号码不能为空</span>
+              <span *ngIf="phone.errors?.pattern">请输入正确的手机号码</span>
+            </span>
+          </div>
+        </div>
+        <div class="login-min-input" [class.error]="!pwd?.valid && pwd?.dirty">
+          <input type="password" name="pwd" [(ngModel)]="user.pwd" #pwd="ngModel" required placeholder="请输入您的账户密码"  >
+          <div class="msg">
+            <span class="text-error" *ngIf="!pwd?.valid && pwd?.dirty">
+              <span *ngIf="pwd.errors?.required">账户密码不能为空</span>
+              <span *ngIf="pwd.errors?.pattern">请输入正确的账户密码</span>
+            </span>
+          </div>
+        </div>
+        <div class="login-min-input" [class.error]="!rnd?.valid && rnd?.dirty">
+          <input type="text" class="w140 dib" [(ngModel)]="user.rnd" name="rnd" #rnd="ngModel" required placeholder="验证码"  >
+          <img [src]="img" (click)="onChangeCodeImg()" class="dib link ml10" alt="验证码">
+          <a class="dib link ml10" (click)="onChangeCodeImg()">换一张</a>
+          <div class="msg">
+            <span class="text-error" *ngIf="!rnd?.valid && rnd?.dirty">
+              <span *ngIf="rnd.errors?.required">验证码不能为空</span>
+              <span *ngIf="rnd.errors?.pattern">请输入正确的验证码</span>
+            </span>
+          </div>
+        </div>
+        <button type="submit" class="login-min-btn-submit" [disabled]="!loginForm.valid||loading" >下一步</button>
+        <a routerLink="/forget-pwd" routerLinkActive="active" class="login-min-register-link">忘记密码</a>
+      </div>
+      <i></i>
+    </div>
+  </form>
+  <page-footer cls="white"></page-footer>
+</div>

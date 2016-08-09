@@ -1,0 +1,165 @@
+<div>
+  <!-- 顾客详情 -->
+  <div class="cd">
+    <!-- 顾客名字 -->
+    <div class="cd-name tc clearfix">
+      <div class="cd-tel">{{customer?.name}}<span>{{customer?.mobile}}</span></div>
+      <div class="fl cd-plate">{{customer?.vehicleLicence}}</div>
+      <div class="fr">
+        满意度平均分<span>{{customerDetail?.totalAvgScore}}</span>分
+      </div>
+    </div>
+    <!-- 顾客名字 end -->
+    <!-- 顾客基本信息 -->
+    <div class="cd-base">
+      <table>
+        <tr>
+          <td>车品牌</td>
+          <td>{{customer?.vehicleBrand}}</td>
+          <td>客人手机</td>
+          <td>{{customer?.mobile}}</td>
+        </tr>
+        <tr>
+          <td>车型</td>
+          <td>{{customer?.vehicleModel}}</td>
+          <td>性别</td>
+          <td>{{customer?.sex }}</td>
+        </tr>
+        <tr>
+          <td>车架号</td>
+          <td>{{customer?.vehicleFrame}}</td>
+          <td>年龄</td>
+          <td>{{customer?.birthYear}}年 &nbsp; &nbsp; {{customer?.age}}岁</td>
+        </tr>
+        <tr>
+          <td>购买年份</td>
+          <td>{{customer?.vehicleYear}}年</td>
+          <td>行驶公里数</td>
+          <td>{{customer?.vehicleMiles}}</td>
+        </tr>
+        <tr>
+          <td colspan="4" class="cd-base-op">最后入店时间: {{customer?.lastEnterDate}} <a [routerLink]="['../customer-edit',{id: customerId}]" routerLinkActive="active">编辑客户信息</a></td>
+
+        </tr>
+      </table>
+    </div>
+    <!-- 顾客基本信息 end -->
+    <!-- 顾客服务记录 -->
+    <div class="cd-record-bar">
+      历史服务记录
+      <div class="cd-r-btn">
+        合计 <span>{{customerDetail?.historiesTotol}}</span> 次
+        <a href="" class="g-btn g-btn-green">+  新服务</a>
+      </div>
+    </div>
+    <div class="cd-records">
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>结账日期</th>
+              <th>服务项目</th>
+              <th>主理技师</th>
+              <th>备注</th>
+              <th>客户满意度</th>
+            </tr>
+          </thead>
+        
+          <tbody *ngFor="let hs of histories">
+            <tr>
+              <td>{{hs.paidDate || '-'}}</td>
+              <td>{{hs.name || '-'}}</td>
+              <td>{{hs.employee || '-'}}</td>
+              <td>{{hs.description || '-'}}</td>
+              <td class="cd-r-satisfaction"><a href="javascript:;" (click)="onShowCommentWin(hs)">点击邀请顾客做服务评价</a></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="cd-r-op"><a href="">修改</a> | <a href="">删除</a></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- 顾客服务记录end -->
+    <!-- 列表分页 -->
+    <pagination *ngIf="histories?.length" (pageChanged)="changePage($event)"  [boundaryLinks]="true" [rotate]="false"  [totalItems]="page.total" [itemsPerPage]="page.limit" [maxSize]="7" [(ngModel)]="page.current"></pagination>
+    <!-- 列表分页 end -->
+  </div>
+  <!-- 顾客详情 end -->
+
+  <!-- 删除弹出层 -->
+  <div class="fwin del-win employee-del-win" style="display:none;">
+    <div class="fwin-mask">
+      <div class="fwin-box">
+        <div class="fwin-close"></div>
+        <div class="fwin-content">
+          <div>
+            <h1>确定删除该员工？</h1>
+            <div>
+              该员工及其信息将被删除，其历史服务记录<br> 不会被删除
+
+            </div>
+          </div>
+        </div>
+        <div class="fwin-btns g-btns">
+          <div class="g-btn g-btn-green">确认删除</div>
+          <div class="g-btn g-btn-gray">取消</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 删除弹出层 end -->
+  <!-- 评价弹出层 -->
+  <div class="fwin evaluation-win" [ngClass]="{show:showCommentWin}">
+    <div class="fwin-mask">
+      <div class="fwin-box">
+        <div class="fwin-close" (click)="onCloseCommentWin()"></div>
+        <div class="fwin-content">
+          <h1>您有以下方式可以完成此次评价</h1>
+          <div class="ev-methods">
+            <div>
+              <div>方法一</div>
+              <div><img [attr.src]="commentUrl.qrCode" ></div>
+              <div>邀请顾客手机扫码参加</div>
+            </div>
+            <div>
+              <div>方法二</div>
+              <h2>给该顾客发送一条短信</h2>
+              <p>顾客通过短信链接自行评价</p>
+              <div class="g-field" *ngIf="!customer?.mobile">
+                <div class="tc">顾客手机</div>
+                <div class="g-sms" [class.warning]="sendErr.mobile || sendErr.times">
+                  <input type="tel" class="" [(ngModel)]="tempMobile" (focus)="onMobileFocus()">
+                  <!--<input type="tel" class=""  ngControl="mobile" pattern="" required >-->
+                  <div *ngIf="sendErr.mobile">请输入正确的手机号码</div>
+                  <div *ngIf="sendErr.times">今日已达发送上限</div>
+                </div>
+              </div>
+              <div class="g-field tc" *ngIf="customer?.mobile">
+                <div class="tc">顾客手机</div>
+                <div class="mobiletxt">{{customer?.mobile}}</div>
+                <div class="warning" *ngIf="sendErr.times">今日已达发送上限</div>
+              </div>
+            </div>
+            <div>
+              <div>方法三</div>
+              <h2>自己询问顾客</h2>
+              <p>问卷将由您询问顾客后输入评价</p>
+            </div>
+          </div>
+        </div>
+        <div class="fwin-btns g-btns">
+          <div class="g-btn" [ngClass]="{'g-btn-green': !hasSend, 'g-btn-gray': hasSend }" (click)="onSend()">{{ hasSend ? '已发送' : '立即发送' }}</div>
+          <div class="pa resend" *ngIf="hasSend" (click)="onResend()">重新发送</div>
+          <a [attr.href]="commentUrl.url" class="g-btn g-btn-green">马上评价</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 评价弹出层 end -->
+</div>

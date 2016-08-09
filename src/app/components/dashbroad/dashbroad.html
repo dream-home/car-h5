@@ -1,0 +1,29 @@
+<navbar></navbar>
+<menus></menus>
+<business-add></business-add>
+<div class="p-gray">
+  <div class="playout">
+    <!-- 带搜索+添加的面包屑 -->
+    <div class="searchbar">
+      <!-- 面包屑导航 -->
+      <div class="crumbs">
+        <a href="javascript:void(0);">首页</a>
+        >
+        <a routerLink="my-account" routerLinkActive="active">我的账户</a>
+      </div>
+      <!-- 面包屑导航 end -->
+      <!--搜索-->
+      <search-bar></search-bar>
+      <!--搜索 end-->
+      <!-- 添加新服务 -->
+      <a href="javascript:void(0);" class="pa g-btn g-btn-green" (click)="onOpenBusinessAdd()">+ 记录新服务</a>
+      <!-- 添加新服务 end-->
+    </div>
+
+    <!-- 带搜索+添加的面包屑 end -->
+    <router-outlet></router-outlet>
+    <!-- 页脚  -->
+    <page-footer></page-footer>
+    <!-- 页脚 end -->
+  </div>
+</div>

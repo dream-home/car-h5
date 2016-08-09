@@ -1,0 +1,12 @@
+.rwb-head { line-height: 55px; border-bottom:1px solid #ccc; font-size:14px; padding:0 37px; }
+.rwb-title { font-size:18px; }
+.rwb-date span { display:inline-block; width:24px; height:24px; text-align: center; border:1px solid #aebec7; line-height: 22px; border-radius: 1px; cursor:pointer; margin-left:12px;}
+.rwb-date span.active, .rwb-date span:hover { border-color:#38b549; background:#38b549; color:#fff; }
+.rwb-total { width:100%; font-size:14px; }
+.rwb-total .ds-cell { width:25%; text-align: center; line-height: 48px; border-bottom:1px solid #ccc; background:#fff;}
+.rwb-total > .ds-row:first-child .ds-cell { background:#eef8f2; }
+.rwb-chart { min-height:349px; background:#fff; }
+.rwb-detail { border-bottom:none; border-top:1px solid #ccc; }
+.rwb-list { font-size:14px; color:#343434; }
+.rwb-list thead th { font-weight:normal; }
+.rwb-nodata { text-align: center; color:#777; font-size:14px; line-height: 1; padding: 50px 0; background:#fff; }

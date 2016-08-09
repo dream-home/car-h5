@@ -1,0 +1,284 @@
+<div class="sv sv-f">
+    <div class="sv-container sv-f" *ngIf="showSurvey">
+        <!-- 首屏 -->
+        <div class="sv-page  sp-0" [class.current] = "currentPage === 0" [class.old]="waitingPage === 0">
+            <div class="box box-v box-v-cc">
+                <div class="sv-logo"></div>
+                <div class="sv-h">
+                    天会智数车门店
+                    <div>满意度问卷</div>
+                </div>
+                <div class="sv-t">
+                    欢迎选择本店为阁下提供汽车保养修理服务。请您花2-3分钟的时间，对本店的各项服务进行评价。您的意见将被聆听，得到改进，最终我们能够更好地为您提供服务。感谢您的参与!
+                </div>
+                <div class="sp-btn" (click)="goto(1)">下一步</div>
+            </div>
+        </div>
+        <!-- 首屏 end -->
+        <div class="sv-page sp-1" [class.current] = "currentPage===1" [class.old]="waitingPage === 1">
+            <div class="svp-wrap" >
+                <div class="sv-q">
+                    <!-- 多项评分题 -->
+                    <div class="sv-q-mscore">
+                        <div class="sv-q-t">Q1. {{surveyQustions[0]?.title}}</div>
+                        <div class="sv-q-tip">
+                            (每行单选) (10分制评分，1分为非常不满意，10分为非常满意，6分为一般。如果您不了解某一个方面的服务，请选择99，为不知道或者不适用)。
+                        </div>
+                        <div class="sv-q-c">
+                            
+
+                            <div class="sv-q-score" *ngFor="let subq of surveyQustions[0]?.children; let j = index;">
+                                <div class="sv-q-t" [class.warning]="subq.hasErr">{{ subq.title }}</div>
+                                <div class="sv-q-score-0" *ngIf="subq.zeroOption" (click)="onMscore(surveyQustions[0], subq, j, subq.zeroOption)" [ngClass]="{'active': 0 === subq.tempPoint}" >不知道</div>
+                                <div class="sv-q-c sv-q-ico-engines" >
+                                    <span *ngFor="let ans of subq.options; let m = index;" (click)="onMscore(surveyQustions[0], subq, j, ans)" [ngClass]="{'active-prev': ans.point < subq.tempPoint, 'active': ans.point === subq.tempPoint}" >{{ans.point}}</span>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <!-- 多项评分题 end --> 
+                </div>
+                <div class="sp-btn" (click)="gotoNext(2)">下一步</div>
+            </div>
+            
+
+        </div>
+        <div class="sv-page sp-2" [class.current] = "currentPage===2" [class.old]="waitingPage === 2">
+            <div class="svp-wrap">
+                <div class="sv-q">
+                    <!-- 多项评分题 -->
+                    <div class="sv-q-mscore">
+                        <div class="sv-q-t">Q2. {{surveyQustions[1]?.title}}</div>
+                        <div class="sv-q-tip">
+                            (每行单选) (10分制评分，1分为非常不满意，10分为非常满意，6分为一般。如果您不了解某一个方面的服务，请选择99，为不知道或者不适用)。
+                        </div>
+                        <div class="sv-q-c">
+                            <div class="sv-q-score" *ngFor="let subq of surveyQustions[1]?.children; let j = index;">
+                                <div class="sv-q-t" [class.warning]="subq.hasErr">{{ subq.title }}</div>
+                                <div class="sv-q-score-0" *ngIf="subq.zeroOption" (click)="onMscore(surveyQustions[1], subq, j, subq.zeroOption)" [ngClass]="{'active': 0 === subq.tempPoint}" >不知道</div>
+                                <div class="sv-q-c sv-q-ico-engines" >
+                                    <span *ngFor="let ans of subq.options; let m = index;" (click)="onMscore(surveyQustions[1], subq, j, ans)" [ngClass]="{'active-prev': ans.point < subq.tempPoint, 'active': ans.point === subq.tempPoint}" >{{ans.point}}</span>
+                                </div>
+                            </div>
+
+                            
+
+                        </div>
+                    </div>
+                    <!-- 多项评分题 end --> 
+                </div>
+                <div class="sp-btn" (click)="gotoNext(3)">下一步</div>
+            </div>
+        </div>
+        <div class="sv-page sp-3" [class.current] = "currentPage===3" [class.old]="waitingPage === 3">
+            <div class="svp-wrap">
+                <div class="sv-q">
+                    <!-- 多项评分题 -->
+                    <div class="sv-q-mscore">
+                        <div class="sv-q-t">Q3. {{surveyQustions[2]?.title}}</div>
+                        <div class="sv-q-tip">
+                            (每行单选) (10分制评分，1分为非常不满意，10分为非常满意，6分为一般。如果您不了解某一个方面的服务，请选择99，为不知道或者不适用)。
+                        </div>
+                        <div class="sv-q-c">
+                            <div class="sv-q-score" *ngFor="let subq of surveyQustions[2]?.children; let j = index;">
+                                <div class="sv-q-t" [class.warning]="subq.hasErr">{{ subq.title }}</div>
+                                <div class="sv-q-score-0" *ngIf="subq.zeroOption" (click)="onMscore(surveyQustions[2], subq, j, subq.zeroOption)" [ngClass]="{'active': 0 === subq.tempPoint}" >不知道</div>
+                                <div class="sv-q-c sv-q-ico-engines" >
+                                    <span *ngFor="let ans of subq.options; let m = index;" (click)="onMscore(surveyQustions[2], subq, j, ans)" [ngClass]="{'active-prev': ans.point < subq.tempPoint, 'active': ans.point === subq.tempPoint}" >{{ans.point}}</span>
+                                </div>
+                            </div>
+
+                            
+
+                        </div>
+                    </div>
+                    <!-- 多项评分题 end --> 
+                </div>
+                <div class="sp-btn" (click)="gotoNext(4)">下一步</div>
+            </div>
+        </div>
+        <div class="sv-page sp-4" [class.current] = "currentPage===4" [class.old]="waitingPage === 4">
+            <div class="svp-wrap">
+                <div class="sv-q">
+                    <!-- 多项评分题 -->
+                    <div class="sv-q-mscore">
+                        <div class="sv-q-t">Q4. {{surveyQustions[3]?.title}}</div>
+                        <div class="sv-q-tip">
+                            (每行单选) (10分制评分，1分为非常不满意，10分为非常满意，6分为一般。如果您不了解某一个方面的服务，请选择99，为不知道或者不适用)。
+                        </div>
+                        <div class="sv-q-c">
+                            <div class="sv-q-score">
+                                <div class="sv-q-t" [class.warning]="surveyQustions[3]?.hasErr  && surveyQustions[3]?.answer === ''">您对本店的总体评价</div>
+                                <div class="sv-q-score-0" *ngIf="surveyQustions[3]?.zeroOption" (click)="onScore(surveyQustions[3], surveyQustions[3]?.zeroOption)" [ngClass]="{'active': 0 === surveyQustions[3].tempPoint}" >不知道</div>
+                                <div class="sv-q-c sv-q-ico-engines">
+                                    <span *ngFor="let ans of surveyQustions[3]?.options;" (click)="onScore(surveyQustions[3], ans)" [ngClass]="{'active-prev': ans.point < surveyQustions[3].tempPoint, 'active': ans.point === surveyQustions[3].tempPoint}" >{{ans.point}}</span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- 多项评分题 end --> 
+                </div>
+                <div class="sp-btn" (click)="gotoNext(5)">下一步</div>
+            </div>
+        </div>
+        <div class="sv-page sp-5" [class.current] = "currentPage===5" [class.old]="waitingPage === 5">
+            <div class="box box-v box-v-c svp-wrap">
+                <div class="sv-q">
+                    <!-- 性别题 -->
+                    <div class="sv-q-sex">
+                        <div class="sv-q-t" [class.warning]="surveyQustions[4]?.hasErr  && surveyQustions[4]?.answer === ''">Q5. {{surveyQustions[4]?.title}}</div>
+                        <div class="sv-q-c">
+                            <label *ngFor="let ans of surveyQustions[4]?.options; let j = index;" [class.checked]="surveyQustions[4]?.answer === ans.id">
+                                <input type="radio" (change)="onSex(surveyQustions[4], ans)" [checked]="surveyQustions[4]?.answer === ans.id" >
+                                <div class="q-letter">{{ j == 0 ? 'A' : 'B' }}</div>
+                                <div class="q-person">{{ j == 0 ? '男' : '女' }}</div>
+                                <div class="q-checked"></div>
+                            </label>
+                            
+
+                        </div>
+                    </div>
+                    <!-- 性别题 end --> 
+                </div>
+                <div class="sv-q">
+                    <!-- 年龄题 -->
+                    <div class="sv-q-age">
+                        <div class="sv-q-t" [class.warning]="surveyQustions[5]?.hasErr  && surveyQustions[5]?.answer === ''">Q6. {{surveyQustions[5]?.title}}</div>
+                        <div class="sv-q-c">
+                            <select name="" id="" class="q-select" [ngModel]="surveyQustions[5]?.answer" (ngModelChange)="surveyQustions[5].answer = $event">
+                                <option value="">请选择您的出生年份</option>
+                                <option *ngFor="let ans of surveyQustions[5]?.options; let j = index;" [value]="ans.id">{{ans.title}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <!-- 年龄题 end --> 
+                </div>
+                <div class="sv-q">
+                    <!-- 单行文本题 -->
+                    <div class="sv-q-stext">
+                        <div class="sv-q-t" [class.warning]="surveyQustions[6]?.hasErr  && surveyQustions[6]?.answer === ''">Q7. {{surveyQustions[6]?.title}}</div>
+                        <div class="sv-q-c">
+                            <label>
+                                <span>车牌号:</span><input type="text" class="sv-ipt" [ngModel]="surveyQustions[6]?.answer" (ngModelChange)="surveyQustions[6].answer = $event">
+                            </label>
+
+                        </div>
+                    </div>
+                    <!-- 单行文本题 end -->
+                </div>
+                <div class="sp-btn" (click)="gotoNext(6)">下一步</div>
+            </div>
+        </div>
+        <div class="sv-page sp-6" [class.current] = "currentPage===6" [class.old]="waitingPage === 6">
+            <div class="box box-v box-v-c svp-wrap">
+                <div class="sv-q">
+                    <!-- 单行文本题 -->
+                    <div class="sv-q-stext">
+                        <div class="sv-q-t" [class.warning]="surveyQustions[7]?.hasErr  && surveyQustions[7]?.answer === ''">Q8. {{surveyQustions[7]?.title}}</div>
+                        <div class="sv-q-c">
+                            <label>
+                                <span>手机号:</span><input type="tel" class="sv-ipt" [ngModel]="surveyQustions[7]?.answer" (ngModelChange)="surveyQustions[7].answer = $event">
+                            </label>
+                        </div>
+                    </div>
+                    <!-- 单行文本题 end -->
+                </div>
+                <div class="sv-q">
+                    <!-- 单行文本题 -->
+                    <div class="sv-q-stext">
+                        <div class="sv-q-t" [class.warning]="surveyQustions[8]?.hasErr  && surveyQustions[8]?.answer === ''">Q9. {{surveyQustions[8]?.title}}</div>
+                        <div class="sv-q-c">
+                            <label>
+                                <span>车品牌:</span><input type="text" class="sv-ipt" [ngModel]="surveyQustions[8]?.answer" (ngModelChange)="surveyQustions[8].answer = $event">
+                            </label>
+
+                        </div>
+                    </div>
+                    <!-- 单行文本题 end -->
+                </div>
+                <div class="sv-q">
+                    <!-- 单行文本题 -->
+                    <div class="sv-q-stext">
+                        <div class="sv-q-t" [class.warning]="surveyQustions[9]?.hasErr  && surveyQustions[9]?.answer === ''">Q10. {{surveyQustions[9]?.title}}</div>
+                        <div class="sv-q-c">
+                            <label>
+                                <span>汽车型号:</span>
+                                <input type="text" class="sv-ipt" [ngModel]="surveyQustions[9]?.answer" (ngModelChange)="surveyQustions[9].answer = $event">
+                            </label>
+
+                        </div>
+                    </div>
+                    <!-- 单行文本题 end -->
+                </div>
+
+                <div class="sp-btn" (click)="gotoNext(7)">下一步</div>
+            </div>
+        </div>
+        <div class="sv-page sp-7" [class.current] = "currentPage===7" [class.old]="waitingPage === 7">
+            <div class="box box-v box-v-c svp-wrap">
+                <div class="sv-q">
+                    <!-- 单选题 -->
+                    <div class="sv-q-radio">
+                        <div class="sv-q-t" [class.warning]="surveyQustions[10]?.hasErr  && surveyQustions[10]?.answer === ''">Q11 {{surveyQustions[10]?.title}}</div>
+                        <div class="sv-q-c">
+                            <label class="checked" *ngFor="let ans of surveyQustions[10]?.options" [class.checked]="surveyQustions[10]?.answer === ans.id">
+                                <input type="radio" (change)="surveyQustions[10].answer = ans.id" [checked]="surveyQustions[10]?.answer === ans.id">
+                                {{ans.title}}
+                            </label>
+                            
+                            
+
+                        </div>
+                    </div>
+                    <!-- 单选题 end -->
+                </div>
+                
+
+                <div class="sp-btn" (click)="gotoNext(8)">下一步</div>
+            </div>
+        </div>
+        <div class="sv-page sp-8" [class.current] = "currentPage===8" [class.old]="waitingPage === 8">
+            <div class="box box-v box-v-c svp-wrap">
+                <div class="sv-q">
+                    <!-- 单选题 -->
+                    <div class="sv-q-radio">
+                        <div class="sv-q-t" [class.warning]="surveyQustions[11]?.hasErr  && surveyQustions[11]?.answer === ''">Q12 {{surveyQustions[11]?.title}}</div>
+                        <div class="sv-q-c">
+                            <label *ngFor="let ans of surveyQustions[11]?.options" [class.checked]="surveyQustions[11]?.answer === ans.id">
+                                <input type="radio" (change)="surveyQustions[11].answer = ans.id" [checked]="surveyQustions[11]?.answer === ans.id">
+                                {{ans.title}} 
+                            </label>
+                        </div>
+                    </div>
+                    <!-- 单选题 end -->
+                </div>
+                
+
+                <div class="sp-btn" (click)="gotoNext(100)">下一步</div>
+            </div>
+        </div>
+        <div class="sv-page sp-100" [class.current] = "currentPage===100" [class.old]="waitingPage === 100">
+            <div class="box box-v box-v-c sp-end">
+                <div class="flex-1 box box-v box-v-cc sv-complete" *ngIf="showSurvey === 2">
+                    <div>
+                    </div>
+                </div>
+                <div class="flex-1 box box-v box-v-cc sv-suc" *ngIf="showSurvey === 3">
+                    <div>
+                    </div>
+                </div>
+                <div class="sv-foot tc">
+                    由<img src="./assets/images/survey/sv_logo_m.png" >车门店提供支持
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</div>

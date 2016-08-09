@@ -1,0 +1,20 @@
+<div class="pagination mt20 center paginate-anything mx-paginate" >
+  <div  class="mx-paginate-info">共{{totalItems}}条记录， 每页{{itemsPerPage}}条</div>
+  <ul  class="pagination-md links">
+    <li class="txt-page prev-page" [class.disabled]="noPrevious()||disabled">
+      <a href="javascript:void(0);"  (click)="selectPage(page-1, $event)" [innerHTML]="getText('first')"></a>
+    </li>
+    <li *ngFor="let p of pages, let i = index"  [class.active]="p.active" [class.page-ellipse]="p.text=='...'" [class.disabled]="p.text=='...'"  >
+      <a *ngIf="p.active" href="javascript:void(0);" (click)="selectPage(p.number, $event)" [innerHTML]="p.text">第{{p.text}}页</a>
+      <a *ngIf="!p.active" href="javascript:void(0);" (click)="selectPage(p.number, $event)" [innerHTML]="p.text">{{p.text}}</a>
+    </li>
+    <li class="txt-page next-page"
+        [class.disabled]="noNext()||disabled">
+      <a href="javascript:void(0);"  (click)="selectPage(page + 1, $event)" [innerHTML]="getText('next')"></a></li>
+  </ul>
+  <div  class="mx-paginate-jump ">
+    转到
+    <input type="text" [(ngModel)]="jumpPage"> 页
+    <button (click)="selectPage(jumpPage,$event)">GO</button>
+  </div>
+</div>

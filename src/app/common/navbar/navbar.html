@@ -1,0 +1,28 @@
+<div class="topbar">
+    <a href=""></a>
+    <div class="clearfix">
+        <h1>天会智数车门店</h1>
+        <div class="fr info">
+            <span>当前门店</span>
+            <div class="c-drop c-drop-store">
+                <div class="legend"><a href="/portal">{{storeName}}</a><i></i></div>
+                <div class="c-drop-cont">
+                    <ul class="account-list-tip">
+                        <li *ngFor="let item of list, let i = index"><a href="javascript:void(0);" (click)="onChangeStore(item)">{{item.name}}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="c-drop">
+                <div class="legend"><a href="javascript:void(0);">账户管理</a><i></i></div>
+                <div class="c-drop-cont">
+                    <ul class="account-list-tip">
+                        <li ><a [routerLink]="['my-account']" routerLinkActive="active" >我的账户</a></li>
+                        <li ><a [routerLink]="['customer-list']" routerLinkActive="active">我的顾客</a></li>
+                        <li ><a [routerLink]="['employee-list']" routerLinkActive="active">我的员工</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,124 @@
+<!-- 门店表单 -->
+<form (ngSubmit)="onResigerShop()" #f="ngForm">
+  <div class="" *ngFor="let shop of shopList,let i = index;" >
+    <!-- 门店表单字段 -->
+    <div class="c-form c-modify-store" >
+      <h5>
+        <span class="title-underline">基础信息</span>
+      </h5>
+      <div class="g-field">
+        <label for="store_name" class="g-label">
+          <span class="warning">*</span>门店名称</label>
+        <div class="g-ipt">
+          <input type="text" required name="name" [(ngModel)]="shop.name" #name="ngModel" class="g-wl">
+          <!--<a *ngIf="!!id" class="g-addico"><i></i><span>新增门店</span></a>-->
+          <a href="javascript:void(0);" class="add-store" (click)="onAddShop(i,shop)" *ngIf="!id" >新增门店</a>
+        </div>
+        <div class="msg">
+          <span class="text-error" *ngIf="!name.valid && !name.pristine">
+            <span class="warning" *ngIf="name.errors?.required">门店名称不能为空</span>
+          </span>
+        </div>
+      </div>
+      <div class="g-field">
+        <label for="store_name" class="g-label">
+          <span class="warning">*</span>门店地址</label>
+        <div class="g-sel">
+          <select class="g-ws mr10" required name="provinceId" #provinceId="ngModel" [ngModel]="shop.provinceId" (ngModelChange)="onChangeProvince($event,shop)">
+            <option value="undefined">请选择省市</option>
+            <option [value]="plist.id" *ngFor="let plist of provinceList">{{plist.name}}</option>
+          </select>
+          <select class="g-ws" required name="cityId" #cityId="ngModel" [(ngModel)]="shop.cityId">
+            <option value="undefined">请选择城市</option>
+            <option [value]="clist.id" *ngFor="let clist of shop.cityList">{{clist.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="g-field">
+        <label for="store_name" required class="g-label"  placeholder="详细地址"></label>
+        <input type="text" name="address" [(ngModel)]="shop.address" #address="ngModel" class="g-wml">
+        <div class="msg">
+          <span class="text-error" *ngIf="!provinceId.valid && !provinceId.pristine">
+            <span class="warning" *ngIf="provinceId.errors?.required">省市不能为空</span>
+          </span>
+          <span class="text-error" *ngIf="!cityId.valid && !cityId.pristine">
+            <span class="warning" *ngIf="cityId.errors?.required">城市不能为空</span>
+          </span>
+          <span class="text-error" *ngIf="!address.valid && !address.pristine">
+            <span class="warning" *ngIf="address.errors?.required">详细地址不能为空</span>
+          </span>
+        </div>
+      </div>
+      <div class="g-field fs14">
+        <label for="store_server" class="g-label">
+          <span class="warning">*</span>服务类型</label>
+        <div class="g-ipt g-wml g-checkbox-group" >
+            <md-checkbox *ngFor="let sl of shop.sList, let j = index" [checked]="sl.checked" (change)="sl.checked = $event.checked">{{sl.name}}</md-checkbox>
+        </div>
+      </div>
+      <div class="g-field fs14">
+        <label class="g-label"></label>
+        <div class="g-ipt g-wml g-checkbox-group warning" *ngIf="errorServiceType">
+          服务类型不能为空
+        </div>
+      </div>
+      <h5>
+        <span class="title-underline">详细信息</span>
+        <i class="arrow-up"></i>
+      </h5>
+      <div class="g-field">
+        <label for="store_director" class="g-label">负责人</label>
+        <div class="g-ipt">
+          <input type="text" id="store_director" name="ownerName" [(ngModel)]="shop.ownerName" class="g-wm">
+        </div>
+      </div>
+      <div class="g-field">
+        <label for="store_tel" class="g-label">联系方式</label>
+        <div class="g-ipt">
+          <input type="text" id="store_tel" #phone="ngModel" name="phone" [(ngModel)]="shop.phone" pattern="^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$" class="g-wm">
+        </div>
+        <div class="msg">
+          <span class="text-error" *ngIf="!phone.valid && !phone.pristine">
+            <span class="warning" *ngIf="phone.errors?.pattern">请输入正确的联系方式</span>
+          </span>
+        </div>
+      </div>
+      <div class="g-field">
+        <label for="store_year" class="g-label">开店年份</label>
+        <div class="g-sel">
+          <select id="store_year" name="openingDate" [(ngModel)]="shop.openingDate" class="g-wm">
+            <option value="undefined">请选择开店年份</option>
+            <option [value]="y" *ngFor="let y of YEARS_20">{{y}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="g-field">
+        <label for="store_area" class="g-label">门店面积</label>
+        <div class="g-ipt">
+          <input type="number" id="store_area" name="area" [(ngModel)]="shop.area" class="g-wm">
+          <span class="g-unit">m<i>2</i>
+          </span>
+        </div>
+      </div>
+      <div class="g-field">
+        <label for="store_park" class="g-label">汽修工位</label>
+        <div class="g-sel">
+          <select id="store_park" class="g-wm" name="station" [(ngModel)]="shop.station">
+            <option value="undefined">请选择汽修工位</option>
+            <option [value]="s" *ngFor="let s of STATION_10">{{s}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="g-field border-bottom-underline h36">
+        <a href="javascript:void(0);" class="del-store" *ngIf="shopList.length>1" (click)="onDelhop(i)">删除该门店</a>
+      </div>
+    </div>
+  </div>
+  <!-- 门店表单字段 end -->
+  <!-- 门店表单按钮  -->
+  <div class="sf-btns" >
+    <button class="g-btn g-btn-green" type="submit" [disabled]="!f.valid||loading">保存</button>
+  </div>
+  <!-- 门店表单按钮 end -->
+</form>
+<!-- 门店表单 end -->

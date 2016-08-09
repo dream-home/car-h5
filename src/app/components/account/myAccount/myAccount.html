@@ -1,0 +1,31 @@
+<!-- 主内容标题 -->
+<div class="c-header">账户信息</div>
+<!-- 主内容标题 end -->
+<!-- 主内容 -->
+<div class="c-main s-table">
+  <div class="s-tr">
+    <div class="s-td">账户版本:</div>
+    <div class="s-td">{{accountBaseInfo.packages}}</div>
+  </div>
+  <div class="s-tr" *ngFor="let shop of accountBaseInfo.shops; let fir = first;">
+    <div class="s-td"><span *ngIf="fir">门店资料:</span></div>
+    <div class="s-td">{{shop.name}}<a [routerLink]="['../modify-store',{id: shop.id}]" routerLinkActive="active">修改</a><a *ngIf="fir" routerLink="../add-store" routerLinkActive="active" class="g-addico"><i></i><span>添加</span></a></div>
+  </div>
+  <div class="s-tr" *ngIf="!accountBaseInfo.shops?.length">
+    <div class="s-td"><span>门店资料:</span></div>
+    <div class="s-td">还没有创建门店<a routerLink="../add-store" routerLinkActive="active" class="g-addico"><i></i><span>添加</span></a></div>
+  </div>
+  <!--<div class="s-tr">
+          <div class="s-td"></div>
+          <div class="s-td">徐汇区肇嘉浜路店<a ui-sref="modify-store">修改</a></div>
+        </div>-->
+  <div class="s-tr">
+    <div class="s-td">登录账号:</div>
+    <div class="s-td">{{accountBaseInfo?.user?.mobile}}</div>
+  </div>
+  <div class="s-tr">
+    <div class="s-td">登录密码:</div>
+    <div class="s-td">****** <a routerLink="../modify-pwd" routerLinkActive="active">修改</a></div>
+  </div>
+</div>
+<!-- 主内容 end -->

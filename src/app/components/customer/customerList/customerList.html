@@ -1,0 +1,83 @@
+<!-- 主内容标题 -->
+<div class="pr c-header">
+  我的顾客
+  <a [routerLink]="['../customer-add']" routerLinkActive="active" class="pa s-btn">+新顾客</a>
+</div>
+<!-- 主内容标题 end -->
+<!-- 主内容 -->
+<div class="c-main">
+  <div class="c-table employee-list">
+    <table>
+      <thead>
+        <tr>
+          <th>序号</th>
+          <th>车牌号</th>
+          <th>顾客姓名</th>
+          <th>顾客手机</th>
+          <th>车品牌</th>
+          <th>车型号</th>
+          <th>行驶里程数</th>
+          <th>最后入店时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="customers.length">
+        <tr *ngFor="let cr of customers; let i = index;">
+          <td>{{i + 1}}</td>
+          <td>{{cr.vehicleLicence || '-'}}</td>
+          <td>{{cr.name || '-'}}</td>
+          <td>{{cr.mobile || '-'}}</td>
+          <td>{{cr.vehicleBrand || '-'}}</td>
+          <td>{{cr.vehicleModel || '-'}}</td>
+          <td>{{cr.vehicleMiles ? cr.vehicleMiles + '公里' : '-'}}</td>
+          <td>{{ (cr.lastEnterDate | date:'y-MM-dd' ) || '-'}}</td>
+          <td>
+            <a [routerLink]="['../customer-detail',{id: cr.id}]" routerLinkActive="active">查看详情</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- 列表分页 -->
+    <pagination *ngIf="customers.length" (pageChanged)="changePage($event)"  [boundaryLinks]="true" [rotate]="false"  [totalItems]="page.total" [itemsPerPage]="page.limit" [maxSize]="7" [(ngModel)]="page.current"></pagination>
+    <!-- 列表分页 end -->
+  </div>
+  <div class="list-empty" *ngIf="!customers.length && !isSearch">
+    <div class="le-img"></div>
+    <div class="le-txt tc">
+      <!-- 检索： 未检索到此顾客相关信息 -->
+      当前未添加顾客
+      <a class="g-btn g-btn-green" [routerLink]="['../customer-add']">+  添加新顾客</a>
+    </div>
+  </div>
+  <div class="list-empty" *ngIf="!customers.length && isSearch">
+    <div class="le-img"></div>
+    <div class="le-txt tc">
+      <!-- 检索： 未检索到此顾客相关信息 -->
+      未检索到此顾客的相关信息
+      <a class="g-btn g-btn-green" >+  添加新服务</a>
+    </div>
+  </div>
+</div>
+<!-- 主内容 end -->
+<!-- 弹出层 -->
+<div class="fwin del-win employee-del-win" style="display:none;">
+  <div class="fwin-mask">
+    <div class="fwin-box">
+      <div class="fwin-close"></div>
+      <div class="fwin-content">
+        <div>
+          <h1>确定删除该员工？</h1>
+          <div>
+            该员工及其信息将被删除，其历史服务记录<br> 不会被删除
+
+          </div>
+        </div>
+      </div>
+      <div class="fwin-btns g-btns">
+        <div class="g-btn g-btn-green">确认删除</div>
+        <div class="g-btn g-btn-gray">取消</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 弹出层 end -->

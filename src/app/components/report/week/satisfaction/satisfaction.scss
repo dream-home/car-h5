@@ -1,0 +1,37 @@
+.rp-head { line-height: 54px;  font-size:24px; color:#343434; }
+.rp-head .rp-head-time { font-size:14px; top:0; left:37px; color:#000; }
+.rp-head .rp-head-print, .c-tab .rp-head-print { font-size:14px; top:0; right: 34px; padding-left:26px; cursor:pointer; }
+.rp-head .rp-head-print:before, .c-tab .rp-head-print:before  { position:absolute; display:block; content:""; width:16px; height:16px; background:url(/assets/images/icos.png) no-repeat -50px -30px; left:0; top:17px; }
+
+.pr-block-table { display:table; width:100%; border-spacing:36px 0; margin-top:20px; }
+.pr-block-tr { display:table-row; font-size:0; margin-top:55px; width:100%; }
+.pr-block-tr h2 { margin:0; font-size: 18px; padding-bottom:14px;  color:#38b549; }
+.pr-block-tr .c-block { display:table-cell; width:50%; font-size:14px; vertical-align: top; height:100%; margin:0 32px 0 36px; }
+.pr-block-tr .c-block div { line-height: 32px; font-size:14px; }
+.pr-block-tr .pr-bad { border:1px solid #f16557; }
+.pr-block-tr .pr-bad:before { background:#f16557; }
+.pr-block-tr .pr-bad:after { background-position:right top; }
+.pr-block-tr .pr-bad h2 { color:#f16557; }
+.pr-block-tr .pr-nodata { color:#777; margin-top:34px;   }
+
+
+
+.pr-tech-label { width:100%; }
+.pr-tech-label > div { width:50%; padding:19px 36px; font-size:18px; line-height: 1;  }
+.pr-tech-label > div:last-child { padding-left:18px; }
+.pr-tech-list, .pr-tech-list .ds-table { width:100%; border-collapse: 0;  }
+.pr-tech-list > .ds-cell:first-child { border-right: 1px solid #cedbde;  }
+.pr-tech-list .ds-cell { width:50%; text-align: center; font-size:14px; line-height: 43px;   }
+.pr-tech-list .ds-table .ds-cell { border-bottom:1px solid #cedbde; }
+.pr-tech-list .ds-table > .ds-row:first-child .ds-cell { border-top:1px solid #cedbde; }
+.pr-tech-list .ds-table > .ds-row:nth-child(2n) { background:#fff; }
+
+.pr-improve h1 { font-size:18px; padding:0 36px; font-weight: normal; margin:0; line-height: 54px;}
+.pr-improve .pr-nodata { line-height: 1;  padding:70px 0; text-align:center; color:#777; }
+.c-tab .c-tab-item { border:none; }
+
+@media print {
+  a::after {
+    content: none;
+  }
+}
