@@ -89,6 +89,7 @@ export class SurveyPcComponent {
             let q = qs[i];
             q.answer = '';
             q.hasErr = false;
+            q.errMsg = '';
             if ( q.type === 'score' && q.options.length > 0 ) {
                 q.tempPoint = -1;
                 this.formatScoreQuestion(q);
@@ -112,17 +113,25 @@ export class SurveyPcComponent {
                 switch (i) {
                     case 6:
                         // 车牌号
+                        q.subtype = 'car-plate';
                         q.min = 7;
                         q.max = 9;
                         break;
                     case 7:
                         // 手机号
+                        q.subtype = 'mobile';
                         q.min = 0;
                         q.max = 11;
                         break;
                     case 8:
+                        // 车品牌 
+                        q.subtype = 'car-brand';
+                        q.min = 0;
+                        q.max = 50;
+                        break;
                     case 9:
-                        // 车品牌 车型号
+                        // 车型号
+                        q.subtype = 'car-model';
                         q.min = 0;
                         q.max = 50;
                         break;
@@ -261,18 +270,33 @@ export class SurveyPcComponent {
                         
                     }
                     break;
+                
                 default:
                     if (q.answer === '') {
                         q.hasErr = true;
                         alert(`第${idx + 1}题还未回答`);
                         return false;
-                    } else {
-                        this.surveySubmitObj.answers.push({
-                            questionId: q.id,
-                            type: q.type,
-                            answers: [q.answer]
-                        });
                     }
+                    
+                    // 验证手机号 
+                    if ( idx === 7 ) {
+                        if (!/^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/.test(this.surveyQustions[idx].answer)) {
+                            alert(`第${idx + 1}题手机号码格式不正确`);
+                            return false;
+                        }
+                    }
+                    if (idx === 6) {
+                        if (this.surveyQustions[idx].answer.length < 7) {
+                            alert(`第${idx + 1}题车牌号长度不正确`);
+                            return false;
+                        }
+                    }
+                    
+                    this.surveySubmitObj.answers.push({
+                        questionId: q.id,
+                        type: q.type,
+                        answers: [q.answer]
+                    });
                         
             }
         }
@@ -287,6 +311,17 @@ export class SurveyPcComponent {
             }
 
         }, err => console.error(err));
+    }
+    
+    stextBlur(q, i) {
+        if (q.answer === '') {
+            q.hasErr = true;
+            q.errMsg = "请您回答该题";
+            return;
+        }
+        if ( q.subtype && q.subtype === 'mobile' ) {
+            
+        }
     }
     
 

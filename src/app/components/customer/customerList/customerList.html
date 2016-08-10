@@ -29,7 +29,7 @@
           <td>{{cr.mobile || '-'}}</td>
           <td>{{cr.vehicleBrand || '-'}}</td>
           <td>{{cr.vehicleModel || '-'}}</td>
-          <td>{{cr.vehicleMiles ? cr.vehicleMiles + '公里' : '-'}}</td>
+          <td>{{cr.vehicleMiles ? cr.vehicleMiles : '-'}}</td>
           <td>{{ (cr.lastEnterDate | date:'y-MM-dd' ) || '-'}}</td>
           <td>
             <a [routerLink]="['../customer-detail',{id: cr.id}]" routerLinkActive="active">查看详情</a>
