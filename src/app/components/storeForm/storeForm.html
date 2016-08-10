@@ -10,7 +10,7 @@
         <label for="store_name" class="g-label">
           <span class="warning">*</span>门店名称</label>
         <div class="g-ipt">
-          <input type="text" required name="name" [(ngModel)]="shop.name" #name="ngModel" class="g-wl">
+          <input type="text" required name="name" maxlength="200" [(ngModel)]="shop.name" #name="ngModel" class="g-wl">
           <!--<a *ngIf="!!id" class="g-addico"><i></i><span>新增门店</span></a>-->
           <a href="javascript:void(0);" class="add-store" (click)="onAddShop(i,shop)" *ngIf="!id" >新增门店</a>
         </div>
@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="g-field">
-        <label for="store_name" required class="g-label"  placeholder="详细地址"></label>
+        <label for="store_name" required class="g-label" maxlength="200" placeholder="详细地址"></label>
         <input type="text" name="address" [(ngModel)]="shop.address" #address="ngModel" class="g-wml">
         <div class="msg">
           <span class="text-error" *ngIf="!provinceId.valid && !provinceId.pristine">
@@ -46,6 +46,7 @@
           </span>
           <span class="text-error" *ngIf="!address.valid && !address.pristine">
             <span class="warning" *ngIf="address.errors?.required">详细地址不能为空</span>
+            <span class="warning" *ngIf="address.errors?.maxlength">详细地址不能超过200字符</span>
           </span>
         </div>
       </div>
@@ -69,7 +70,7 @@
       <div class="g-field">
         <label for="store_director" class="g-label">负责人</label>
         <div class="g-ipt">
-          <input type="text" id="store_director" name="ownerName" [(ngModel)]="shop.ownerName" class="g-wm">
+          <input type="text" id="store_director" maxlength="50" name="ownerName" [(ngModel)]="shop.ownerName" class="g-wm">
         </div>
       </div>
       <div class="g-field">
@@ -88,14 +89,15 @@
         <div class="g-sel">
           <select id="store_year" name="openingDate" [(ngModel)]="shop.openingDate" class="g-wm">
             <option value="undefined">请选择开店年份</option>
-            <option [value]="y" *ngFor="let y of YEARS_20">{{y}}</option>
+            <option [value]="y" *ngFor="let y of YEARS_16">{{y}}</option>
+            <option value="1999">1999年以前</option>
           </select>
         </div>
       </div>
       <div class="g-field">
         <label for="store_area" class="g-label">门店面积</label>
         <div class="g-ipt">
-          <input type="number" id="store_area" name="area" [(ngModel)]="shop.area" class="g-wm">
+          <input type="number" id="store_area" maxlength="4" name="area" [(ngModel)]="shop.area" class="g-wm">
           <span class="g-unit">m<i>2</i>
           </span>
         </div>
@@ -116,7 +118,7 @@
   </div>
   <!-- 门店表单字段 end -->
   <!-- 门店表单按钮  -->
-  <div class="sf-btns" >
+  <div class="sf-btns" >{{info(f)}}
     <button class="g-btn g-btn-green" type="submit" [disabled]="!f.valid||loading">保存</button>
   </div>
   <!-- 门店表单按钮 end -->

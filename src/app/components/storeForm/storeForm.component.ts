@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 
 import { CommonApi, ShopApi, RegionApi, RegionItem, Shop } from 'client';
 
-const YEARS_20 = [2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000];
+const YEARS_16 = [2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000];
 const STATION_10 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const SERVICE_LIST = [{ "id": 1, "name": "快修快保" }, { "id": 2, "name": "美容改装" }, { "id": 3, "name": "轮胎专项" }, { "id": 4, "name": "综合维修" }, { "id": 5, "name": "其他" }];
 
@@ -28,7 +28,7 @@ export class StoreFormComponent {
   // countyList: Array<RegionItem>;
   sList: any;
   STATION_10: any;
-  YEARS_20: any;
+  YEARS_16: any;
   SERVICE_LIST: any;
   loading: number = 0;
   errorServiceType: number = 0;
@@ -44,6 +44,10 @@ export class StoreFormComponent {
     this.shopList = [{index:1, sList: _.cloneDeep(SERVICE_LIST) }];
   }
 
+  info(f){
+    console.log(f);
+  }
+
   // 初始化
   ngOnInit() {
     this.oldShopList = Md5.hashStr(JSON.stringify(this.shopList), false).toString();
@@ -56,7 +60,7 @@ export class StoreFormComponent {
     // this.getServiceType();
     this.getProvince();
     this.STATION_10 = STATION_10;
-    this.YEARS_20 = YEARS_20;
+    this.YEARS_16 = YEARS_16;
     this.SERVICE_LIST = SERVICE_LIST;
   }
 
@@ -72,11 +76,11 @@ export class StoreFormComponent {
             sub.checked = data.serviceIds.indexOf(sub.id) != -1;
           })
           this.getCity(data.provinceId, data);
-          
+
           return data;
         });
         console.log("old:", this.shopList)
-        
+
       } else {
         alert(data.error.message);
       }
@@ -107,7 +111,7 @@ export class StoreFormComponent {
         if (this.id) {
           this.oldShopList = Md5.hashStr(JSON.stringify(this.shopList), false).toString();
         }
-        
+
       }
     })
   }

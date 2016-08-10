@@ -46,13 +46,13 @@ export class CustomerListComponent {
 	}
 
 	changePage(cur){
-		this.page.current = event;
-		this.searchStr === '' ? this.getCustomers() : this.getSearchCustomers();
+		this.page.current = cur.page;
+		this.getCustomers();
 	}
 
 	getCustomers() {
 		console.log('customer list....');
-		this.cApi.customerListGet().subscribe(data => {
+		this.cApi.customerListGet(this.page.current,this.page.limit).subscribe(data => {
 			this.customers = data.data && data.data.length ? data.data : [];
 			console.log('customers: ', this.customers);
 			this.page.current = data.meta.current;
@@ -64,10 +64,10 @@ export class CustomerListComponent {
 		});
 	}
 	getSearchCustomers() {
-		console.log('customer search list....');
+		console.log('customer search list....',this.isSearch);
 		if ( !this.isSearch ) return;
-		this.cApi.customerSearchPhoneOrVehicleLicenceGet(this.searchStr).subscribe( data => {
-			
+		this.cApi.customerSearchPhoneOrVehicleLicenceGet(this.searchStr,this.page.current,this.page.limit).subscribe( data => {
+
 			if (data.data) {
 				let dd = data.data;
 				if ( dd.customers.length === 1 ) {

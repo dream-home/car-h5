@@ -4,29 +4,29 @@
     <div class="forgetPwd-block animated rubberBand"  [class.flipOutY]="0">
       <h2 class="forgetPwd-title">找回密码<a routerLink="/register" routerLinkActive="active" class="forgetPwd-register-link fr">注册新账户</a>
       </h2>
-      <div class="forgetPwd-input " [class.error]="!fpForm.controls.phone?.valid && !fpForm.controls.phone?.pristine">
-        <input type="text" ngControl="phone" [(ngModel)]="fp.phone" required pattern="^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$"
+      <div class="forgetPwd-input " [class.error]="!phone?.valid && !phone?.pristine">
+        <input type="text" name="phone" #phone="ngModel" [(ngModel)]="fp.phone" required pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$"
           placeholder="请输入您的手机号码">
         <div class="msg">
           <span class="text-error" >
-            <span *ngIf="fpForm.controls.phone?.errors?.required">手机号码不能为空</span>
-          <span *ngIf="fpForm.controls.phone?.errors?.pattern">请输入正确的手机号码</span>
+            <span *ngIf="phone?.errors?.required">手机号码不能为空</span>
+          <span *ngIf="phone?.errors?.pattern">请输入正确的手机号码</span>
           </span>
         </div>
       </div>
-      <div class="forgetPwd-input" [class.error]="!fpForm.controls.rnd?.valid && !fpForm.controls.rnd?.pristine">
-        <input type="" class="w140 dib" maxlength="4" [(ngModel)]="fp.rnd" ngControl="rnd" required placeholder="请输入右侧图形校验码">
+      <div class="forgetPwd-input" [class.error]="!rnd?.valid && !rnd?.pristine">
+        <input type="" class="w140 dib" maxlength="4" #rnd="ngModel" [(ngModel)]="fp.rnd" name="rnd" required placeholder="请输入右侧图形校验码">
         <img [src]="img" class="dib link ml10" alt="验证码" (click)="onChangeCodeImg()">
         <a class="dib link ml10" (click)="onChangeCodeImg()">换一张</a>
         <div class="msg">
-          <span class="text-error" *ngIf="!fpForm.controls.rnd?.valid">请输入右侧图形校验码</span>
+          <span class="text-error" *ngIf="!rnd?.valid">请输入右侧图形校验码</span>
         </div>
       </div>
-      <div class="forgetPwd-input" [class.error]="!fpForm.controls.code?.valid && !fpForm.controls.code?.pristine">
-        <input type="text" class="inner-group" maxlength="10" [(ngModel)]="fp.code"  ngControl="code" required placeholder="请输入短信验证码">
-        <a class="inner-btn" [class.disabled]="seekDisabeld||!fpForm.controls.phone?.valid||!fpForm.controls.rnd?.valid" (click)="onSeekPhone(fpForm.value.phone,fpForm.value.rnd)">{{seekBtnTitle}}</a>
+      <div class="forgetPwd-input" [class.error]="!code?.valid && !code?.pristine">
+        <input type="text" class="inner-group" maxlength="10" #code="ngModel"  [(ngModel)]="fp.code"  name="code" required placeholder="请输入短信验证码">
+        <a class="inner-btn" [class.disabled]="seekDisabeld||!phone?.valid||!rnd?.valid" (click)="onSeekPhone(fpForm.value.phone,fpForm.value.rnd)">{{seekBtnTitle}}</a>
         <div class="msg">
-          <span class="text-error" *ngIf="!fpForm.controls.code?.valid">验证码错误</span>
+          <span class="text-error" *ngIf="!code?.valid">验证码错误</span>
         </div>
       </div>
       <button type="submit" class="forgetPwd-btn-submit" [disabled]="!fpForm.valid">下一步</button>
@@ -39,7 +39,7 @@
     <div class="forgetPwd-block animated"  [class.zoomOutRight]="0">
       <h2 class="forgetPwd-title">设置新密码</h2>
       <div class="forgetPwd-input" [class.error]="!newPwdForm.controls.pwd?.valid && !newPwdForm.controls.pwd?.pristine">
-        <input type="password" placeholder="请设置您的密码(6-16位长度)" [(ngModel)]="fp.pwd" ngControl="pwd" minlength="6" maxlength="16" required>
+        <input type="password" placeholder="请设置您的密码(6-16位长度)" #pwd="ngModel" [(ngModel)]="fp.pwd" name="pwd" minlength="6" maxlength="16" required>
         <div class="msg">
           <span class="text-error">
             <span *ngIf="newPwdForm.controls.pwd?.errors?.required">密码不能为空</span>
@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="forgetPwd-input" [class.error]="!newPwdForm.controls.checkPwd?.valid && !newPwdForm.controls.checkPwd?.pristine">
-        <input type="password" placeholder="请确认您的密码(6-16位长度)" [(ngModel)]="fp.checkPwd" ngControl="checkPwd" minlength="6" maxlength="16" required>
+        <input type="password" placeholder="请确认您的密码(6-16位长度)" #checkPwd="ngModel" [(ngModel)]="fp.checkPwd" name="checkPwd" minlength="6" maxlength="16" required>
         <div class="msg">
           <span class="text-error" >
             <span *ngIf="newPwdForm.controls.checkPwd?.errors?.required">密码不能为空</span>

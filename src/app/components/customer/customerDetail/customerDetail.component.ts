@@ -186,16 +186,13 @@ export class CustomerDetailComponent {
 	}
 
 	onOpenBusinessAdd(){
-		let data = {vehicleLicence:'',};
-		data.vehicleLicence = this.customer.vehicleLicence;
-		data.customerId = this.customer.id;
-    	this.missionService.confirmBusinessAdd({selector: 'customer-detail',data:data});
-  }
+    this.missionService.confirmBusinessAdd({selector: 'customer-detail',data:{vehicleLicence:this.customer.vehicleLicence,customerId:this.customer.id}});
+  	}
 
 	onOpenBusinessEdit(data){
 		data.vehicleLicence = this.customer.vehicleLicence;
     this.missionService.confirmBusinessAdd({selector: 'customer-detail',data:data});
-  }
+  	}
 
 	onDelBusiness(data){
 		if(confirm('是否删除?')){

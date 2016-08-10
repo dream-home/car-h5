@@ -32,6 +32,7 @@ export class RegisterComponent {
   timeout: any;
   sign: string;
   errorPhoneCode: string;
+  errorMsg: string;
   loading: number = 0;
 
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi) {
@@ -92,7 +93,7 @@ export class RegisterComponent {
       return;
     }
     this.seekDisabeld = 1;
-    this.seekTime = 60;
+    this.seekTime = 59;
     this.getPhoneCode(phone, rnd).subscribe(data => {
       if (data.meta.code !== 200) {
         this.errorPhoneCode = data.error.message;
@@ -103,7 +104,7 @@ export class RegisterComponent {
         //倒计时
         this.timeout = window.setInterval(() => {
           this.zone.run(() => {
-            if (this.seekTime > 0) {
+            if (this.seekTime > 1) {
               this.seekTime--;
               this.seekBtnTitle = this.seekTime + 's';
             } else {
@@ -129,13 +130,9 @@ export class RegisterComponent {
 
   //注册
   onRegister() {
+    this.errorMsg = null;
     this.loading = 1;
-    if (!this.rForm.valid) {
-      alert('你输入的信息有误.不能完成注册');
-      this.loading = 0;
-      return false;
-    }
-    let params = this.rForm.value;
+    let params = this.user;
     //mobile: string, password: string, code: string, captcha: string
     this.uApi.userRegisterPost(params.phone, Md5.hashStr(params.pwd, false).toString(), params.code, params.rnd)
       .subscribe((data) => {
@@ -155,7 +152,7 @@ export class RegisterComponent {
             }
           });
         } else {
-          alert(data.error.message);
+          this.errorMsg = data.error.message;
         }
       })
   }

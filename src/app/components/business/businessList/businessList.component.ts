@@ -55,8 +55,8 @@ export class BusinessListComponent {
     this.dateShow = false;
   }
 
-  moment(date) {
-    return moment(date).format('YYYY-MM-DD');
+  moment(date,format='') {
+    return moment(date).format(format||'YYYY-MM-DD');
   }
 
   onPickerChange(event) {
@@ -74,6 +74,10 @@ export class BusinessListComponent {
     this.getList();
   }
 
+  isToday(){
+    return moment(this.date).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD');
+  }
+
   onOpen() {
     console.log('onOpen');
   }
@@ -83,7 +87,7 @@ export class BusinessListComponent {
   }
 
   changePage(event) {
-    this.page.current = event;
+    this.page.current = event.page;
     this.getList();
   }
 

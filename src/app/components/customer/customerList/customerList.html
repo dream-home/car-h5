@@ -23,7 +23,7 @@
       </thead>
       <tbody *ngIf="customers.length">
         <tr *ngFor="let cr of customers; let i = index;">
-          <td>{{i + 1}}</td>
+          <td>{{i + 1+(page.current-1)*page.limit}}</td>
           <td>{{cr.vehicleLicence || '-'}}</td>
           <td>{{cr.name || '-'}}</td>
           <td>{{cr.mobile || '-'}}</td>

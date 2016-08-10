@@ -2,7 +2,7 @@
 <!-- 主内容标题 -->
 <div class="sub-header tc">
   <div class="dib fl date-directive">
-    <a href="javascript:void(0);" class="last" (click)="onLastDate()"> &lt; </a> &nbsp;&nbsp;&nbsp;&nbsp; <span (click)="onToggleDate($event)">{{moment(date)}}</span> &nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:void(0);" class="next" (click)="onNextDate()"> 	&gt; </a>
+    <a href="javascript:void(0);" class="last" (click)="onLastDate()"> &lt; </a> &nbsp;&nbsp;&nbsp;&nbsp; <span (click)="onToggleDate($event)">{{moment(date)}}</span> &nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:void(0);" *ngIf="!isToday()" class="next" (click)="onNextDate()"> 	&gt; </a>
     <div class="datepicker-tip" *ngIf="dateShow">
       <datepicker [ngModel]="date" [initDate]="date" (ngModelChange)="onPickerChange($event)" [showWeeks]="false" ></datepicker>
     </div>
@@ -31,8 +31,8 @@
       </thead>
       <tbody *ngIf="list?.content">
         <tr *ngFor="let item of list?.content, let i = index">
-          <td>{{i+1}}</td>
-          <td>{{item.date|date:'shortTime'}}</td>
+          <td>{{(i+1)+(page.current-1)*page.limit}}</td>
+          <td>{{moment(item.date,'hh:mm')}}</td>
           <td><a [routerLink]="['../customer-detail',{id: item.customerId}]" routerLinkActive="active" [attr.title]="item.licence">{{item.licence}}</a></td>
           <td>{{item.customer}}</td>
           <td>{{item.mobile}}</td>

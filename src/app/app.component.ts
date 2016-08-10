@@ -2,7 +2,7 @@
  * Angular 2 decorators and services
  */
 import { Component, ViewEncapsulation } from '@angular/core';
-
+import * as moment from 'moment';
 
 /*
  * App Component
@@ -22,7 +22,7 @@ export class App {
   }
 
   ngOnInit() {
-
+    moment.locale('zh-ch');
   }
 
 }

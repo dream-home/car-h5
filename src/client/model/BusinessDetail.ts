@@ -78,5 +78,6 @@ export interface BusinessDetail {
 
     supplies?: Array<models.Supply>;
 
-    employeeInput?:string;
+    employeeName?:string;
+    employeeCode?:string;
 }
