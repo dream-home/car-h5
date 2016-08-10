@@ -44,7 +44,7 @@ export class CustomerDetailComponent {
 		missionService.businessAddAnnounced$.subscribe(
 		astronaut => {
 			if(astronaut=='customer-detail'){
-				console.log('businessAddAnnounced$',astronaut);
+				this.getCustomerById(this.customerId);
 			}
 		});
 

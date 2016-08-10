@@ -5,7 +5,7 @@
 // Angular 2
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // Angular 2 Http
-import { HTTP_PROVIDERS } from '@angular/http';
+import {Http, XHRBackend, HTTP_PROVIDERS, BaseRequestOptions} from '@angular/http';
 // Angular 2 Router
 import { provideRouter } from '@angular/router';
 // Angular 2 forms
@@ -14,7 +14,7 @@ import { disableDeprecatedForms, provideForms } from '@angular/forms';
 // AngularClass
 import { provideWebpack } from '@angularclass/webpack-toolkit';
 import { providePrefetchIdleCallbacks } from '@angularclass/request-idle-callback';
-
+import { CustomHttp } from '../app/services';
 
 import { routes, asyncRoutes, prefetchRouteCallbacks } from '../app/app.routes';
 import { APP_RESOLVER_PROVIDERS } from '../app/app.resolver';
@@ -34,8 +34,12 @@ export const APPLICATION_PROVIDERS = [
   providePrefetchIdleCallbacks(prefetchRouteCallbacks),
 
   ...HTTP_PROVIDERS,
+  // { provide: Http, useFactory: (backend, options) => {
+  //     return new CustomHttp(backend, options);
+  //   }, deps: [XHRBackend, BaseRequestOptions]
+  // },
 
-  { provide: LocationStrategy, useClass: HashLocationStrategy }
+  { provide: LocationStrategy, useClass: HashLocationStrategy },
 ];
 
 export const PROVIDERS = [

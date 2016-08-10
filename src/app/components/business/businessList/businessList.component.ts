@@ -34,7 +34,7 @@ export class BusinessListComponent {
   constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi, private missionService: MissionService) {
     missionService.businessAddAnnounced$.subscribe(
       astronaut => {
-        if (astronaut == 'customer-detail') {
+        if (astronaut == 'business-list') {
           this.getList();
         }
       });

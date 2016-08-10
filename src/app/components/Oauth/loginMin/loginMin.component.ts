@@ -9,14 +9,14 @@ import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
 import { UserApi, CommonApi, ShopApi, UserResponse,LoginReq } from 'client';
 import { MainLogoComponent, PageFooterComponent } from 'common';
-import { Cookie,AuthService } from '../../../services';
+import { Cookie } from '../../../services';
 
 @Component({
   selector: 'login-min',
   template: require('./loginMin.html'),
   styles: [require('./loginMin.scss')],
   directives: [ROUTER_DIRECTIVES,  MainLogoComponent, PageFooterComponent],
-  providers: [HTTP_PROVIDERS, UserApi, CommonApi, ShopApi, Md5, Cookie,AuthService]
+  providers: [HTTP_PROVIDERS, UserApi, CommonApi, ShopApi, Md5, Cookie]
 })
 
 export class LoginMinComponent {
@@ -27,7 +27,7 @@ export class LoginMinComponent {
   seekBtnTitle: number = 0;
   img: any;
   loading: number = 0;
-  constructor(private router: Router, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi, private authService: AuthService) {
+  constructor(private router: Router, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi) {
     this.zone = new NgZone({ enableLongStackTrace: false }); // 事务控制器
   }
   info(data){
@@ -55,7 +55,6 @@ export class LoginMinComponent {
     // this.loading = 1;
     let params = this.user;
     // mobile: string, password: string, code: string,
-    // this.authService.login(params.phone, params.pwd, params.rnd);
     this.uApi.userLoginPost(params.phone, Md5.hashStr(params.pwd, false).toString(), params.rnd)
       .subscribe((data) => {
         this.loading = 0;
