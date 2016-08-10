@@ -38,7 +38,7 @@
           <td>{{customer?.vehicleMiles}}</td>
         </tr>
         <tr>
-          <td colspan="4" class="cd-base-op">最后入店时间: {{customer?.lastEnterDate | date: 'y-MM-dd'}} <a [routerLink]="['../customer-edit',{id: customerId}]" routerLinkActive="active">编辑客户信息</a></td>
+          <td colspan="4" class="cd-base-op">最后入店时间: {{customer?.lastEnterDate | date: 'y-MM-dd HH:mm'}} <a [routerLink]="['../customer-edit',{id: customerId}]" routerLinkActive="active">编辑客户信息</a></td>
 
         </tr>
       </table>
@@ -157,8 +157,8 @@
           </div>
         </div>
         <div class="fwin-btns g-btns">
-          <div class="g-btn" [ngClass]="{'g-btn-green': !hasSend, 'g-btn-gray': hasSend }" (click)="onSend()">{{ hasSend ? '已发送' : '立即发送' }}</div>
-          <div class="pa resend" *ngIf="hasSend" (click)="onResend()">重新发送</div>
+          <div class="g-btn" [ngClass]="{'g-btn-green': !hasSend && !sendErr.times, 'g-btn-gray': hasSend || sendErr.times }" (click)="onSend()">{{ hasSend ? '已发送' : '立即发送' }}</div>
+          <div class="pa resend" *ngIf="hasSend" [class.sendgray]="sendErr.times" (click)="onResend()">重新发送</div>
           <a [routerLink]="['../../survey-pc',{url: commentUrl.url}]"  target="_blank" class="g-btn g-btn-green">马上评价</a>
         </div>
       </div>

@@ -151,7 +151,7 @@
                         <div class="sv-q-t" [class.warning]="surveyQustions[5]?.hasErr  && surveyQustions[5]?.answer === ''">Q6. {{surveyQustions[5]?.title}}</div>
                         <div class="sv-q-c">
                             <select name="" id="" class="q-select" [ngModel]="surveyQustions[5]?.answer" (ngModelChange)="surveyQustions[5].answer = $event">
-                                <option value="">请选择您的出生年份</option>
+                                <option value="">请选择</option>
                                 <option *ngFor="let ans of surveyQustions[5]?.options; let j = index;" [value]="ans.id">{{ans.title}}</option>
                             </select>
 

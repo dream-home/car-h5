@@ -104,13 +104,23 @@ export class CustomerDetailComponent {
 	onShowCommentWin(record) {
 		this.showCommentWin = true;
 		this.historyRecord = record;
-		this.bApi.businessBusinessIdUrlGet(record.id).subscribe(data => {
-			if (data.meta.code === 200) {
-				this.commentUrl.qrCode = data.data.qrCode;
-				this.commentUrl.url = data.data.url;
-			}
+		this.historyRecord.hasSend = record.hasSend ? record.hasSend : false;
+		this.hasSend = this.historyRecord.hasSend;
+		this.historyRecord.times = record.times ? record.times : false;
+		this.sendErr.times = this.historyRecord.times;
+		if (this.historyRecord.url) {
+			this.commentUrl.qrCode = this.historyRecord.qrCode;
+			this.commentUrl.url = this.historyRecord.url;
+		} else {
+			this.bApi.businessBusinessIdUrlGet(record.id).subscribe(data => {
+				if (data.meta.code === 200) {
+					this.commentUrl.qrCode = this.historyRecord.qrCode =  data.data.qrCode;
+					this.commentUrl.url = this.historyRecord.url = data.data.url;
+				}
 
-		}, err => console.error(err));
+			}, err => console.error(err));
+		}
+			
 		console.log('historyRecord', this.historyRecord) ;
 	}
 
@@ -118,6 +128,10 @@ export class CustomerDetailComponent {
 	onCloseCommentWin() {
 		this.showCommentWin = false;
 		this.historyRecord = {};
+		this.hasSend = false;
+		this.sendErr.times = false;
+		this.commentUrl.qrCode = this.historyRecord.qrCode;
+		this.commentUrl.url = this.historyRecord.url;
 		console.log('func onCloseCommentWin() called....');
 	}
 
@@ -140,6 +154,10 @@ export class CustomerDetailComponent {
 				this.hasSend = true;
 				alert('发送成功');
 			} else {
+				if (data.error && data.error.code === 400401) {
+					this.sendErr.times = true;
+					this.historyRecord.times = true;
+				}
 				alert(data.error && data.error.message);
 			}
 		}, err => {
@@ -150,13 +168,13 @@ export class CustomerDetailComponent {
 	}
 
 	onSend() {
-		if (this.hasSend) return false;
+		if (this.hasSend || this.sendErr.times) return false;
 		this.sendMobile();
 	}
 
 	// 重新通过手机号发送
 	onResend() {
-		if (!this.hasSend) return false;
+		if (!this.hasSend || this.sendErr.times) return false;
 		// 成功
 		this.sendMobile();
 	}
@@ -169,12 +187,12 @@ export class CustomerDetailComponent {
 
 	onOpenBusinessAdd(){
     this.missionService.confirmBusinessAdd({selector: 'customer-detail',data:{vehicleLicence:this.customer.vehicleLicence,customerId:this.customer.id}});
-  }
+  	}
 
 	onOpenBusinessEdit(data){
 		data.vehicleLicence = this.customer.vehicleLicence;
     this.missionService.confirmBusinessAdd({selector: 'customer-detail',data:data});
-  }
+  	}
 
 	onDelBusiness(data){
 		if(confirm('是否删除?')){
