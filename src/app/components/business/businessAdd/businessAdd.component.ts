@@ -41,17 +41,26 @@ export class BusinessAddComponent implements OnInit {
   private VehicleCode: Observable<CustomerSearchResponse> = this.searchVehicleCode
     .debounceTime(300)
     .distinctUntilChanged()
-    .switchMap((term: string) => this.cApi.customerVehicleVehicleLicenceGet(term));
+    .switchMap((term:string) => term.length > 0
+               ? this.cApi.customerVehicleVehicleLicenceGet(term)
+               : Observable.of({}));
 
 
   constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi, private eApi: EmployeeApi, private cApi: CustomerApi,private missionService:MissionService) {
     this.zone = new NgZone({ enableLongStackTrace: false }); // 事务控制器
     this.subscription = this.missionService.businessAddConfirmed$.subscribe(
       data => {
+        this.getEmployeeList();
         this.anchor = data.selector;
         this.business = _.merge({ vehicleLicence: '', name: '', employeeId: null, customerId: null, description: '' },data.data);
-        this.customer.id = this.business.customerId;
-        this.searchVehicleCode.next(this.business.vehicleLicence);
+        if(this.business.customerId){
+          this.customer.id = this.business.customerId;
+        }
+        if (!this.business.vehicleLicence || this.business.vehicleLicence.length < 6) {
+
+        }else{
+          this.searchVehicleCode.next(this.business.vehicleLicence);
+        }
         this.zone.run(() => {
           this.onOpen();
         });
@@ -132,7 +141,7 @@ export class BusinessAddComponent implements OnInit {
     this.bApi.businessSaveOrUpdatePost(data).subscribe(data => {
       this.loading = 0;
       if (data.meta.code === 200) {
-        this.business = {};
+        this.router.navigate(['/dashbroad/customer-detail',{id:this.business.customerId}]);
         this.onClose();
       } else {
         alert(data.error.message);
@@ -148,7 +157,7 @@ export class BusinessAddComponent implements OnInit {
   }
 
   onClose() {
-    this.missionService.announceBusinessAdd(this.anchor);
+    // this.missionService.announceBusinessAdd(this.anchor);
     this.businessShow = false;
   }
 }

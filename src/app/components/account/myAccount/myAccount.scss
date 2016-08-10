@@ -1,4 +1,12 @@
-.s-table { width:100%; }
+.s-table { width:100%;
+  .sub-text{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 700px;
+    float: left;
+  }
+ }
 .s-table .s-tr { font-size:0; border-bottom:1px solid #cedbde; }
 .s-table .s-tr:first-child { border-top:1px solid #cedbde; }
 .s-table .s-td { display:inline-block; line-height: 43px;  color:#343434; font-size:14px; background:transparent; }
