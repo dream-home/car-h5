@@ -44,7 +44,7 @@ export class CustomerDetailComponent {
 		missionService.businessAddAnnounced$.subscribe(
 		astronaut => {
 			if(astronaut=='customer-detail'){
-				console.log('businessAddAnnounced$',astronaut);
+				this.getCustomerById(this.customerId);
 			}
 		});
 
@@ -168,8 +168,29 @@ export class CustomerDetailComponent {
 	}
 
 	onOpenBusinessAdd(){
-    this.missionService.confirmBusinessAdd({selector: 'customer-detail'});
+		let data = {vehicleLicence:'',};
+		data.vehicleLicence = this.customer.vehicleLicence;
+		data.customerId = this.customer.id;
+    this.missionService.confirmBusinessAdd({selector: 'customer-detail',data:data});
   }
 
+	onOpenBusinessEdit(data){
+		data.vehicleLicence = this.customer.vehicleLicence;
+    this.missionService.confirmBusinessAdd({selector: 'customer-detail',data:data});
+  }
+
+	onDelBusiness(data){
+		if(confirm('是否删除?')){
+			this.bApi.businessDeleteDelete(data.id).subscribe( data => {
+				if (data.meta && data.meta.code === 200) {
+					this.getCustomerById(this.customerId);
+				} else {
+					alert(data.error && data.error.message);
+				}
+			}, err => {
+				console.error(err);
+			});
+		}
+	}
 
 }

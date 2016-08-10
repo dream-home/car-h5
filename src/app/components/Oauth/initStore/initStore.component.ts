@@ -3,9 +3,9 @@ import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 
 import { MainLogoComponent, PageFooterComponent } from 'common';
 import { StoreFormComponent } from '../../storeForm/storeForm.component.ts';
+import { Cookie } from '../../../services';
 
 @Component({
-  moduleId: module.id,
   selector: 'init-store',
   template: require('./initStore.html'),
   styles: [require('./initStore.scss')],
@@ -23,6 +23,7 @@ export class InitStoreComponent {
   }
 
   onSuccess(data){
+    Cookie.save('shopId',data&&data[0].id);
     this.router.navigate(['/dashbroad/business-list']);
   }
 

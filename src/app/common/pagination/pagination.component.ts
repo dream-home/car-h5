@@ -137,7 +137,6 @@ export class PaginationComponent implements ControlValueAccessor, OnInit, Pagina
   }
 
   public ngOnInit():void {
-    console.log('ngOnInit');
     this.classMap = this.elementRef.nativeElement.getAttribute('class') || '';
     // watch for maxSize
     this.maxSize = typeof this.maxSize !== 'undefined'

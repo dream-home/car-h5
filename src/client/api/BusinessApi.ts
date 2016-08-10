@@ -179,7 +179,8 @@ export class BusinessApi {
      * @param id 服务id
      */
     public businessDeleteDelete (id: string, extraHttpRequestParams?: any ) : Observable<models.CommonResponse> {
-        const path = this.basePath + '/business/delete';
+        const path = this.basePath + '/business/delete/{id}'
+            .replace('{' + 'id' + '}', String(id));
 
         let queryParameters = new URLSearchParams();
         let headerParams = this.defaultHeaders;
