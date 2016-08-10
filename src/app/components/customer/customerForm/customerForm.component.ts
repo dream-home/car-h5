@@ -152,6 +152,13 @@ export class CustomerFormComponent {
 	gotoListPage() {
 		this.router.navigate(['/dashbroad/customer-list']);
 	}
+	gotoDetailPage(id) {
+		this.router.navigate(['/dashbroad/customer-detail', {id: id}]);
+	}
+
+	onCancel() {
+		this.customer.id ? this.gotoDetailPage(this.customer.id) : this.gotoListPage();
+	}
 
 	onSave( other ) {
 		const willAddNew = other || false;
@@ -197,7 +204,7 @@ export class CustomerFormComponent {
 				} else {
 					// 更新
 					alert('修改成功');
-					this.gotoListPage();
+					this.gotoDetailPage(this.customer.id);
 				}
 
 			} else {

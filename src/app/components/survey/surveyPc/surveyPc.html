@@ -79,7 +79,8 @@
                 <!-- 年龄题 end -->
                 <!-- 单行输入题 -->
                 <div [attr.id]="'thzs-q-' + i" class="sv-q-stext" *ngIf="q.type == 'stext'">
-                    <div class="sv-q-t" [class.warning]="q.hasErr  && q.answer === ''"><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
+                    <div class="sv-q-t" ><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
+                    <div class="sv-q-errtip warning" *ngIf="q.hasErr">{{q.errMsg}}</div>
                     <div class="sv-q-c ">
                         <input type="text" class="sv-ipt" [attr.minlength]="q.min" [attr.maxlength]="q.max" [(ngModel)] = "q.answer" (blur)="stextBlur(q, i)" >
                     </div>

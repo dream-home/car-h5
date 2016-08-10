@@ -316,12 +316,24 @@ export class SurveyPcComponent {
     stextBlur(q, i) {
         if (q.answer === '') {
             q.hasErr = true;
-            q.errMsg = "请您回答该题";
-            return;
+            q.errMsg = '请您回答该题';
+            return false;
         }
         if ( q.subtype && q.subtype === 'mobile' ) {
-            
+            if (!/^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/.test(q.answer)) {
+                q.hasErr = true;
+                q.errMsg = '请输入正确的手机号!';
+                return false;
+            }
         }
+        if (q.subtype && q.subtype === 'car-plate') {
+            if ( q.answer.length < 7 ) {
+                q.hasErr = true;
+                q.errMsg = '请输入正确的车牌号!';
+                return false;
+            }
+        }
+        return true;
     }
     
 
