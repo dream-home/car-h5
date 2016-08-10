@@ -87,7 +87,7 @@ export class BusinessListComponent {
   }
 
   changePage(event) {
-    this.page.current = event;
+    this.page.current = event.page;
     this.getList();
   }
 

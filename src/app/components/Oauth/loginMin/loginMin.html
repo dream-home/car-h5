@@ -5,9 +5,12 @@
       <div class="">
         <h2 class="login-min-title">登录<a routerLink="/register" routerLinkActive="active" class="login-min-register-link fr">注册新账户</a>
         </h2>
-        <div class="login-min-input" [class.error]="!phone?.valid && phone?.dirty">
-          <input type="text" name="phone" [(ngModel)]="user.phone" #phone="ngModel" required placeholder="请输入您的手机号码"  pattern="^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$" >
+        <div class="login-min-input" [class.error]="!phone?.valid && phone?.dirty||errorMsg">
+          <input type="text" name="phone" [(ngModel)]="user.phone" #phone="ngModel" required placeholder="请输入您的手机号码"  pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$" >
           <div class="msg">
+            <span class="text-error" *ngIf="errorMsg">
+              <span>{{errorMsg}}</span>
+            </span>
             <span class="text-error" *ngIf="!phone?.valid && phone?.dirty">
               <span *ngIf="phone.errors?.required">手机号码不能为空</span>
               <span *ngIf="phone.errors?.pattern">请输入正确的手机号码</span>

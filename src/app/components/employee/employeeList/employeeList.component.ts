@@ -45,7 +45,7 @@ export class EmployeeListComponent {
   }
 
   changePage(cur) {
-    this.page.current = event;
+    this.page.current = cur.page;
     this.list();
   }
 

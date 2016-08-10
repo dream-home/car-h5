@@ -26,6 +26,7 @@ export class LoginMinComponent {
   seekDisabeld: number = 0;
   seekBtnTitle: number = 0;
   img: any;
+  errorMsg: any;
   loading: number = 0;
   constructor(private router: Router, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi) {
     this.zone = new NgZone({ enableLongStackTrace: false }); // 事务控制器
@@ -52,7 +53,8 @@ export class LoginMinComponent {
   }
   // 登录
   onLogin() {
-    // this.loading = 1;
+    this.errorMsg = null;
+    this.loading = 1;
     let params = this.user;
     // mobile: string, password: string, code: string,
     this.uApi.userLoginPost(params.phone, Md5.hashStr(params.pwd, false).toString(), params.rnd)
@@ -70,7 +72,8 @@ export class LoginMinComponent {
           }
         } else {
           this.getCodeImg();
-          alert(data.error.message);
+          this.errorMsg = data.error.message;
+          // alert(data.error.message);
         }
       });
   }

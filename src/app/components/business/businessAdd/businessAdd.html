@@ -11,7 +11,7 @@
             <label for="store_name" class="g-label">
               <span class="warning">*</span>车牌号</label>
             <div class="g-ipt">
-              <input type="text" required name="vehicleLicence" [(ngModel)]="business.vehicleLicence" #vehicleLicence="ngModel" (keyup)="onChangeVL($event)" class="g-wml">
+              <input type="text" required name="vehicleLicence" maxlength="9" minlength="7" [(ngModel)]="business.vehicleLicence" #vehicleLicence="ngModel" (keyup)="onChangeVL($event)" class="g-wml">
             </div>
             <div class="msg">
               <span class="text-error" *ngIf="!vehicleLicence.valid && !vehicleLicence.pristine">
@@ -24,7 +24,7 @@
             <label for="store_name" class="g-label">
               <span class="warning">*</span>服务项目</label>
             <div class="g-ipt">
-              <input type="text" required maxlength="250" name="name" [(ngModel)]="business.name" #name="ngModel" class="g-wml">
+              <input type="text" required maxlength="200" name="name" [(ngModel)]="business.name" #name="ngModel" class="g-wml">
             </div>
             <div class="msg">
               <span class="text-error" *ngIf="!name.valid && !name.pristine">
@@ -50,8 +50,8 @@
               <span class="warning">*</span>至少填一项
             </label>
             <div class="g-ipt">
-              <input type="text" placeholder="请输入技师姓名" maxlength="50" name="employeeName" [(ngModel)]="business.employeeName" #employeeName="ngModel" class="g-wml db">
-              <input type="text" placeholder="请输入技师编号" maxlength="50" name="employeeCode" [(ngModel)]="business.employeeCode" #employeeCode="ngModel" class="g-wml db">
+              <input type="text" placeholder="请输入技师姓名" maxlength="20" name="employeeName" [(ngModel)]="business.employeeName" #employeeName="ngModel" class="g-wml db">
+              <input type="text" placeholder="请输入技师编号" maxlength="20" name="employeeCode" [(ngModel)]="business.employeeCode" #employeeCode="ngModel" class="g-wml db">
             </div>
           </div>
           <div class="g-field">
@@ -64,18 +64,18 @@
         </div>
         <div class="business-protocol-right">
           <div class="new-customer" *ngIf="customer?.id===null">
-            <img src="/assets/images/new-customer.png" alt="新顾客"/>
+            <img src="/assets/images/new-customer.png" alt="新顾客哦"/>
             <div class="">新顾客</div>
           </div>
           <div class="old-customer" *ngIf="customer?.id!==null">
-            <img src="/assets/images/old-customer.png" alt="老顾客"/>
+            <img src="/assets/images/old-customer.png" alt="老顾客啦"/>
             <div class="">老顾客</div>
           </div>
         </div>
       </div>
       <div class="btn-block">
         <button type="submit" class="submit" [disabled]="!f.valid||loading">提交</button>
-        <button type="button" class="cancel ml25" (click)="onClose()">取消</button>
+        <button type="button" class="cancel ml25" *ngIf="business.id" (click)="onClose()">取消</button>
       </div>
     </form>
   </div>

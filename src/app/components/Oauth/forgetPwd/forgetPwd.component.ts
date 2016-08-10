@@ -73,7 +73,7 @@ export class ForgetPwdComponent {
       return;
     }
     this.seekDisabeld = 1;
-    this.seekTime = 60;
+    this.seekTime = 59;
     this.getPhoneCode(phone, rnd).subscribe(data => {
       if (data.meta.code !== 200) {
         this.getCodeImg();
@@ -85,7 +85,7 @@ export class ForgetPwdComponent {
         //倒计时
         this.timeout = window.setInterval(() => {
           this.zone.run(() => {
-            if (this.seekTime > 0) {
+            if (this.seekTime > 1) {
               this.seekTime--;
               this.seekBtnTitle = this.seekTime + 's';
             } else {
@@ -136,7 +136,6 @@ export class ForgetPwdComponent {
     this.loading = 1;
     let params = this.fp;
     if (params.pwd !== params.checkPwd) {
-      alert('两次密码不一致');
       this.diff = 1;
       this.loading = 0;
       return false;
