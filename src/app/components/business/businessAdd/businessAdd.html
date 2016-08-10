@@ -60,11 +60,11 @@
           </div>
         </div>
         <div class="business-protocol-right">
-          <div class="new-customer" *ngIf="customer?.id===null&&isVehicleLength(f)">
+          <div class="new-customer" *ngIf="customer?.id===null">
             <img src="/assets/images/new-customer.png" alt="新顾客"/>
             <div class="">新顾客</div>
           </div>
-          <div class="old-customer" *ngIf="customer?.id!==null&&isVehicleLength(f)">
+          <div class="old-customer" *ngIf="customer?.id!==null">
             <img src="/assets/images/old-customer.png" alt="老顾客"/>
             <div class="">老顾客</div>
           </div>

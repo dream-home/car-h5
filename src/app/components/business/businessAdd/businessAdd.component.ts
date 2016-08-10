@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter,NgZone } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { HTTP_PROVIDERS } from '@angular/http';
 import {  ControlGroup, FormBuilder, Control, NgControlGroup } from '@angular/common';
@@ -28,12 +28,13 @@ export class BusinessAddComponent implements OnInit {
   businessShow: boolean = false;
   loading: number = 0;
   employeeList: Array<EmployeeListItem>;
-  customer: Customer;
+  customer: Customer = {id:null};
   employeeChecked: boolean = true;
   employeeInput: string = '';
   business: BusinessDetail;
   subscription: Subscription;
   anchor:string;
+  zone: any;
 
   private searchVehicleCode = new Subject<CustomerSearchResponse>();
 
@@ -44,11 +45,16 @@ export class BusinessAddComponent implements OnInit {
 
 
   constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi, private eApi: EmployeeApi, private cApi: CustomerApi,private missionService:MissionService) {
+    this.zone = new NgZone({ enableLongStackTrace: false }); // 事务控制器
     this.subscription = this.missionService.businessAddConfirmed$.subscribe(
       data => {
         this.anchor = data.selector;
-        this.business = data.data||{ vehicleLicence: '', name: '', employeeId: null, customerId: null, description: '' };
-        this.onOpen();
+        this.business = _.merge({ vehicleLicence: '', name: '', employeeId: null, customerId: null, description: '' },data.data);
+        this.customer.id = this.business.customerId;
+        this.searchVehicleCode.next(this.business.vehicleLicence);
+        this.zone.run(() => {
+          this.onOpen();
+        });
       },error=>{console.error(error)});
   }
   // 初始化
