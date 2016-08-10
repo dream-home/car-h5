@@ -1,9 +1,11 @@
-import { Component, Input, Output, NgZone } from '@angular/core';
+import { Component, Input, Output, NgZone, ElementRef, AfterViewInit } from '@angular/core';
 import { COMMON_DIRECTIVES, NgSwitch, NgSwitchDefault } from '@angular/common';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 
 import { SurveyApi } from 'client';
 import * as _ from 'lodash';
+// import * as $ from 'jQuery';
+// declare var $:any;
 
 @Component({
     moduleId: module.id,
@@ -27,8 +29,14 @@ export class SurveyPcComponent {
     answersObj = {};
     showSurvey: number = 1;
     profile: any;
-    constructor( private router: Router, private route: ActivatedRoute, private sApi: SurveyApi ) {
-        
+    constructor( private router: Router, private route: ActivatedRoute, private sApi: SurveyApi, private el: ElementRef ) {
+        console.log('el: ', el.nativeElement);
+        console.log($(this.el.nativeElement));
+        //console.log($(el.nativeElement));
+    }
+    ngAfterViewInit() {
+        console.log($(this.el.nativeElement));
+        $('body').addClass('survey');
     }
     ngOnInit() {
         // 获取 url
@@ -223,20 +231,18 @@ export class SurveyPcComponent {
 
     // 处理多项评分题
     onMscore(q, subq, subidx, ans) {
-        let id = 'q_' + q.id + '_' + subq.id;
-        console.log(id);
         subq.hasErr = false;
+        q.errMsg = '';
+        q.hasErr = false;
         subq.answer = ans.id;
         subq.tempPoint = ans.point === 99 ? 0 : ans.point;
-        
+        console.log('thzs-q-2', $('#thzs-q-2').offset());
         q.answer[subidx] = {
             questionId: subq.id,
             type: subq.type,
             answers: [ans.id]
         };
-        
-       
-        
+ 
     }
     // 处理评分题
     onScore(q, ans) {
@@ -262,7 +268,11 @@ export class SurveyPcComponent {
                         if ( q.answer[i] === undefined ) {
                             // 第 i 个子题没选
                             q.children[i].hasErr = true;
-                            alert(`第${idx + 1}题的"${q.children[i].title}"还未评价`);
+                            q.hasErr = true;
+                            q.errMsg = '该问题没有回答完毕，请继续作答';
+                            // alert(`第${idx + 1}题的"${q.children[i].title}"还未评价`);
+                            console.log('thzs-q-' + idx);
+                            this.mScroll('thzs-q-' + idx);
                             return false;
                         } else {
                             this.surveySubmitObj.answers.push(q.answer[i]);
@@ -270,26 +280,25 @@ export class SurveyPcComponent {
                         
                     }
                     break;
+                case 'stext':
+                    if (this.stextBlur(q, idx)) {
+                        this.surveySubmitObj.answers.push({
+                            questionId: q.id,
+                            type: q.type,
+                            answers: [q.answer]
+                        });
+                    } else {
+                        this.mScroll('thzs-q-' + idx);
+                        return false;
+                    }
                 
                 default:
                     if (q.answer === '') {
                         q.hasErr = true;
-                        alert(`第${idx + 1}题还未回答`);
+                        q.errMsg = '该问题没有回答完毕，请继续作答';
+                        this.mScroll('thzs-q-' + idx);
+                        // alert(`第${idx + 1}题还未回答`);
                         return false;
-                    }
-                    
-                    // 验证手机号 
-                    if ( idx === 7 ) {
-                        if (!/^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/.test(this.surveyQustions[idx].answer)) {
-                            alert(`第${idx + 1}题手机号码格式不正确`);
-                            return false;
-                        }
-                    }
-                    if (idx === 6) {
-                        if (this.surveyQustions[idx].answer.length < 7) {
-                            alert(`第${idx + 1}题车牌号长度不正确`);
-                            return false;
-                        }
                     }
                     
                     this.surveySubmitObj.answers.push({
@@ -335,8 +344,18 @@ export class SurveyPcComponent {
         }
         return true;
     }
-    
 
+    stextFocus(q) {
+        q.hasErr = false;
+        q.errMsg = '';
+    }
+    
+    //滚动到指定元素
+    mScroll(id) {
+        $('body').animate({
+            scrollTop: $('#' + id).offset().top)
+        }, 1000);
+    }
     
 
 }

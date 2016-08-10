@@ -434,6 +434,10 @@ body {
   margin:0;
   padding:0;
 }
+body.survey {
+  height:auto;
+  min-height: 100%;
+}
 
 @media print {
   a::after {
