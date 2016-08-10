@@ -85,7 +85,8 @@ export class SurveyPcComponent {
     }
 
     formatSurveyQestions(qs) {
-        for ( let q of qs ) {
+        for ( let i = 0, len = qs.length; i < len; i++ ) {
+            let q = qs[i];
             q.answer = '';
             q.hasErr = false;
             if ( q.type === 'score' && q.options.length > 0 ) {
@@ -104,6 +105,30 @@ export class SurveyPcComponent {
             if ( q.type === 'radio' && q.options.length > 0 ) {
                 for ( let rq of q.options ) {
                     rq.eid = 'svq-' + q.id + '-' + rq.id;
+                }
+            }
+
+            if ( q.type === 'stext' ) {
+                switch (i) {
+                    case 6:
+                        // 车牌号
+                        q.min = 7;
+                        q.max = 9;
+                        break;
+                    case 7:
+                        // 手机号
+                        q.min = 0;
+                        q.max = 11;
+                        break;
+                    case 8:
+                    case 9:
+                        // 车品牌 车型号
+                        q.min = 0;
+                        q.max = 50;
+                        break;
+                    default:
+                        console.log(i);
+
                 }
             }
 

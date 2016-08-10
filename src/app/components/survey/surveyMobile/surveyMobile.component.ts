@@ -81,7 +81,7 @@ export class SurveyMobileComponent {
                 this.surveyQustions = this.survey.pages && this.survey.pages.length ? this.survey.pages[0].questions : [];
                 // 格式化问卷问题
                 this.surveyQustions = this.formatSurveyQestions(_.cloneDeep(this.surveyQustions));
-                console.log(this.surveyQustions);
+                console.log('surveyQustions', this.surveyQustions);
                 // 处理问卷基本信息
                 if (this.profile) {
                     this.profileHandle();
@@ -92,7 +92,8 @@ export class SurveyMobileComponent {
     }
 
     formatSurveyQestions(qs) {
-        for ( let q of qs ) {
+        for ( let i = 0, len = qs.length; i < len; i++ ) {
+            let q = qs[i];
             q.answer = '';
             q.hasErr = false;
             if ( q.type === 'score' && q.options.length > 0 ) {
@@ -111,6 +112,30 @@ export class SurveyMobileComponent {
             if ( q.type === 'radio' && q.options.length > 0 ) {
                 for ( let rq of q.options ) {
                     rq.eid = 'svq-' + q.id + '-' + rq.id;
+                }
+            }
+
+            if ( q.type === 'stext' ) {
+                switch (i) {
+                    case 6:
+                        // 车牌号
+                        q.min = 7;
+                        q.max = 9;
+                        break;
+                    case 7:
+                        // 手机号
+                        q.min = 0;
+                        q.max = 11;
+                        break;
+                    case 8:
+                    case 9:
+                        // 车品牌 车型号
+                        q.min = 0;
+                        q.max = 50;
+                        break;
+                    default: 
+                        console.log(i);
+
                 }
             }
 
@@ -335,6 +360,19 @@ export class SurveyMobileComponent {
         for (const idx of idxArr) {
             if (!this.questionValid(this.surveyQustions[idx], idx)) {
                 return false;
+            }
+            // 验证手机号 
+            if ( idx === 7 ) {
+                if (!/^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/.test(this.surveyQustions[idx].answer)) {
+                    alert(`第${idx + 1}题手机号码格式不正确`);
+                    return false;
+                }
+            }
+            if (idx === 6) {
+                if (this.surveyQustions[idx].answer.length < 7) {
+                    alert(`第${idx + 1}题车牌号长度不正确`);
+                    return false;
+                }
             }
         }
         this.surveySubmitObj.answers = this.surveySubmitObj.answers.concat(this.tempPageAnswers);

@@ -5,7 +5,7 @@ export * from './app.routes';
 export * from './common';
 export * from './components';
 export * from './services';
-
+console.log('login-min component.....')
 import { MissionService,DialogService,CanDeactivateGuard } from './services';
 
 // Application wide providers
