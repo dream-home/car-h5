@@ -8,7 +8,7 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
 import { UserApi, CommonApi } from 'client';
-import { Cookie,AuthService } from 'services';
+import { Cookie,AuthService } from '../../services';
 
 @Component({
 	moduleId: module.id,

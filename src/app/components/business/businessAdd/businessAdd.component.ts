@@ -31,7 +31,7 @@ export class BusinessAddComponent implements OnInit {
   customer: Customer;
   employeeChecked: boolean = true;
   employeeInput: string = '';
-  business: BusinessDetail = { vehicleLicence: '', name: '', employeeId: null, customerId: null, description: '' };
+  business: BusinessDetail;
   subscription: Subscription;
   anchor:string;
 
@@ -47,6 +47,7 @@ export class BusinessAddComponent implements OnInit {
     this.subscription = this.missionService.businessAddConfirmed$.subscribe(
       data => {
         this.anchor = data.selector;
+        this.business = data.data||{ vehicleLicence: '', name: '', employeeId: null, customerId: null, description: '' };
         this.onOpen();
       },error=>{console.error(error)});
   }
@@ -125,6 +126,7 @@ export class BusinessAddComponent implements OnInit {
     this.bApi.businessSaveOrUpdatePost(data).subscribe(data => {
       this.loading = 0;
       if (data.meta.code === 200) {
+        this.business = {};
         this.onClose();
       } else {
         alert(data.error.message);
