@@ -1,38 +1,38 @@
 <div class="register">
   <main-logo></main-logo>
-  <form (ngSubmit)="onRegister()" [ngFormModel]="rForm">
+  <form (ngSubmit)="onRegister()" rForm="ngForm">
     <div class="register-block animated rubberBand" [ngClass]="{zoomOutRight:rForm.submitted}">
       <h2 class="register-title">注册<a routerLink="/login-min" routerLinkActive="active" class="register-login-link fr">已有账户登录</a>
       </h2>
-      <div class="register-input " [class.error]="!rForm.controls.phone?.valid && !rForm.controls.phone?.pristine">
-        <input type="text" ngControl="phone" required pattern="^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$" placeholder="请输入您的手机号码">
+      <div class="register-input " [class.error]="!phone?.valid && !phone?.pristine">
+        <input type="text" name="phone" #phone="ngModel" [(ngModel)]="user.phone" required pattern="^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$" placeholder="请输入您的手机号码">
         <div class="msg">
-          <span class="text-error" *ngIf="!rForm.controls.phone?.valid && !rForm.controls.phone?.pristine">
-            <span *ngIf="rForm.controls.phone.errors.required">手机号码不能为空</span>
-          <span *ngIf="rForm.controls.phone.errors.pattern">请输入正确的手机号码</span>
+          <span class="text-error" *ngIf="!phone?.valid && !phone?.pristine">
+            <span *ngIf="phone.errors.required">手机号码不能为空</span>
+          <span *ngIf="phone.errors.pattern">请输入正确的手机号码</span>
           </span>
         </div>
       </div>
-      <div class="register-input" [class.error]="!rForm.controls.rnd?.valid && !rForm.controls.rnd?.pristine">
-        <input type="" class="w140 dib" maxlength="4" ngControl="rnd" required placeholder="请输入右侧图形校验码">
+      <div class="register-input" [class.error]="!rnd?.valid && !rnd?.pristine">
+        <input type="" class="w140 dib" #rnd="ngModel" [(ngModel)]="user.rnd" maxlength="4" name="rnd" required placeholder="请输入右侧图形校验码">
         <img [src]="img" class="dib link ml10" alt="验证码" (click)="onChangeCode()">
         <a class="dib link ml10" (click)="onChangeCode()">换一张</a>
         <div class="msg">
-          <span class="text-error" *ngIf="!rForm.controls.rnd?.valid">请输入右侧图形校验码</span>
+          <span class="text-error" *ngIf="!rnd?.valid">请输入右侧图形校验码</span>
         </div>
       </div>
-      <div class="register-input" [class.error]="!rForm.controls.code?.valid && !rForm.controls.code?.pristine">
-        <input type="text" class="inner-group" maxlength="10" ngControl="code" required placeholder="请输入短信验证码">
-        <a class="inner-btn" [class.disabled]="seekDisabeld||!rForm.controls.phone?.valid||!rForm.controls.rnd?.valid" (click)="onSeekPhone(rForm.value.phone,rForm.value.rnd)">{{seekBtnTitle}}</a>
+      <div class="register-input" [class.error]="!code?.valid && !code?.pristine">
+        <input type="text" class="inner-group" #code="ngModel" [(ngModel)]="user.code" maxlength="10" name="code" required placeholder="请输入短信验证码">
+        <a class="inner-btn" [class.disabled]="seekDisabeld||!phone?.valid||!rnd?.valid" (click)="onSeekPhone(rForm.value.phone,rForm.value.rnd)">{{seekBtnTitle}}</a>
         <div class="msg">
-          <span class="text-error" *ngIf="!rForm.controls.code?.valid">验证码错误</span>
+          <span class="text-error" *ngIf="!code?.valid">验证码错误</span>
           <span class="text-error" *ngIf="errorPhoneCode">{{errorPhoneCode}}</span>
         </div>
       </div>
-      <div class="register-input" [class.error]="!rForm.controls.pwd?.valid && !rForm.controls.pwd?.pristine">
-        <input type="password" minlength="6" maxlength="16" ngControl="pwd" required placeholder="请设置您的密码(6-16位长度)">
+      <div class="register-input" [class.error]="!pwd?.valid && !pwd?.pristine">
+        <input type="password" minlength="6" maxlength="16" #pwd="ngModel" [(ngModel)]="user.pwd" name="pwd" required placeholder="请设置您的密码(6-16位长度)">
         <div class="msg">
-          <span class="text-error" *ngIf="!rForm.controls.pwd?.valid">请输入正确的密码</span>
+          <span class="text-error" *ngIf="!pwd?.valid">请输入正确的密码</span>
         </div>
       </div>
       <div class="msg mb20">

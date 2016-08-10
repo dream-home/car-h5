@@ -30,7 +30,6 @@ export class BusinessAddComponent implements OnInit {
   employeeList: Array<EmployeeListItem>;
   customer: Customer = {id:null};
   employeeChecked: boolean = true;
-  employeeInput: string = '';
   business: BusinessDetail;
   subscription: Subscription;
   anchor:string;
@@ -118,7 +117,7 @@ export class BusinessAddComponent implements OnInit {
     data.shopId = Cookie.load('shopId');
     if (data.employeeId === 'other') {
       // payload: models.BusinessDetail
-      this.eApi.employeeSavePost(this.business.employeeInput, '', '').subscribe(res => {
+      this.eApi.employeeSavePost(this.business.employeeName, this.business.employeeCode, '').subscribe(res => {
         this.loading = 0;
         if (res.meta.code === 200) {
           data.employeeId = res.data.id;

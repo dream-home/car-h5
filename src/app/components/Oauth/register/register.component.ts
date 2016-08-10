@@ -130,12 +130,7 @@ export class RegisterComponent {
   //注册
   onRegister() {
     this.loading = 1;
-    if (!this.rForm.valid) {
-      alert('你输入的信息有误.不能完成注册');
-      this.loading = 0;
-      return false;
-    }
-    let params = this.rForm.value;
+    let params = this.user;
     //mobile: string, password: string, code: string, captcha: string
     this.uApi.userRegisterPost(params.phone, Md5.hashStr(params.pwd, false).toString(), params.code, params.rnd)
       .subscribe((data) => {

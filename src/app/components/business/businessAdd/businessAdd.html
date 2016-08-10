@@ -46,9 +46,12 @@
             </div>
           </div>
           <div class="g-field" *ngIf="business.employeeId=='other'">
-            <label for="store_name" class="g-label"></label>
+            <label for="store_name" class="g-label">
+              <span class="warning">*</span>至少填一项
+            </label>
             <div class="g-ipt">
-              <input type="text" placeholder="请输入技师编号或姓名" name="employeeInput" [(ngModel)]="business.employeeInput" #employeeInput="ngModel" class="g-wml">
+              <input type="text" placeholder="请输入技师姓名" maxlength="50" name="employeeName" [(ngModel)]="business.employeeName" #employeeName="ngModel" class="g-wml db">
+              <input type="text" placeholder="请输入技师编号" maxlength="50" name="employeeCode" [(ngModel)]="business.employeeCode" #employeeCode="ngModel" class="g-wml db">
             </div>
           </div>
           <div class="g-field">
