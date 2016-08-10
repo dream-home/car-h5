@@ -165,7 +165,7 @@
                         <div class="sv-q-t" [class.warning]="surveyQustions[6]?.hasErr  && surveyQustions[6]?.answer === ''">Q7. {{surveyQustions[6]?.title}}</div>
                         <div class="sv-q-c">
                             <label>
-                                <span>车牌号:</span><input type="text" class="sv-ipt" [ngModel]="surveyQustions[6]?.answer" (ngModelChange)="surveyQustions[6].answer = $event">
+                                <span>车牌号:</span><input type="text" class="sv-ipt" [attr.minlength]="surveyQustions[6]?.min" [attr.maxlength]="surveyQustions[6]?.max" [ngModel]="surveyQustions[6]?.answer" (ngModelChange)="surveyQustions[6].answer = $event">
                             </label>
 
                         </div>
@@ -183,7 +183,7 @@
                         <div class="sv-q-t" [class.warning]="surveyQustions[7]?.hasErr  && surveyQustions[7]?.answer === ''">Q8. {{surveyQustions[7]?.title}}</div>
                         <div class="sv-q-c">
                             <label>
-                                <span>手机号:</span><input type="tel" class="sv-ipt" [ngModel]="surveyQustions[7]?.answer" (ngModelChange)="surveyQustions[7].answer = $event">
+                                <span>手机号:</span><input type="tel" class="sv-ipt" [attr.minlength]="surveyQustions[7]?.min" [attr.maxlength]="surveyQustions[7]?.max" [ngModel]="surveyQustions[7]?.answer" (ngModelChange)="surveyQustions[7].answer = $event">
                             </label>
                         </div>
                     </div>
@@ -195,7 +195,7 @@
                         <div class="sv-q-t" [class.warning]="surveyQustions[8]?.hasErr  && surveyQustions[8]?.answer === ''">Q9. {{surveyQustions[8]?.title}}</div>
                         <div class="sv-q-c">
                             <label>
-                                <span>车品牌:</span><input type="text" class="sv-ipt" [ngModel]="surveyQustions[8]?.answer" (ngModelChange)="surveyQustions[8].answer = $event">
+                                <span>车品牌:</span><input type="text" class="sv-ipt" [attr.minlength]="surveyQustions[8]?.min" [attr.maxlength]="surveyQustions[8]?.max" [ngModel]="surveyQustions[8]?.answer" (ngModelChange)="surveyQustions[8].answer = $event">
                             </label>
 
                         </div>
@@ -209,7 +209,7 @@
                         <div class="sv-q-c">
                             <label>
                                 <span>汽车型号:</span>
-                                <input type="text" class="sv-ipt" [ngModel]="surveyQustions[9]?.answer" (ngModelChange)="surveyQustions[9].answer = $event">
+                                <input type="text" class="sv-ipt" [attr.minlength]="surveyQustions[9]?.min" [attr.maxlength]="surveyQustions[9]?.max" [ngModel]="surveyQustions[9]?.answer" (ngModelChange)="surveyQustions[9].answer = $event">
                             </label>
 
                         </div>

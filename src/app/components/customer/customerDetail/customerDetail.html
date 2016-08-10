@@ -71,7 +71,10 @@
               <td>{{hs.name || '-'}}</td>
               <td>{{hs.employee || '-'}}</td>
               <td>{{hs.description || '-'}}</td>
-              <td class="cd-r-satisfaction"><a  (click)="onShowCommentWin(hs)">点击邀请顾客做服务评价</a></td>
+              <td class="cd-r-satisfaction">
+                  <a *ngIf="hs.score === null" (click)="onShowCommentWin(hs)">点击邀请顾客做服务评价</a>
+                  <span *ngIf="hs.score !== null" ><i>{{ hs.score }}</i></span>
+              </td>
             </tr>
             <tr>
               <td></td>

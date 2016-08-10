@@ -122,7 +122,7 @@ export class CustomerDetailComponent {
 	}
 
 	// 通过手机号发送
-	onSend() {
+	sendMobile() {
 		let mobile = this.customer.mobile || this.tempMobile;
 		mobile = mobile.trim();
 		if (mobile === '' || !(/^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/.test(mobile)) ) {
@@ -149,11 +149,16 @@ export class CustomerDetailComponent {
 
 	}
 
+	onSend() {
+		if (this.hasSend) return false;
+		this.sendMobile();
+	}
+
 	// 重新通过手机号发送
 	onResend() {
 		if (!this.hasSend) return false;
 		// 成功
-		this.onSend();
+		this.sendMobile();
 	}
 
 	// 评价弹出层电话输入框获取焦点
