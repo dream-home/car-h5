@@ -37,9 +37,8 @@ export class GuideComponent {
 	ngOnInit() {
 		this.sub = this.route.params.subscribe(params => {
       this.locale = this.router.url;
-			console.log(window.localStorage.getItem('olds'))
-			if(window.localStorage.getItem('olds')!=='true'){
-				this.router.navigate(['/dashbroad/business-list']);
+			if(!window.localStorage.getItem('olds')){
+				this.init();
 			}else{
 				this.next = 0;
 				localStorage.removeItem("next");
