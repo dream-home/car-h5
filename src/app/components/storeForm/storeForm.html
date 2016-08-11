@@ -162,11 +162,11 @@
               {{defaultPhone}}
             </div>
             <div class="register-input" [class.error]="!rnd?.valid && !rnd?.pristine">
-              <input type="" class="w140 dib" #rnd="ngModel" [(ngModel)]="user.rnd" maxlength="4" name="rnd" required placeholder="请输入右侧校验码">
+              <input type="" class="w180 dib" #rnd="ngModel" [(ngModel)]="user.rnd" maxlength="4" name="rnd" required placeholder="请输入右侧图形校验码">
               <img [src]="img" class="dib link ml10" alt="验证码" (click)="onChangeCode()">
               <a class="dib link ml10" (click)="onChangeCode()">换一张</a>
               <div class="msg">
-                <span class="text-error" *ngIf="!rnd?.valid">请输入右侧校验码</span>
+                <span class="text-error" *ngIf="!rnd?.valid">请输入右侧图形校验码</span>
               </div>
             </div>
             <div class="register-input w300" [class.error]="!code?.valid && !code?.pristine">

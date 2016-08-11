@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="login-min-input" [class.error]="!rnd?.valid && rnd?.dirty">
-          <input type="text" class="w140 dib" [(ngModel)]="user.rnd" name="rnd" #rnd="ngModel" required placeholder="验证码"  >
+          <input type="text" class="w180 dib" [(ngModel)]="user.rnd" name="rnd" #rnd="ngModel" required placeholder="验证码"  >
           <img [src]="img" (click)="onChangeCodeImg()" class="dib link ml10" alt="验证码">
           <a class="dib link ml10" (click)="onChangeCodeImg()">换一张</a>
           <div class="msg">
