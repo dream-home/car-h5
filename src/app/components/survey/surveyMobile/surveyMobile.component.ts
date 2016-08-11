@@ -78,12 +78,10 @@ export class SurveyMobileComponent {
                 this.profile = dd.profile;
                 // 取得问卷
                 this.survey = JSON.parse(dd.survey);
-                console.log(this.survey);
                 // 取得问卷的问题
                 this.surveyQustions = this.survey.pages && this.survey.pages.length ? this.survey.pages[0].questions : [];
                 // 格式化问卷问题
                 this.surveyQustions = this.formatSurveyQestions(_.cloneDeep(this.surveyQustions));
-                console.log('surveyQustions', this.surveyQustions);
                 // 处理问卷基本信息
                 if (this.profile) {
                     this.profileHandle();
@@ -146,7 +144,6 @@ export class SurveyMobileComponent {
             }
 
         }
-        console.log(qs);
         return qs;
     }
     formatScoreQuestion(q) {
@@ -161,7 +158,6 @@ export class SurveyMobileComponent {
 
     // 处理问卷基本信息
     profileHandle() {
-        console.log('profile.....')
         const profile = this.profile;
         let questions = this.surveyQustions;
         // 性别
@@ -223,7 +219,6 @@ export class SurveyMobileComponent {
                 }
             }
         }
-        console.log(this.surveyQustions);
     }
 
     // 处理多项评分题
@@ -261,9 +256,7 @@ export class SurveyMobileComponent {
     }
 
     onSave() {
-       
-       
-        
+
         this.surveySubmitObj.isComplete = true;
         this.surveySubmitObj.sampleId = this.surveySubmitObj.sampleId || null;
         this.sApi.surveyUrlSubmitPost(this.url, this.surveySubmitObj).subscribe(data => {
@@ -311,7 +304,6 @@ export class SurveyMobileComponent {
                     // 验证第十一题
                     valid = this.questionGroupValid([10], 7);
                     break;
-                
                 default:
                     console.log(page);
             }
@@ -322,7 +314,6 @@ export class SurveyMobileComponent {
             // 验证第十二题
             valid = this.questionGroupValid([11], 8);
             if (valid) {
-                console.log(this.surveySubmitObj);
                 this.onSave();
             }
         }
@@ -340,8 +331,6 @@ export class SurveyMobileComponent {
                 q.hasErr = true;
                 q.errMsg = '该问题没有回答完整，请继续作答';
                 this.mScroll('p-thzs-q-' + (page - 1) );
-                console.log('top:', jQuery('#p-thzs-q-1').position());
-                console.log(jQuery('#thzs-q-1').position());
                 return false;
             } else {
                 tempArr.push(q.answer[i]);
@@ -354,7 +343,6 @@ export class SurveyMobileComponent {
     questionValid (q, idx, page) {
         if ( q.type === 'stext' && !this.stextBlur(q, idx) ) {
             let position = jQuery('#thzs-q-' + (idx + 1)).position();
-            console.log('position:', position);
             this.mScroll('p-thzs-q-' + page, position.top );
             return false;
         }
@@ -363,7 +351,6 @@ export class SurveyMobileComponent {
             // alert(`第${idx + 1}题还未回答`);
             q.hasErr = true;
             q.errMsg = '请您回答该题';
-            console.log('p-thzs-q-' + page);
             this.mScroll('p-thzs-q-' + page, 0 );
             return false;
         }
@@ -390,14 +377,12 @@ export class SurveyMobileComponent {
 
     //滚动到指定位置
     mScroll(id, top = 0) {
-        
         jQuery('#' + id).animate({
             scrollTop: top
         }, 1000);
     }
     
     stextBlur(q, i) {
-        console.log('blur', i);
         if (q.answer === '') {
             q.hasErr = true;
             q.errMsg = '请您回答该题';
@@ -421,7 +406,6 @@ export class SurveyMobileComponent {
     }
 
     stextFocus(q) {
-        console.log('focus');
         q.hasErr = false;
         q.errMsg = '';
     }
