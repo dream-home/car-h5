@@ -30,13 +30,13 @@ export class SurveyPcComponent {
     showSurvey: number = 1;
     profile: any;
     constructor( private router: Router, private route: ActivatedRoute, private sApi: SurveyApi, private el: ElementRef ) {
-        console.log('el: ', el.nativeElement);
-        console.log($(this.el.nativeElement));
+        // console.log('el: ', el.nativeElement);
+        // console.log($(this.el.nativeElement));
         //console.log($(el.nativeElement));
     }
     ngAfterViewInit() {
-        console.log($(this.el.nativeElement));
-        $('body').addClass('survey');
+        // console.log($(this.el.nativeElement));
+        // $('body').addClass('survey');
     }
     ngOnInit() {
         // 获取 url
@@ -50,7 +50,7 @@ export class SurveyPcComponent {
                 this.showSurvey = 3;
             }
         });
-        
+
     }
 
     ngOnDestroy() {
@@ -86,7 +86,7 @@ export class SurveyPcComponent {
                     this.profileHandle();
                 }
                 this.showSurvey = 1;
-                
+
             }
 
         }, err => console.error(err));
@@ -132,7 +132,7 @@ export class SurveyPcComponent {
                         q.max = 11;
                         break;
                     case 8:
-                        // 车品牌 
+                        // 车品牌
                         q.subtype = 'car-brand';
                         q.min = 0;
                         q.max = 50;
@@ -192,15 +192,15 @@ export class SurveyPcComponent {
         if ( profile.vehicleLicence !== null) {
             questions[6].answer = profile.vehicleLicence;
         }
-        // 手机号 
+        // 手机号
         if ( profile.mobile !== null) {
             questions[7].answer = profile.mobile;
         }
-        // 车品牌 
+        // 车品牌
         if ( profile.vehicleBrand !== null) {
             questions[8].answer = profile.vehicleBrand;
         }
-        // 车型号 
+        // 车型号
         if ( profile.vehicleModel !== null) {
             questions[9].answer = profile.vehicleModel;
         }
@@ -236,25 +236,25 @@ export class SurveyPcComponent {
         q.hasErr = false;
         subq.answer = ans.id;
         subq.tempPoint = ans.point === 99 ? 0 : ans.point;
-        console.log('thzs-q-2', $('#thzs-q-2').offset());
+        // console.log('thzs-q-2', $('#thzs-q-2').offset());
         q.answer[subidx] = {
             questionId: subq.id,
             type: subq.type,
             answers: [ans.id]
         };
- 
+
     }
     // 处理评分题
     onScore(q, ans) {
         q.answer = ans.id;
         q.tempPoint = ans.point === 99 ? 0 : ans.point;
         q.hasErr = false;
-        
+
     }
     // 处理性别题
     onSex(q, ans) {
         q.answer = ans.id;
-        
+
     }
 
     onSave() {
@@ -277,7 +277,7 @@ export class SurveyPcComponent {
                         } else {
                             this.surveySubmitObj.answers.push(q.answer[i]);
                         }
-                        
+
                     }
                     break;
                 case 'stext':
@@ -291,7 +291,7 @@ export class SurveyPcComponent {
                         this.mScroll('thzs-q-' + idx);
                         return false;
                     }
-                
+
                 default:
                     if (q.answer === '') {
                         q.hasErr = true;
@@ -300,13 +300,13 @@ export class SurveyPcComponent {
                         // alert(`第${idx + 1}题还未回答`);
                         return false;
                     }
-                    
+
                     this.surveySubmitObj.answers.push({
                         questionId: q.id,
                         type: q.type,
                         answers: [q.answer]
                     });
-                        
+
             }
         }
         console.log(this.surveySubmitObj);
@@ -321,7 +321,7 @@ export class SurveyPcComponent {
 
         }, err => console.error(err));
     }
-    
+
     stextBlur(q, i) {
         if (q.answer === '') {
             q.hasErr = true;
@@ -349,13 +349,13 @@ export class SurveyPcComponent {
         q.hasErr = false;
         q.errMsg = '';
     }
-    
+
     //滚动到指定元素
     mScroll(id) {
-        $('body').animate({
-            scrollTop: $('#' + id).offset().top)
-        }, 1000);
+        // $('body').animate({
+        //     scrollTop: $('#' + id).offset().top)
+        // }, 1000);
     }
-    
+
 
 }

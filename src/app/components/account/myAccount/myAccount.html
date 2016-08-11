@@ -9,7 +9,7 @@
   </div>
   <div class="s-tr" *ngFor="let shop of accountBaseInfo.shops; let fir = first;">
     <div class="s-td"><span *ngIf="fir">门店资料:</span></div>
-    <div class="s-td"> <div class="sub-text">
+    <div class="s-td"> <div class="sub-text" [attr.title]="shop.name">
       {{shop.name}}
     </div> <a [routerLink]="['../modify-store',{id: shop.id}]" routerLinkActive="active">修改</a><a *ngIf="fir" routerLink="../add-store" routerLinkActive="active" class="g-addico"><i></i><span>添加</span></a></div>
   </div>

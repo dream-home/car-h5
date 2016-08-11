@@ -10,6 +10,7 @@
   position: relative;
   .last,.next{
     color: #343434;
+    display: inline-block;
   }
 }
 .datepicker-tip{
@@ -29,9 +30,9 @@
     border-right: 4px dashed transparent;
   }
 }
-table tbody td, table tbody th {
+table tbody td.ellipsis, table tbody th.ellipsis {
     text-overflow: ellipsis;
-    max-width: 50px;
+    max-width: 80px;
     white-space: nowrap;
     overflow: hidden;
 }

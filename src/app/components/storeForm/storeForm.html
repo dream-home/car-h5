@@ -1,18 +1,21 @@
 <!-- 门店表单 -->
 <form (ngSubmit)="onResigerShop()" #f="ngForm">
-  <div class="" *ngFor="let shop of shopList,let i = index;" >
+  <div class="" *ngFor="let shop of shopList,let i = index;">
     <!-- 门店表单字段 -->
-    <div class="c-form c-modify-store" >
+    <div class="c-form c-modify-store">
       <h5>
         <span class="title-underline">基础信息</span>
       </h5>
       <div class="g-field">
         <label for="store_name" class="g-label">
           <span class="warning">*</span>门店名称</label>
-        <div class="g-ipt">
+        <div class="g-ipt" [class.error]="!name?.valid && !name?.pristine">
           <input type="text" required name="name" maxlength="200" [(ngModel)]="shop.name" #name="ngModel" class="g-wl">
-          <!--<a *ngIf="!!id" class="g-addico"><i></i><span>新增门店</span></a>-->
-          <a href="javascript:void(0);" class="add-store" (click)="onAddShop(i,shop)" *ngIf="!id" >新增门店</a>
+          <a *ngIf="!!id" class="g-addico" (click)="onAddShop(i,shop)">
+            <i></i>
+            <span>新增门店</span>
+          </a>
+          <!-- <a href="javascript:void(0);" class="add-store" (click)="onAddShop(i,shop)" *ngIf="!id" >新增门店</a> -->
         </div>
         <div class="msg">
           <span class="text-error" *ngIf="!name.valid && !name.pristine">
@@ -32,11 +35,13 @@
             <option value="undefined">请选择城市</option>
             <option [value]="clist.id" *ngFor="let clist of shop.cityList">{{clist.name}}</option>
           </select>
+          <span>必填项</span>
         </div>
       </div>
       <div class="g-field">
         <label for="store_name" required class="g-label" maxlength="200" placeholder="详细地址"></label>
         <input type="text" name="address" [(ngModel)]="shop.address" #address="ngModel" class="g-wml">
+        <span>与周边门店的服务数据进行对比</span>
         <div class="msg">
           <span class="text-error" *ngIf="!provinceId.valid && !provinceId.pristine">
             <span class="warning" *ngIf="provinceId.errors?.required">省市不能为空</span>
@@ -53,9 +58,10 @@
       <div class="g-field fs14">
         <label for="store_server" class="g-label">
           <span class="warning">*</span>服务类型</label>
-        <div class="g-ipt g-wml g-checkbox-group" >
-            <md-checkbox *ngFor="let sl of shop.sList, let j = index" [checked]="sl.checked" (change)="sl.checked = $event.checked">{{sl.name}}</md-checkbox>
+        <div class="g-ipt g-wml g-checkbox-group">
+          <md-checkbox *ngFor="let sl of shop.sList, let j = index" [checked]="sl.checked" (change)="sl.checked = $event.checked">{{sl.name}}</md-checkbox>
         </div>
+        <span>与相同类型门店的服务数据进行对比</span>
       </div>
       <div class="g-field fs14">
         <label class="g-label"></label>
@@ -65,50 +71,64 @@
       </div>
       <h5>
         <span class="title-underline">详细信息</span>
-        <i class="arrow-up"></i>
+        <i class="arrow-up" (click)="onToggleDetail()" [class.down]="!showDetail"></i>
       </h5>
-      <div class="g-field">
-        <label for="store_director" class="g-label">负责人</label>
-        <div class="g-ipt">
-          <input type="text" id="store_director" maxlength="50" name="ownerName" [(ngModel)]="shop.ownerName" class="g-wm">
+      <div *ngIf="showDetail">
+        <div class="g-field">
+          <label for="store_director" class="g-label">负责人</label>
+          <div class="g-ipt" [class.error]="!ownerName?.valid && !ownerName?.pristine">
+            <input type="text" maxlength="50" name="ownerName" #ownerName="ngModel" [(ngModel)]="shop.ownerName" class="g-wm fl">
+            <span style="margin-left:20px;max-width: 200px;word-break: break-all;display: inline-block;">您提供的门店信息越是完整,平台将更精确的匹配与您相同规模门店,进行服务数据进行对比</span>
+          </div>
+          <div class="msg">
+            <span class="text-error" *ngIf="!ownerName.valid && !ownerName.pristine">
+              <span class="warning" *ngIf="ownerName.errors?.maxlength">门店名称不能为空</span>
+            </span>
+          </div>
         </div>
-      </div>
-      <div class="g-field">
-        <label for="store_tel" class="g-label">联系方式</label>
-        <div class="g-ipt">
-          <input type="text" id="store_tel" #phone="ngModel" name="phone" [(ngModel)]="shop.phone" pattern="^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$" class="g-wm">
+        <div class="g-field">
+          <label for="store_tel" class="g-label">联系方式</label>
+          <div class="g-ipt" [class.error]="!phone?.valid && !phone?.pristine">
+            <input type="text" id="store_tel" #phone="ngModel" name="phone" #phone="ngModel" [(ngModel)]="shop.phone" pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$" class="g-wm">
+          </div>
+          <div class="msg">
+            <span class="text-error" *ngIf="!phone.valid && !phone.pristine">
+              <span class="warning" *ngIf="phone.errors?.pattern">请输入正确的联系方式</span>
+            </span>
+          </div>
         </div>
-        <div class="msg">
-          <span class="text-error" *ngIf="!phone.valid && !phone.pristine">
-            <span class="warning" *ngIf="phone.errors?.pattern">请输入正确的联系方式</span>
-          </span>
+        <div class="g-field">
+          <label for="store_year" class="g-label">开店年份</label>
+          <div class="g-sel">
+            <select id="store_year" name="openingDate" [(ngModel)]="shop.openingDate" class="g-wm">
+              <option value="undefined">请选择开店年份</option>
+              <option [value]="y" *ngFor="let y of YEARS_16">{{y}}</option>
+              <option value="1999">1999年以前</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="g-field">
-        <label for="store_year" class="g-label">开店年份</label>
-        <div class="g-sel">
-          <select id="store_year" name="openingDate" [(ngModel)]="shop.openingDate" class="g-wm">
-            <option value="undefined">请选择开店年份</option>
-            <option [value]="y" *ngFor="let y of YEARS_16">{{y}}</option>
-            <option value="1999">1999年以前</option>
-          </select>
+        <div class="g-field">
+          <label for="store_area" class="g-label">门店面积</label>
+          <div class="g-ipt" [class.error]="!area?.valid && !area?.pristine">
+            <input type="text" maxlength="4"  name="area" #area="ngModel" [(ngModel)]="shop.area" pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$" class="g-wm">
+            <span class="g-unit">m<i>2</i>
+            </span>
+          </div>
+          <div class="msg">
+            <span class="text-error" *ngIf="!area.valid && !area.pristine">
+              <span class="warning" *ngIf="area.errors?.maxlength">门店面积不能为空</span>
+              <span class="warning" *ngIf="area.errors?.pattern">门店面积区间1~9999<span class="g-unit">m<i>2</i></span></span>
+            </span>
+          </div>
         </div>
-      </div>
-      <div class="g-field">
-        <label for="store_area" class="g-label">门店面积</label>
-        <div class="g-ipt">
-          <input type="number" id="store_area" maxlength="4" name="area" [(ngModel)]="shop.area" class="g-wm">
-          <span class="g-unit">m<i>2</i>
-          </span>
-        </div>
-      </div>
-      <div class="g-field">
-        <label for="store_park" class="g-label">汽修工位</label>
-        <div class="g-sel">
-          <select id="store_park" class="g-wm" name="station" [(ngModel)]="shop.station">
-            <option value="undefined">请选择汽修工位</option>
-            <option [value]="s" *ngFor="let s of STATION_10">{{s}}</option>
-          </select>
+        <div class="g-field">
+          <label for="store_park" class="g-label">汽修工位</label>
+          <div class="g-sel">
+            <select id="store_park" class="g-wm" name="station" [(ngModel)]="shop.station">
+              <option value="undefined">请选择汽修工位</option>
+              <option [value]="s" *ngFor="let s of STATION_30">{{s}}</option>
+            </select>
+          </div>
         </div>
       </div>
       <div class="g-field border-bottom-underline h36">
@@ -118,9 +138,53 @@
   </div>
   <!-- 门店表单字段 end -->
   <!-- 门店表单按钮  -->
-  <div class="sf-btns" >{{info(f)}}
+  <div class="sf-btns">
     <button class="g-btn g-btn-green" type="submit" [disabled]="!f.valid||loading">保存</button>
+    <button class="g-btn g-btn-gray" type="button" *ngIf="id" (click)="onExit()">取消</button>
+    <button class="g-btn g-btn-red" type="button" *ngIf="id" (click)="onOpenDelWin()">删除门店</button>
   </div>
   <!-- 门店表单按钮 end -->
 </form>
 <!-- 门店表单 end -->
+<!-- 删除弹出层 -->
+<div class="fwin del-win employee-del-win" [class.show]="showDelWin">
+  <div class="fwin-mask">
+    <div class="fwin-box">
+      <div class="fwin-close" (click)="onCancel()"></div>
+      <div class="fwin-content">
+        <div>
+          <h1 class="text-error">确定删除该门店?</h1>
+          <div>
+            该门店所有顾客,员工,服务等信息都将一并删除
+          </div>
+          <form #sForm="ngForm">
+            <div class="register-input text-default">
+              {{defaultPhone}}
+            </div>
+            <div class="register-input" [class.error]="!rnd?.valid && !rnd?.pristine">
+              <input type="" class="w140 dib" #rnd="ngModel" [(ngModel)]="user.rnd" maxlength="4" name="rnd" required placeholder="请输入右侧校验码">
+              <img [src]="img" class="dib link ml10" alt="验证码" (click)="onChangeCode()">
+              <a class="dib link ml10" (click)="onChangeCode()">换一张</a>
+              <div class="msg">
+                <span class="text-error" *ngIf="!rnd?.valid">请输入右侧校验码</span>
+              </div>
+            </div>
+            <div class="register-input w300" [class.error]="!code?.valid && !code?.pristine">
+              <input type="text" class="inner-group" #code="ngModel" [(ngModel)]="user.code" maxlength="10" name="code" required placeholder="请输入短信验证码">
+              <a class="inner-btn" [class.disabled]="seekDisabeld||!rnd?.valid" (click)="onSeekPhone(defaultPhone,user.rnd)">{{seekBtnTitle}}</a>
+              <div class="msg">
+                <span class="text-error" *ngIf="!code?.valid">验证码错误</span>
+                <span class="text-error" *ngIf="errorPhoneCode">{{errorPhoneCode}}</span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="fwin-btns g-btns">
+        <div class="g-btn g-btn-green" (click)="onDel()">删除</div>
+        <div class="g-btn g-btn-gray" (click)="onCancel()">取消</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 删除弹出层 end -->

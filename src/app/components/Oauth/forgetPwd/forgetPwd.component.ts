@@ -81,7 +81,7 @@ export class ForgetPwdComponent {
         this.seekBtnTitle = '重新发送';
         this.seekDisabeld = 0;
       } else {
-        this.seekBtnTitle = '发送验证码';
+        // this.seekBtnTitle = '发送验证码';
         //倒计时
         this.timeout = window.setInterval(() => {
           this.zone.run(() => {
@@ -149,7 +149,6 @@ export class ForgetPwdComponent {
         if (data.meta.code === 200) {
           alert('密码修改成功');
           this.router.navigate(['/login-min']);
-          // this.next = 1;
         } else {
           this.next = 1;
           this.errorWin(data.error.message);

@@ -34,6 +34,7 @@ export class RegisterComponent {
   errorPhoneCode: string;
   errorMsg: string;
   loading: number = 0;
+  openErrorProtocol:boolean = false;
 
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi) {
     this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
@@ -76,6 +77,15 @@ export class RegisterComponent {
     this.openProtocol = 0;
   }
 
+  errorWin(message) {
+    this.openErrorProtocol = true;
+    this.errorPhoneCode = message === '短信验证码超时，导致userId不存在' ? '你离开的时间过长,请重新操作' : message;
+  }
+
+  onErrorClose(){
+    this.openErrorProtocol = false;
+  }
+
   /**
    * 点击发送验证码
    * @param  {[type]} phone 手机号码
@@ -83,6 +93,7 @@ export class RegisterComponent {
    * @return {[type]}       [description]
    */
   onSeekPhone(phone, rnd) {
+    this.errorMsg = null;
     if (this.seekDisabeld) {
       return;
     }
@@ -96,11 +107,13 @@ export class RegisterComponent {
     this.seekTime = 59;
     this.getPhoneCode(phone, rnd).subscribe(data => {
       if (data.meta.code !== 200) {
+        this.errorWin(data.error.message);
         this.errorPhoneCode = data.error.message;
+        this.errorMsg = data.error.message;
         this.seekBtnTitle = '重新发送';
         this.seekDisabeld = 0;
       } else {
-        this.seekBtnTitle = '发送验证码';
+        // this.seekBtnTitle = '发送验证码';
         //倒计时
         this.timeout = window.setInterval(() => {
           this.zone.run(() => {
@@ -139,16 +152,16 @@ export class RegisterComponent {
         this.loading = 0;
         if (data.meta.code == 200) {
           Cookie.save('token', data.data.User.token, 7);
-          // this.router.navigate(['/login-min']);
           this.sApi.shopMyshopGet(data.data.User.token).subscribe(data => {
             if (data.meta.code === 200) {
               if (data.data.length > 0) {
-                this.router.navigate(['/dashbroad/employee-list']);
+                this.router.navigate(['/dashbroad/business-list']);
               } else {
                 this.router.navigate(['/init-store']);
               }
             } else {
               alert(data.error.message);
+
             }
           });
         } else {

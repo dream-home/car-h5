@@ -8,10 +8,11 @@ import { Observable } from 'rxjs/Observable';
 import { Md5 } from 'ts-md5/dist/md5';
 import * as _ from 'lodash';
 
-import { CommonApi, ShopApi, RegionApi, RegionItem, Shop } from 'client';
+import { CommonApi, ShopApi, RegionApi, RegionItem, Shop,MyAcountResponse,UserApi } from 'client';
+import { MissionService } from 'services';
 
 const YEARS_16 = [2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000];
-const STATION_10 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const STATION_30 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
 const SERVICE_LIST = [{ "id": 1, "name": "快修快保" }, { "id": 2, "name": "美容改装" }, { "id": 3, "name": "轮胎专项" }, { "id": 4, "name": "综合维修" }, { "id": 5, "name": "其他" }];
 
 @Component({
@@ -19,7 +20,7 @@ const SERVICE_LIST = [{ "id": 1, "name": "快修快保" }, { "id": 2, "name": "�
   template: require('./storeForm.html'),
   styles: [require('./storeForm.scss')],
   directives: [ROUTER_DIRECTIVES, MdCheckbox],
-  providers: [HTTP_PROVIDERS, CommonApi, ShopApi, RegionApi, Md5]
+  providers: [HTTP_PROVIDERS, CommonApi, ShopApi, RegionApi, Md5,UserApi]
 })
 
 export class StoreFormComponent {
@@ -27,7 +28,7 @@ export class StoreFormComponent {
   cityList: Array<RegionItem>;
   // countyList: Array<RegionItem>;
   sList: any;
-  STATION_10: any;
+  STATION_30: any;
   YEARS_16: any;
   SERVICE_LIST: any;
   loading: number = 0;
@@ -36,12 +37,28 @@ export class StoreFormComponent {
   id: number;
   shopList: any;
   oldShopList: string = '';
+  showDelWin:boolean = false;
+  user:any ={};
+  defaultPhone:string;
+
+  seekDisabeld: number = 0;
+  seekTime: number = 0;
+  seekBtnTitle: any = '发送验证码';
+  openProtocol: number = 0;
+  img: any;
+  timeout: any;
+  sign: string;
+  errorPhoneCode: string;
+  errorMsg: string;
+  zone: any;
+  showDetail:boolean = true;
 
   // @Input('store') shopList:Array<Shop>;
   @Output() success = new EventEmitter();
 
-  constructor(private router: Router, private route: ActivatedRoute, private cApi: CommonApi, private sApi: ShopApi, private rApi: RegionApi) {
+  constructor(private router: Router, private route: ActivatedRoute, private cApi: CommonApi, private sApi: ShopApi, private rApi: RegionApi, private uApi: UserApi,private missionService: MissionService) {
     this.shopList = [{index:1, sList: _.cloneDeep(SERVICE_LIST) }];
+    this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
   }
 
   info(f){
@@ -59,9 +76,91 @@ export class StoreFormComponent {
     });
     // this.getServiceType();
     this.getProvince();
-    this.STATION_10 = STATION_10;
+    this.STATION_30 = STATION_30;
     this.YEARS_16 = YEARS_16;
     this.SERVICE_LIST = SERVICE_LIST;
+    this.getMe();
+    this.getCodeImg();
+  }
+
+  onToggleDetail(){
+    this.showDetail = !this.showDetail;
+  }
+
+  getMe() {
+    this.uApi.userMeGet().subscribe((data: MyAcountResponse) => {
+      this.defaultPhone = data.data.user.mobile;
+    })
+  }
+
+  ngOnDestroy() {
+    window.clearInterval(this.timeout);
+  }
+
+  /**
+   * 获取图片验证码
+   * @return {[type]} [description]
+   */
+  getCodeImg() {
+    this.cApi.commonCaptchaBase64Post().subscribe((data: Response) => {
+      this.img = 'data:image/jpeg;base64,' + (data.text() || '');
+      this.uApi.defaultHeaders.set('uuid', data.headers.get('uuid'));
+    });
+  }
+  onChangeCode() {
+    this.getCodeImg();
+  }
+
+  /**
+   * 点击发送验证码
+   * @param  {[type]} phone 手机号码
+   * @param  {[type]} rnd   图片验证码
+   * @return {[type]}       [description]
+   */
+  onSeekPhone(phone, rnd) {
+    if (this.seekDisabeld) {
+      return;
+    }
+    if (!phone) {
+      return;
+    }
+    if (!rnd) {
+      return;
+    }
+    this.seekDisabeld = 1;
+    this.seekTime = 59;
+    this.getPhoneCode(phone, rnd).subscribe(data => {
+      if (data.meta.code !== 200) {
+        this.errorPhoneCode = data.error.message;
+        this.seekBtnTitle = '重新发送';
+        this.seekDisabeld = 0;
+      } else {
+        this.seekBtnTitle = '发送验证码';
+        //倒计时
+        this.timeout = window.setInterval(() => {
+          this.zone.run(() => {
+            if (this.seekTime > 1) {
+              this.seekTime--;
+              this.seekBtnTitle = this.seekTime + 's';
+            } else {
+              this.seekBtnTitle = '重新发送';
+              this.seekDisabeld = 0;
+            }
+          });
+        }, 1000);
+      }
+    });
+  }
+  /**
+   * 请求手机验证码
+   * @param  {[type]} phone 手机号码
+   * @param  {[type]} rnd   图片验证码
+   * @return {[type]}       状态
+   */
+  getPhoneCode(phone: string = '', rnd: string = '') {
+    let salt = 'thzs0708';
+    this.sign = Md5.hashStr(phone + rnd + salt).toString();
+    return this.sApi.shopDeleteSmsPost(phone, rnd, this.sign);
   }
 
   getStoreList() {
@@ -88,7 +187,6 @@ export class StoreFormComponent {
   }
 
   hasChange() {
-    console.log("new:", this.shopList)
     let current = Md5.hashStr(JSON.stringify(this.shopList), false).toString();
     return current === this.oldShopList;
   }
@@ -147,6 +245,29 @@ export class StoreFormComponent {
     this.shopList.splice(index, 1);
   }
 
+  onOpenDelWin(){
+    this.showDelWin = true;
+  }
+
+  onExit(){
+    window.history.back();
+  }
+
+  onDel(){
+      this.sApi.shopDeleteDelete(String(this.id),this.user.code).subscribe(data => {
+        if (data.meta.code === 200) {
+          alert('删除成功');
+          this.onCancel();
+        }else{
+          alert(data.error.message);
+        }
+      })
+  }
+
+  onCancel(){
+    this.showDelWin = false;
+  }
+
   onChangeProvince(id, item) {
     item.provinceId = id;
     this.getCity(id, item);
@@ -194,6 +315,7 @@ export class StoreFormComponent {
         this.loading = 0;
         if (data.meta.code === 200) {
           this.success.next(data.data);
+          this.missionService.announceMission('update-store-list');
         } else {
           alert(data.error.message);
         }

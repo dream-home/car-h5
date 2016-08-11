@@ -118,12 +118,12 @@ export class BusinessAddComponent implements OnInit {
     if (data.employeeId === 'other') {
       // payload: models.BusinessDetail
       this.eApi.employeeSavePost(this.business.employeeName, this.business.employeeCode, '').subscribe(res => {
-        this.loading = 0;
         if (res.meta.code === 200) {
           data.employeeId = res.data.id;
           this.save(data);
         } else {
           alert(res.error.message);
+          this.loading = 0;
         }
       }, err => {
         this.loading = 0;
@@ -136,14 +136,14 @@ export class BusinessAddComponent implements OnInit {
   }
 
   save(data) {
-    // payload: models.BusinessDetail
-    this.bApi.businessSaveOrUpdatePost(data).subscribe(data => {
+    //payload: models.BusinessDetail
+    this.bApi.businessSaveOrUpdatePost(data).subscribe(res => {
       this.loading = 0;
-      if (data.meta.code === 200) {
-        this.router.navigate(['/dashbroad/customer-detail',{id:this.business.customerId}]);
+      if (res.meta.code === 200) {
+        this.router.navigate(['/dashbroad/customer-detail',{id:res.data.customerId}]);
         this.onClose();
       } else {
-        alert(data.error.message);
+        alert(res.error.message);
       }
     }, err => {
       this.loading = 0;
@@ -156,7 +156,7 @@ export class BusinessAddComponent implements OnInit {
   }
 
   onClose() {
-    // this.missionService.announceBusinessAdd(this.anchor);
+    this.missionService.announceBusinessAdd(this.anchor);
     this.businessShow = false;
   }
 }

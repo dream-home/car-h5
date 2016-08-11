@@ -63,6 +63,7 @@ ul {
 html {
   background-color: #f6f6f6;
   min-height: 100vh;
+  font-size: 14px;
 }
 .c-drop {
   position: relative;
@@ -269,6 +270,12 @@ html {
   background: #38b549;
   &:hover {
     background: #008f46;
+  }
+}
+.g-btn-red {
+  background: rgb(241,101,87);
+  &:hover {
+    background: rgba(241,101,87,.8);
   }
 }
 .g-ckb > div {
@@ -824,10 +831,12 @@ datepicker {
     .text-muted{
       color:#ccc;
     }
+    &.disabled{
+      color:#ccc;
+    }
   }
   .active {
     border: 0;
     border-bottom: 4px solid #38b549;
   }
 }
-

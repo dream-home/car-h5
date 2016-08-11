@@ -1,25 +1,25 @@
 <div class="forgetPwd">
   <main-logo></main-logo>
   <form (ngSubmit)="onCheckPhone()" #fpForm="ngForm"  *ngIf="next === null ? false : next===1">
-    <div class="forgetPwd-block animated rubberBand"  [class.flipOutY]="0">
+    <div class="forgetPwd-block">
       <h2 class="forgetPwd-title">找回密码<a routerLink="/register" routerLinkActive="active" class="forgetPwd-register-link fr">注册新账户</a>
       </h2>
-      <div class="forgetPwd-input " [class.error]="!phone?.valid && !phone?.pristine">
+      <div class="forgetPwd-input" [class.error]="!phone?.valid && !phone?.pristine">
         <input type="text" name="phone" #phone="ngModel" [(ngModel)]="fp.phone" required pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$"
           placeholder="请输入您的手机号码">
         <div class="msg">
           <span class="text-error" >
             <span *ngIf="phone?.errors?.required">手机号码不能为空</span>
-          <span *ngIf="phone?.errors?.pattern">请输入正确的手机号码</span>
+            <span *ngIf="phone?.errors?.pattern">请输入正确的手机号码</span>
           </span>
         </div>
       </div>
       <div class="forgetPwd-input" [class.error]="!rnd?.valid && !rnd?.pristine">
-        <input type="" class="w140 dib" maxlength="4" #rnd="ngModel" [(ngModel)]="fp.rnd" name="rnd" required placeholder="请输入右侧图形校验码">
+        <input type="" class="w140 dib" maxlength="4" #rnd="ngModel" [(ngModel)]="fp.rnd" name="rnd" required placeholder="请输入右侧校验码">
         <img [src]="img" class="dib link ml10" alt="验证码" (click)="onChangeCodeImg()">
         <a class="dib link ml10" (click)="onChangeCodeImg()">换一张</a>
         <div class="msg">
-          <span class="text-error" *ngIf="!rnd?.valid">请输入右侧图形校验码</span>
+          <span class="text-error" *ngIf="!rnd?.valid">请输入右侧校验码</span>
         </div>
       </div>
       <div class="forgetPwd-input" [class.error]="!code?.valid && !code?.pristine">
@@ -38,19 +38,23 @@
   <form (ngSubmit)="onEditPwd()" #newPwdForm="ngForm" *ngIf="next === null ? false : next===2">
     <div class="forgetPwd-block animated"  [class.zoomOutRight]="0">
       <h2 class="forgetPwd-title">设置新密码</h2>
-      <div class="forgetPwd-input" [class.error]="!newPwdForm.controls.pwd?.valid && !newPwdForm.controls.pwd?.pristine">
+      <div class="forgetPwd-input" [class.error]="!pwd?.valid && !pwd?.pristine">
         <input type="password" placeholder="请设置您的密码(6-16位长度)" #pwd="ngModel" [(ngModel)]="fp.pwd" name="pwd" minlength="6" maxlength="16" required>
         <div class="msg">
           <span class="text-error">
-            <span *ngIf="newPwdForm.controls.pwd?.errors?.required">密码不能为空</span>
+            <span *ngIf="pwd?.errors?.required">密码不能为空</span>
+            <span *ngIf="pwd?.errors?.minlength">密码长度不能小于6位</span>
+            <span *ngIf="pwd?.errors?.maxlength">密码长度不能大于16位<</span>
           </span>
         </div>
       </div>
-      <div class="forgetPwd-input" [class.error]="!newPwdForm.controls.checkPwd?.valid && !newPwdForm.controls.checkPwd?.pristine">
+      <div class="forgetPwd-input" [class.error]="!checkPwd?.valid && !checkPwd?.pristine||diff">
         <input type="password" placeholder="请确认您的密码(6-16位长度)" #checkPwd="ngModel" [(ngModel)]="fp.checkPwd" name="checkPwd" minlength="6" maxlength="16" required>
         <div class="msg">
           <span class="text-error" >
-            <span *ngIf="newPwdForm.controls.checkPwd?.errors?.required">密码不能为空</span>
+            <span *ngIf="checkPwd?.errors?.required">确认密码不能为空</span>
+            <span *ngIf="checkPwd?.errors?.minlength">确认密码长度不能小于6位</span>
+            <span *ngIf="checkPwd?.errors?.maxlength">确认密码长度不能大于16位</span>
           </span>
           <span class="text-error" *ngIf="diff">
             两次密码不一致
