@@ -11,7 +11,7 @@ import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
 
 import { UserApi, ShopApi, Shop, MyAcountResponse } from 'client';
-import { Cookie } from 'services';
+import { Cookie,MissionService } from 'services';
 
 @Component({
   moduleId: module.id,
@@ -28,8 +28,12 @@ export class NavbarComponent {
   shopId: number;
   list: Array<Shop>;
 
-  constructor(private router: Router, private uApi: UserApi, private sApi: ShopApi) {
-
+  constructor(private router: Router, private uApi: UserApi, private sApi: ShopApi,private missionService: MissionService) {
+    missionService.missionAnnounced$.subscribe((data) => {
+      if(data=='update-store-list'){
+        this.getList();
+      }
+    })
   }
 
   ngOnInit() {

@@ -265,7 +265,7 @@ export class BusinessApi {
      *
      * @param payload 服务项目(服务或者交易)
      */
-    public businessSaveOrUpdatePost (payload: models.BusinessDetail, extraHttpRequestParams?: any ) : Observable<models.CommonResponse> {
+    public businessSaveOrUpdatePost (payload: models.BusinessDetail, extraHttpRequestParams?: any ) : Observable<models.BusinessDetailResponse> {
         const path = this.basePath + '/business/saveOrUpdate';
 
         let queryParameters = new URLSearchParams();

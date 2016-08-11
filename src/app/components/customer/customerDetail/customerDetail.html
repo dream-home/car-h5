@@ -94,24 +94,21 @@
     <!-- 列表分页 end -->
   </div>
   <!-- 顾客详情 end -->
-
   <!-- 删除弹出层 -->
-  <div class="fwin del-win employee-del-win" style="display:none;">
+  <div class="fwin del-win employee-del-win" [class.show]="showDelWin">
     <div class="fwin-mask">
       <div class="fwin-box">
-        <div class="fwin-close"></div>
+        <div class="fwin-close" (click)="onCancel()"></div>
         <div class="fwin-content">
           <div>
-            <h1>确定删除该员工？</h1>
-            <div>
-              该员工及其信息将被删除，其历史服务记录<br> 不会被删除
-
+            <div class="text-error">
+              删除之后,该条服务记录不可恢复,是否删除?
             </div>
           </div>
         </div>
         <div class="fwin-btns g-btns">
-          <div class="g-btn g-btn-green">确认删除</div>
-          <div class="g-btn g-btn-gray">取消</div>
+          <div class="g-btn g-btn-green" (click)="onDel()">删除</div>
+          <div class="g-btn g-btn-gray" (click)="onCancel()">取消</div>
         </div>
       </div>
     </div>

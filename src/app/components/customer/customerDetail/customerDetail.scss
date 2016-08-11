@@ -46,7 +46,7 @@
 
 .evaluation-win .fwin-box { width:786px; height:354px; margin:-177px 0 0 -393px; }
 .evaluation-win .fwin-content { padding:0 28px; }
-.evaluation-win h1, 
+.evaluation-win h1,
 .evaluation-win h2 { line-height: 1; margin:0; font-weight:normal; color:#343434; }
 .evaluation-win h1 { font-size:20px; padding:26px 0 36px;   }
 .evaluation-win h2 { font-size:18px; padding:30px 0 16px;  }
@@ -58,9 +58,12 @@
 .evaluation-win .ev-methods > div .g-field input { margin:6px auto; display:block; width:100%; max-width:231px; }
 .evaluation-win .ev-methods p { margin:0; }
 .evaluation-win .g-btns { padding:0; margin:0; position:absolute; bottom:32px; right:96px;  }
-.evaluation-win .g-btns > a { margin-left:123px; } 
+.evaluation-win .g-btns > a { margin-left:123px; }
 .evaluation-win .g-btns .resend { font-size:14px; color:#38b549; cursor:pointer; text-decoration:underline; left:178px; top:11px; }
 .evaluation-win .g-btns .sendgray {color:#9a9a9a; }
 .evaluation-win .g-sms div { max-width:231px; margin:0 auto; text-align: left; }
 .evaluation-win .ev-methods > div .warning input { border-color:#f26e61; color:#f26e61; }
 .evaluation-win .mobiletxt { margin: 6px auto;  }
+.text-error{
+  color:#f16557;
+}

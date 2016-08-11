@@ -17,6 +17,8 @@
               <span class="text-error" *ngIf="!vehicleLicence.valid && !vehicleLicence.pristine">
                 <span class="warning" *ngIf="vehicleLicence.errors?.required">车牌号不能为空</span>
                 <span class="warning" *ngIf="vehicleLicence.errors?.pattern">请输入正确的车牌号</span>
+                <span class="warning" *ngIf="vehicleLicence.errors?.minlength">请输入正确的车牌号</span>
+                <span class="warning" *ngIf="vehicleLicence.errors?.maxlength">请输入正确的车牌号</span>
               </span>
             </div>
           </div>
@@ -39,7 +41,7 @@
             <div class="g-ipt">
               <select id="store_year" required name="employeeId" [(ngModel)]="business.employeeId" #employeeId="ngModel" class="g-wm">
                 <option value="null">请选择主理技师</option>
-                <option [value]="e.id" *ngFor="let e of employeeList">{{e.name}}</option>
+                <option [value]="e.id" *ngFor="let e of employeeList">{{e.name||e.code}}</option>
                 <option value="other">其他</option>
               </select>
               <md-checkbox *ngIf="business.employeeId=='other'" name="employeeChecked" [(ngModel)]="business.employeeChecked">我的员工</md-checkbox>

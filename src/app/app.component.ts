@@ -22,7 +22,7 @@ export class App {
   }
 
   ngOnInit() {
-    moment.locale('zh-ch');
+    moment.locale('zh-cn');
   }
 
 }

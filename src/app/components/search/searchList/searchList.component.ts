@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
 import {  CustomerApi, Customer } from 'client';
 import { MainLogoComponent, PageFooterComponent, NavbarComponent, MenusComponent, SearchBarComponent,PaginationComponent } from 'common';
-
+import { MissionService } from 'services';
 
 @Component({
 	moduleId: module.id,
@@ -26,7 +26,7 @@ export class SearchListComponent {
 	isSearch: Boolean = false;
 	sub: any;
 	page: any = {};
-	constructor(private cApi: CustomerApi, private route: ActivatedRoute, private router: Router) {
+	constructor(private cApi: CustomerApi, private route: ActivatedRoute, private router: Router,private missionService: MissionService) {
 
 	}
 
@@ -67,19 +67,20 @@ export class SearchListComponent {
 		console.log('customer search list....');
 		if ( !this.isSearch ) return;
 		this.cApi.customerSearchPhoneOrVehicleLicenceGet(this.searchStr).subscribe( data => {
-			
 			if (data.data) {
 				let dd = data.data;
 				if ( dd.customers.length === 1 ) {
 					this.router.navigate(['/dashbroad/customer-detail', { id: dd.customers[0].id }]);
 				} else {
 					this.customers = dd.customers;
+					this.onOpenba();
 				}
 				this.page.current = data.meta.current;
 				this.page.limit = data.meta.limit;
 				this.page.total = data.meta.total;
 			} else {
 				this.customers = [];
+				this.onOpenba();
 			}
 		}, err => {
 			console.error(err);
@@ -87,6 +88,8 @@ export class SearchListComponent {
 		});
 	}
 
-
+	onOpenba(){
+		this.missionService.confirmBusinessAdd({ selector: 'search-list' });
+	}
 
 }
