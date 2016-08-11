@@ -71,6 +71,7 @@ export class CustomerDetailComponent {
     this.getCustomerById(this.customerId);
   }
 
+
   getCustomerById(id) {
     this.cApi.customerHistoryCustomerIdGet(id).subscribe(data => {
       if (data.data) {
@@ -101,6 +102,7 @@ export class CustomerDetailComponent {
     customer.sex = gender === 0 ? '女' : gender === 1 ? '男' : '其它';
     return customer;
   }
+
 
   // 显示评价弹出层
   onShowCommentWin(record) {

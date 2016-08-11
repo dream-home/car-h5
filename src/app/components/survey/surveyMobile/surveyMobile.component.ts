@@ -4,6 +4,8 @@ import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 
 import { SurveyApi, SurveySubmitRequest } from 'client';
 import * as _ from 'lodash';
+declare var jQuery: JQueryStatic;
+
 @Component({
     moduleId: module.id,
     selector: 'survey-mobile',
@@ -96,6 +98,7 @@ export class SurveyMobileComponent {
             let q = qs[i];
             q.answer = '';
             q.hasErr = false;
+            q.errMsg = '';
             if ( q.type === 'score' && q.options.length > 0 ) {
                 q.tempPoint = -1;
                 this.formatScoreQuestion(q);
@@ -119,11 +122,14 @@ export class SurveyMobileComponent {
                 switch (i) {
                     case 6:
                         // 车牌号
+                        q.subtype = 'car-plate';
+                        q.disabled = true;
                         q.min = 7;
                         q.max = 9;
                         break;
                     case 7:
                         // 手机号
+                        q.subtype="mobile";
                         q.min = 0;
                         q.max = 11;
                         break;
@@ -140,6 +146,7 @@ export class SurveyMobileComponent {
             }
 
         }
+        console.log(qs);
         return qs;
     }
     formatScoreQuestion(q) {
@@ -225,7 +232,8 @@ export class SurveyMobileComponent {
         subq.hasErr = false;
         subq.answer = ans.id;
         subq.tempPoint = ans.point === 99 ? 0 : ans.point;
-        
+        q.hasErr = false;
+        q.errMsg = '';
         q.answer[subidx] = {
             questionId: subq.id,
             type: subq.type,
@@ -241,13 +249,15 @@ export class SurveyMobileComponent {
         q.answer = ans.id;
         q.tempPoint = ans.point === 99 ? 0 : ans.point;
         q.hasErr = false;
+        q.errMsg = '';
         
     }
     // 处理性别题
     onSex(q, ans) {
         let id = 'q_' + q.id;
         q.answer = ans.id;
-        
+        q.hasErr = false;
+        q.errMsg = '';
     }
 
     onSave() {
@@ -283,28 +293,25 @@ export class SurveyMobileComponent {
                 case 3:
                 case 4:
                     // 验证第一题 验证第二题 验证第三题
-                    valid = this.scoreMultiValid(this.surveyQustions[page - 2], page - 2);
+                    valid = this.scoreMultiValid(this.surveyQustions[page - 2], page - 2, page);
                     break;
                 case 5:
                     // 验证第四题
-                    valid = this.questionGroupValid([3]);
+                    valid = this.questionGroupValid([3], 4);
                     break;
                 case 6:
                     // 验证第五题 验证第六题 验证第七题
-                    valid = this.questionGroupValid([4, 5, 6]);
+                    valid = this.questionGroupValid([4, 5, 6], 5);
                     break;
                 case 7:
                     // 验证第八题 验证第九题 验证第十题
-                    valid = this.questionGroupValid([7, 8, 9]);
+                    valid = this.questionGroupValid([7, 8, 9], 6);
                     break;
                 case 8:
                     // 验证第十一题
-                    valid = this.questionGroupValid([10]);
+                    valid = this.questionGroupValid([10], 7);
                     break;
-                case 100:
-                    // 验证第十二题
-                    valid = this.questionGroupValid([11]);
-                    break;
+                
                 default:
                     console.log(page);
             }
@@ -313,7 +320,7 @@ export class SurveyMobileComponent {
             }
         } else {
             // 验证第十二题
-            valid = this.questionGroupValid([11]);
+            valid = this.questionGroupValid([11], 8);
             if (valid) {
                 console.log(this.surveySubmitObj);
                 this.onSave();
@@ -323,13 +330,18 @@ export class SurveyMobileComponent {
     }
 
     // 多项评分题验证
-    scoreMultiValid(q, idx) {
+    scoreMultiValid(q, idx, page) {
         let tempArr = [];
         for (let i = 0, len = q.answer.length; i < len; i++) {
             if ( q.answer[i] === undefined ) {
                 // 第 i 个子题没选
                 q.children[i].hasErr = true;
-                alert(`第${idx + 1}题的"${q.children[i].title}"还未评价`);
+                // alert(`第${idx + 1}题的"${q.children[i].title}"还未评价`);
+                q.hasErr = true;
+                q.errMsg = '该问题没有回答完整，请继续作答';
+                this.mScroll('p-thzs-q-' + (page - 1) );
+                console.log('top:', jQuery('#p-thzs-q-1').position());
+                console.log(jQuery('#thzs-q-1').position());
                 return false;
             } else {
                 tempArr.push(q.answer[i]);
@@ -339,45 +351,79 @@ export class SurveyMobileComponent {
         return true;
     }
     // 常规问题验证
-    questionValid (q, idx) {
-        if (q.answer === '') {
-            q.hasErr = true;
-            alert(`第${idx + 1}题还未回答`);
+    questionValid (q, idx, page) {
+        if ( q.type === 'stext' && !this.stextBlur(q, idx) ) {
+            let position = jQuery('#thzs-q-' + (idx + 1)).position();
+            console.log('position:', position);
+            this.mScroll('p-thzs-q-' + page, position.top );
             return false;
-        } else {
-            this.tempPageAnswers.push({
-                questionId: q.id,
-                type: q.type,
-                answers: [q.answer]
-            });
-            return true;
         }
+        if (q.answer === '') {
+            // q.hasErr = true;
+            // alert(`第${idx + 1}题还未回答`);
+            q.hasErr = true;
+            q.errMsg = '请您回答该题';
+            console.log('p-thzs-q-' + page);
+            this.mScroll('p-thzs-q-' + page, 0 );
+            return false;
+        }
+        this.tempPageAnswers.push({
+            questionId: q.id,
+            type: q.type,
+            answers: [q.answer]
+        });
+        return true;
     }
 
     // 每页问题组验证
-    questionGroupValid (idxArr) {
+    questionGroupValid (idxArr, page) {
         this.tempPageAnswers = [];
         for (const idx of idxArr) {
-            if (!this.questionValid(this.surveyQustions[idx], idx)) {
+            if (!this.questionValid(this.surveyQustions[idx], idx, page)) {
                 return false;
             }
-            // 验证手机号 
-            if ( idx === 7 ) {
-                if (!/^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/.test(this.surveyQustions[idx].answer)) {
-                    alert(`第${idx + 1}题手机号码格式不正确`);
-                    return false;
-                }
-            }
-            if (idx === 6) {
-                if (this.surveyQustions[idx].answer.length < 7) {
-                    alert(`第${idx + 1}题车牌号长度不正确`);
-                    return false;
-                }
-            }
+            
         }
         this.surveySubmitObj.answers = this.surveySubmitObj.answers.concat(this.tempPageAnswers);
         return true;
     }
+
+    //滚动到指定位置
+    mScroll(id, top = 0) {
+        
+        jQuery('#' + id).animate({
+            scrollTop: top
+        }, 1000);
+    }
     
+    stextBlur(q, i) {
+        console.log('blur', i);
+        if (q.answer === '') {
+            q.hasErr = true;
+            q.errMsg = '请您回答该题';
+            return false;
+        }
+        if ( q.subtype && q.subtype === 'mobile' ) {
+            if (!/^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/.test(q.answer)) {
+                q.hasErr = true;
+                q.errMsg = '请输入正确的手机号!';
+                return false;
+            }
+        }
+        if (q.subtype && q.subtype === 'car-plate') {
+            if ( q.answer.length < 7 ) {
+                q.hasErr = true;
+                q.errMsg = '请输入正确的车牌号!';
+                return false;
+            }
+        }
+        return true;
+    }
+
+    stextFocus(q) {
+        console.log('focus');
+        q.hasErr = false;
+        q.errMsg = '';
+    }
 
 }
