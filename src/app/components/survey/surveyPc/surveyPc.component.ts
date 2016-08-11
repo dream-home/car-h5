@@ -32,12 +32,9 @@ export class SurveyPcComponent {
     showSurvey: number = 1;
     profile: any;
     constructor( private router: Router, private route: ActivatedRoute, private sApi: SurveyApi, private el: ElementRef ) {
-        console.log('el: ', el.nativeElement);
-        console.log(jQuery(this.el.nativeElement));
-        //console.log($(el.nativeElement));
+        
     }
     ngAfterViewInit() {
-        console.log(jQuery(this.el.nativeElement));
         jQuery('body').addClass('survey');
     }
     ngOnInit() {
@@ -66,7 +63,6 @@ export class SurveyPcComponent {
 
     getSurveyQuestions() {
         this.sApi.surveyLoadUrlGet(this.url).subscribe(data => {
-            console.log(data);
             if (data.meta.code !== 200) {
                 // 链接已失效
                 this.showSurvey = 3;
@@ -77,12 +73,10 @@ export class SurveyPcComponent {
                 this.profile = dd.profile;
                 // 取得问卷
                 this.survey = JSON.parse(dd.survey);
-                console.log(this.survey);
                 // 取得问卷的问题
                 this.surveyQustions = this.survey.pages && this.survey.pages.length ? this.survey.pages[0].questions : [];
                 // 格式化问卷问题
                 this.surveyQustions = this.formatSurveyQestions(this.surveyQustions);
-                console.log(this.surveyQustions);
                 // 处理问卷基本信息
                 if (this.profile) {
                     this.profileHandle();
@@ -167,7 +161,6 @@ export class SurveyPcComponent {
 
     // 处理问卷基本信息
     profileHandle() {
-        console.log('profile.....')
         const profile = this.profile;
         let questions = this.surveyQustions;
         // 性别
@@ -229,7 +222,6 @@ export class SurveyPcComponent {
                 }
             }
         }
-        console.log(this.surveyQustions);
     }
 
     // 处理多项评分题
@@ -239,7 +231,6 @@ export class SurveyPcComponent {
         q.hasErr = false;
         subq.answer = ans.id;
         subq.tempPoint = ans.point === 99 ? 0 : ans.point;
-        console.log('thzs-q-2', jQuery('#thzs-q-2').offset());
         q.answer[subidx] = {
             questionId: subq.id,
             type: subq.type,
@@ -261,8 +252,9 @@ export class SurveyPcComponent {
     }
 
     onSave() {
-        console.log(this.surveyQustions);
         this.surveySubmitObj.answers = [];
+        let submitting = true;
+        let scroll = false;
         for (let idx = 0, len = this.surveyQustions.length; idx < len; idx++ ) {
             let q = this.surveyQustions[idx];
             switch (q.type) {
@@ -273,10 +265,12 @@ export class SurveyPcComponent {
                             q.children[i].hasErr = true;
                             q.hasErr = true;
                             q.errMsg = '该问题没有回答完毕，请继续作答';
+                            submitting = false;
                             // alert(`第${idx + 1}题的"${q.children[i].title}"还未评价`);
-                            console.log('thzs-q-' + idx);
-                            this.mScroll('thzs-q-' + idx);
-                            return false;
+                            if (!scroll) {
+                                this.mScroll('thzs-q-' + idx);
+                                scroll = true;
+                            }
                         } else {
                             this.surveySubmitObj.answers.push(q.answer[i]);
                         }
@@ -291,17 +285,24 @@ export class SurveyPcComponent {
                             answers: [q.answer]
                         });
                     } else {
-                        this.mScroll('thzs-q-' + idx);
-                        return false;
+                        if (!scroll) {
+                            this.mScroll('thzs-q-' + idx);
+                            scroll = true;
+                        }
+                        submitting = false;
                     }
-                
+                    break;
                 default:
                     if (q.answer === '') {
                         q.hasErr = true;
+                        submitting = false;
                         q.errMsg = '该问题没有回答完毕，请继续作答';
-                        this.mScroll('thzs-q-' + idx);
+                        if (!scroll) {
+                            this.mScroll('thzs-q-' + idx);
+                            scroll = true;
+                        }
                         // alert(`第${idx + 1}题还未回答`);
-                        return false;
+                        
                     }
                     
                     this.surveySubmitObj.answers.push({
@@ -312,10 +313,12 @@ export class SurveyPcComponent {
                         
             }
         }
-        console.log(this.surveySubmitObj);
+
+        if (!submitting) {
+            return false;
+        }
         this.surveySubmitObj.isComplete = true;
         this.sApi.surveyUrlSubmitPost(this.url, this.surveySubmitObj).subscribe(data => {
-            console.log(data);
             if (data.meta.code === 200 && data.data) {
                 this.showSurvey = 2;
             } else {

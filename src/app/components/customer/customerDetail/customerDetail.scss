@@ -35,6 +35,9 @@
 .cd-records .cd-r-satisfaction a { text-decoration: underline; color:#38b549;}
 .cd-records .cd-r-op a { color:#38b549; padding:0 3px;  text-decoration: none; }
 .cd-records table tbody tr:hover td { background:#a8f5b3; }
+.cd-records thead tr > th:first-child { min-width:120px; }
+.cd-records thead tr > th:nth-child(3) { min-width: 120px; }
+.cd-records thead tr > th:last-child { min-width:200px; }
 
 .cd-record-bar { position:relative;  height:54px; line-height: 54px; padding:0 34px; font-size:18px; }
 .cd-record-bar .cd-r-btn { position:absolute; right:17px; top:0; font-size:14px; }

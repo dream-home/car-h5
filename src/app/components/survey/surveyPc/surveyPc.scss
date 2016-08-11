@@ -7,7 +7,8 @@ body.survey {
     min-height:100%;
     overflow:auto;
     background:#f5fff8 url(./assets/images/survey/bg.jpg) no-repeat center top;
-    background-size: cover;
+    background-size: 100vw 100vh;
+    background-attachment: fixed;
     font-size:14px; 
     color:#343434;
     position:relative;
@@ -107,6 +108,9 @@ select.sv-ipt {
 }
 .sv-q .sv-q-errtip {
     padding:0 0 24px 50px;
+}
+.sv-q .sv-q-errtip-radio {
+    padding:24px 50px 0;
 }
 .sv-q-t .sv-q-index { 
     display:inline-block;
