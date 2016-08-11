@@ -43,7 +43,7 @@
                 <!-- 多项评分题 end -->
                 <!-- 单项项评分题 -->
                 <div [attr.id]="'thzs-q-' + i" class="sv-q-score" *ngIf="q.type == 'score'">
-                    <div class="sv-q-t" [class.warning]="q.hasErr  && q.answer === ''"><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
+                    <div class="sv-q-t" ><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
                     <div class="sv-q-errtip warning" *ngIf="q.hasErr">{{q.errMsg}}</div>
                     <div class="sv-q-score-0" *ngIf="q.zeroOption" (click)="onScore(q, q.zeroOption)" [ngClass]="{'active': 0 === q.tempPoint}" >不知道</div>
                     <div class="sv-q-c sv-q-ico-engines">
@@ -53,7 +53,7 @@
                 <!-- 单项项评分题 -->
                 <!-- 性别题 -->
                 <div [attr.id]="'thzs-q-' + i" class="sv-q-sex" *ngIf="q.type == 'sex'">
-                    <div class="sv-q-t" [class.warning]="q.hasErr  && q.answer === ''"><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
+                    <div class="sv-q-t" ><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
                     <div class="sv-q-errtip warning" *ngIf="q.hasErr && q.answer === ''">{{q.errMsg}}</div>
                     <div class="sv-q-c ">
                         <label *ngFor="let ans of q.options; let j = index;" >
@@ -70,7 +70,7 @@
                 <!-- 性别题 end -->
                 <!-- 年龄题 -->
                 <div [attr.id]="'thzs-q-' + i" class="sv-q-age" *ngIf="q.type == 'age'">
-                    <div class="sv-q-t" [class.warning]="q.hasErr  && q.answer === ''"><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
+                    <div class="sv-q-t" ><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
                     <div class="sv-q-errtip warning" *ngIf="q.hasErr && q.answer === ''">{{q.errMsg}}</div>
                     <div class="sv-q-c ">
                         <select name="" id="" class="sv-ipt" [(ngModel)] = "q.answer">
@@ -92,8 +92,8 @@
                 <!-- 单行输入题 end -->
                 <!-- 单选题 -->
                 <div [attr.id]="'thzs-q-' + i" class="sv-q-radio" *ngIf="q.type == 'radio'">
-                    <div class="sv-q-t" [class.warning]="q.hasErr && q.answer === ''"><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
-                    <div class="sv-q-errtip warning" *ngIf="q.hasErr && q.answer === ''">{{q.errMsg}}</div>
+                    <div class="sv-q-t" ><span class="sv-q-index">Q{{ i + 1 }}</span>{{ q.title }} </div>
+                    <div class="sv-q-errtip sv-q-errtip-radio warning" *ngIf="q.hasErr && q.answer === ''">{{q.errMsg}}</div>
                     <div class="sv-q-c sv-ck-wrap">
                         <div class="sv-ck" *ngFor="let ans of q.options">
                             <input type="radio" [attr.id]="ans.eid"  (change)="q.answer = ans.id" [checked]="q.answer === ans.id">
