@@ -67,3 +67,25 @@
 .text-error{
   color:#f16557;
 }
+.guide-assess-btn{
+  position: absolute;
+  top: 56.5%;
+  right: 5%;
+  z-index: 9999;
+  img{
+    width: 100% !important;
+    height: 100% !important;
+  }
+  &.six{
+    top: 14.5%;
+    right: 71%;
+  }
+  &.seven{
+    top: 14.5%;
+    right: 40%;
+  }
+  &.eight{
+    top: 14.5%;
+    right: 8.9%;
+  }
+}

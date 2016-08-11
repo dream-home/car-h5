@@ -65,7 +65,7 @@
             </tr>
           </thead>
 
-          <tbody *ngFor="let hs of histories">
+          <tbody *ngFor="let hs of histories;let i = index">
             <tr>
               <td>{{ (hs.enterDate | date:'y-MM-dd') || '-'}}</td>
               <td>{{hs.name || '-'}}</td>
@@ -73,6 +73,9 @@
               <td>{{hs.description || '-'}}</td>
               <td class="cd-r-satisfaction">
                   <a *ngIf="hs.score === null" (click)="onShowCommentWin(hs)">点击邀请顾客做服务评价</a>
+                  <a class="guide-assess-btn animated tada" (click)="onShowCommentWin(hs);" *ngIf="next == 5&&i==0">
+                    <img src="/assets/images/new5.png" alt="" />
+                  </a>
                   <span *ngIf="hs.score !== null" ><i>{{ hs.score }}</i></span>
               </td>
             </tr>
@@ -124,11 +127,17 @@
           <div class="ev-methods">
             <div>
               <div>方法一</div>
+              <a class="guide-assess-btn six animated tada" (click)="onNext(6);onShowCommentWin(hs);" *ngIf="next == 6">
+                <img src="/assets/images/new4.png" class="full" alt="" />
+              </a>
               <div><img [attr.src]="commentUrl.qrCode" ></div>
               <div>邀请顾客手机扫码参加</div>
             </div>
             <div>
               <div>方法二</div>
+              <a class="guide-assess-btn seven animated tada" (click)="onNext(7);onShowCommentWin(hs);" *ngIf="next == 7">
+                <img src="/assets/images/new4.png" alt="" />
+              </a>
               <h2>给该顾客发送一条短信</h2>
               <p>顾客通过短信链接自行评价</p>
               <div class="g-field" *ngIf="!customer?.mobile">
@@ -148,6 +157,9 @@
             </div>
             <div>
               <div>方法三</div>
+              <a class="guide-assess-btn eight animated tada" (click)="onNext(8);onShowCommentWin(hs);" *ngIf="next == 8">
+                <img src="/assets/images/new4.png" alt="" />
+              </a>
               <h2>自己询问顾客</h2>
               <p>问卷将由您询问顾客后输入评价</p>
             </div>

@@ -1,0 +1,74 @@
+.business-protocol-overlay {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 80;
+  overflow: hidden;
+  background: rgba(0,0,0,.6);
+  display: none;
+}
+.guide-box {
+  position: absolute;
+  width: 781px;
+  height: 387px;
+  top: 50%;
+  left: 50%;
+  margin: -193.5px 0 0 -390.5px;
+}
+.guide-flash-btn {
+  position: absolute;
+  top: 48px;
+  right: 10px;
+  z-index: 9999;
+}
+.guide-large-block {
+  position: absolute;
+  z-index: 9999;
+  top: 27%;
+  left: 30%;
+}
+.guide-submit-btn {
+  position: absolute;
+  top: 70%;
+  left: 42%;
+  z-index: 9999;
+}
+.guide-assess-btn {
+  position: absolute;
+  top: 56.5%;
+  right: 5%;
+  z-index: 9999;
+}
+.guide-tooltip-block {
+  position: absolute;
+  z-index: 9999;
+  top: 31.5%;
+  left: 75.5%;
+}
+.guide-next {
+  position: absolute;
+  z-index: 9999;
+  top: 49%;
+  left: 21%;
+  width: 111px;
+  height: 35px;
+}
+.guide-again {
+  position: absolute;
+  z-index: 9999;
+  top: 49%;
+  left: 37%;
+  width: 64px;
+  height: 35px;
+}

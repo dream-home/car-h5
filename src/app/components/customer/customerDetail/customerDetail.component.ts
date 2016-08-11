@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
 import { CustomerApi, Customer, BusinessDetail, BusinessHistoryDetail, BusinessApi } from 'client';
 import { MainLogoComponent, PageFooterComponent, NavbarComponent, MenusComponent, SearchBarComponent, PaginationComponent } from 'common';
-import { MissionService } from '../../../services';
+import { MissionService } from 'services';
 
 @Component({
   moduleId: module.id,
@@ -42,6 +42,8 @@ export class CustomerDetailComponent {
     url: ''
   };
 	delRecord:any;
+  next:number;
+
   constructor(private router: Router, private route: ActivatedRoute, private cApi: CustomerApi, private bApi: BusinessApi, private missionService: MissionService) {
     missionService.businessAddAnnounced$.subscribe(
       astronaut => {
@@ -49,8 +51,13 @@ export class CustomerDetailComponent {
           this.getCustomerById(this.customerId);
         }
       });
-
+      this.next = +window.localStorage.getItem('next');
   }
+
+  onNext(index){
+		this.next = index + 1;
+		window.localStorage.setItem('next',String(this.next));
+	}
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -65,6 +72,7 @@ export class CustomerDetailComponent {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
 
   changePage(cur) {
     this.page.current = event;
@@ -120,12 +128,12 @@ export class CustomerDetailComponent {
         if (data.meta.code === 200) {
           this.commentUrl.qrCode = this.historyRecord.qrCode = data.data.qrCode;
           this.commentUrl.url = this.historyRecord.url = data.data.url;
+
         }
 
       }, err => console.error(err));
     }
-
-    console.log('historyRecord', this.historyRecord);
+    this.onNext(5);
   }
 
   // 关闭评价弹出层
@@ -136,7 +144,8 @@ export class CustomerDetailComponent {
     this.sendErr.times = false;
     this.commentUrl.qrCode = this.historyRecord.qrCode;
     this.commentUrl.url = this.historyRecord.url;
-    console.log('func onCloseCommentWin() called....');
+    this.onNext(8);
+    this.missionService.confirmMission('customer-detail');
   }
 
   // 通过手机号发送

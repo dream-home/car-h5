@@ -9,3 +9,4 @@ export * from './survey';
 export * from './storeForm';
 export * from './dashbroad';
 export * from './search';
+export * from './guide';

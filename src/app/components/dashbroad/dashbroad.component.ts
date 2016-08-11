@@ -11,13 +11,14 @@ import { UserApi, CommonApi } from 'client';
 import { MainLogoComponent, PageFooterComponent, NavbarComponent, MenusComponent, SearchBarComponent } from 'common';
 import { MissionService } from '../../services';
 import { BusinessAddComponent } from '../business/businessAdd/businessAdd.component.ts';
+import { GuideComponent } from '../guide';
 
 @Component({
 	selector: 'dashbroad',
 	template: require('./dashbroad.html'),
 	styles: [require('./dashbroad.scss')],
-	directives: [ ROUTER_DIRECTIVES,  NavbarComponent, MenusComponent, SearchBarComponent, PageFooterComponent, BusinessAddComponent ],
-	providers: [ HTTP_PROVIDERS,MissionService ]
+	directives: [ ROUTER_DIRECTIVES,  NavbarComponent, MenusComponent, SearchBarComponent, PageFooterComponent, BusinessAddComponent,GuideComponent ],
+	providers: [ HTTP_PROVIDERS ]
 })
 
 export class DashbroadComponent {
@@ -31,6 +32,7 @@ export class DashbroadComponent {
 	ngOnInit() {
 
 	}
+
 
 	onOpenBusinessAdd(){
 		this.missionService.confirmBusinessAdd({selector: 'dashbroad'});

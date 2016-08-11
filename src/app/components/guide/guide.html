@@ -1,0 +1,40 @@
+<div class="fwin del-win employee-del-win show" *ngIf="next == 1">
+  <div class="fwin-mask">
+    <div class="guide-box" (click)="onNext(1)">
+      <img src="/assets/images/new1.png" alt="" />
+    </div>
+  </div>
+</div>
+<a class="guide-flash-btn animated tada" (click)="onNext(2)" *ngIf="next == 2">
+  <img src="/assets/images/new2.png" alt="" />
+</a>
+<a class="guide-large-block animated tada" (click)="onNext(3)" *ngIf="next == 3">
+  <img src="/assets/images/new3.png" alt="" />
+</a>
+<a class="guide-submit-btn animated tada" (click)="onNext(4)" *ngIf="next == 4">
+  <img src="/assets/images/new4.png" alt="" />
+</a>
+<!-- <a class="guide-assess-btn animated tada" (click)="onNext(5)" *ngIf="next == 5 && isCustomerDetail()">
+  <img src="/assets/images/new5.png" alt="" />
+</a>
+<a class="guide-assess-btn animated tada" (click)="onNext(6)" *ngIf="next == 6 && isCustomerDetail()">
+  <img src="/assets/images/new5.png" alt="" />
+</a>
+<a class="guide-assess-btn animated tada" (click)="onNext(7)" *ngIf="next == 7 && isCustomerDetail()">
+  <img src="/assets/images/new5.png" alt="" />
+</a>
+<a class="guide-assess-btn animated tada" (click)="onNext(8)" *ngIf="next == 8 && isCustomerDetail()">
+  <img src="/assets/images/new5.png" alt="" />
+</a> -->
+<div class="fwin del-win employee-del-win show" *ngIf="next == 9">
+  <div class="fwin-mask">
+    <div class="guide-box" >
+      <img src="/assets/images/new9.png" alt="" />
+      <a class="guide-next" (click)="onNext(9)"></a>
+      <a class="guide-again" (click)="onAgain()"></a>
+    </div>
+  </div>
+</div>
+<a class="guide-tooltip-block animated tada" (click)="onNext(10)" *ngIf="next == 10">
+  <img src="/assets/images/new10.png" alt="" />
+</a>

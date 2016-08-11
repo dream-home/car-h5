@@ -1,7 +1,7 @@
 import { Component} from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { HTTP_PROVIDERS } from '@angular/http';
-import { Cookie } from '../../services';
+import { Cookie,MissionService } from '../../services';
 
 @Component({
   selector: 'menus',
@@ -12,7 +12,7 @@ import { Cookie } from '../../services';
 })
 
 export class MenusComponent {
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute, private missionService: MissionService) {
 
   }
 
@@ -22,5 +22,11 @@ export class MenusComponent {
     localStorage.removeItem("token");
     localStorage.removeItem("shopId");
     this.router.navigate(['/login-min']);
+  }
+
+  onGuide(){
+    localStorage.removeItem("olds");
+    localStorage.removeItem("next");
+    this.missionService.confirmMission('menus');
   }
 }
