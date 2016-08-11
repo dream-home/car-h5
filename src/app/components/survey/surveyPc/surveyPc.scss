@@ -21,6 +21,9 @@ body.survey {
     -webkit-appearance:inherit;
     -moz-appearance:normal;
 }
+.sv-ipt.disabled {
+    color:#9a9a9a
+}
 select.sv-ipt {
     padding:0 24px 0 12px;
 }
@@ -115,7 +118,7 @@ select.sv-ipt {
 
 .sv-suc {
     width:100%;
-    height:100%;
+    height:100vh;
     padding-bottom:80px;
     box-sizing:border-box;
 }

@@ -267,6 +267,7 @@
 }
 
 .svp-wrap {
+    position:relative;
     padding: 100px 30px 142px;
 }
 
@@ -372,6 +373,9 @@
                 &:focus {
                     box-shadow:none;
                 }
+            }
+            .disabled {
+                color:#9a9a9a;
             }
         }
     }

@@ -94,9 +94,8 @@ export class CustomerDetailComponent {
 	}
 	formatCustomer(customer) {
 		const currentYear = (new Date()).getFullYear();
-		const gender = parseInt(customer.gender||-1);
 		customer.age = customer.birthYear ? (currentYear - customer.birthYear) : '';
-		customer.sex = gender === 0 ? '女' : gender === 1 ? '男' : '其它';
+		customer.sex = customer.gender === 0 ? '女' : customer.gender === 1 ? '男' : '其它';
 		return customer;
 	}
 

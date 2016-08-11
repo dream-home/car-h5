@@ -5,7 +5,9 @@ import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { SurveyApi } from 'client';
 import * as _ from 'lodash';
 // import * as $ from 'jQuery';
-// declare var $:any;
+// declare var $: jQueryStatic;
+declare var jQuery: JQueryStatic;
+
 
 @Component({
     moduleId: module.id,
@@ -31,12 +33,12 @@ export class SurveyPcComponent {
     profile: any;
     constructor( private router: Router, private route: ActivatedRoute, private sApi: SurveyApi, private el: ElementRef ) {
         console.log('el: ', el.nativeElement);
-        console.log($(this.el.nativeElement));
+        console.log(jQuery(this.el.nativeElement));
         //console.log($(el.nativeElement));
     }
     ngAfterViewInit() {
-        console.log($(this.el.nativeElement));
-        $('body').addClass('survey');
+        console.log(jQuery(this.el.nativeElement));
+        jQuery('body').addClass('survey');
     }
     ngOnInit() {
         // 获取 url
@@ -122,6 +124,7 @@ export class SurveyPcComponent {
                     case 6:
                         // 车牌号
                         q.subtype = 'car-plate';
+                        q.disabled = true;
                         q.min = 7;
                         q.max = 9;
                         break;
@@ -236,7 +239,7 @@ export class SurveyPcComponent {
         q.hasErr = false;
         subq.answer = ans.id;
         subq.tempPoint = ans.point === 99 ? 0 : ans.point;
-        console.log('thzs-q-2', $('#thzs-q-2').offset());
+        console.log('thzs-q-2', jQuery('#thzs-q-2').offset());
         q.answer[subidx] = {
             questionId: subq.id,
             type: subq.type,
@@ -352,8 +355,9 @@ export class SurveyPcComponent {
     
     //滚动到指定元素
     mScroll(id) {
-        $('body').animate({
-            scrollTop: $('#' + id).offset().top)
+        let top = jQuery('#' + id).offset().top;
+        jQuery('body').animate({
+            scrollTop: top
         }, 1000);
     }
     
