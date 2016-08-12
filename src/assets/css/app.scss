@@ -45,7 +45,7 @@ ul {
 }
 .playout {
   position: relative;
-  padding: 63px 0 100px 64px;
+  padding: 63px 0 60px 64px;
   min-height: 100vh;
 }
 .ds-table {
@@ -103,8 +103,8 @@ html {
   display: inline-block;
   color: #38b549;
   text-decoration: none;
-  padding: 0 5px;
 }
+
 .crumbs > a:last-child {
   color: #777;
 }
@@ -127,8 +127,7 @@ html {
   color: #fff;
 }
 .c-header {
-  margin-top: 12px;
-  padding: 17px 0 17px 64px;
+  padding: 20px;
   color: #343434;
   line-height: 1;
   font-size: 18px;

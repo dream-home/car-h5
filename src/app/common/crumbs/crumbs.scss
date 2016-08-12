@@ -1,0 +1,14 @@
+.crumbs-link {
+    position:relative;
+    margin-left:20px;
+    
+    &:before {
+        position:absolute;
+        left:-15px;
+        content: '>';
+        cursor:context-menu;
+        color:#777;
+        margin-right:10px;
+        pointer-events: none;
+    }
+}
