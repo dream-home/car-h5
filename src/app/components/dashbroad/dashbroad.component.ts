@@ -27,35 +27,7 @@ export class DashbroadComponent {
 			astronaut => {
 
 		});
-		console.log('route: ', route);
 		
-		route.data.subscribe(data => {
-			console.log('data: ', data);
-		});
-		console.log('router: ', router);
-		router.routerEvents.subscribe(val => {
-			console.log('val', val);
-		});
-		
-		this.router.events.filter(event => {
-			console.log('filter: event', event);
-			return event instanceof NavigationEnd;
-		}).map(_ => this.router.routerState)
-		.map(state => {
-			let route = this.activatedRoute;
-			while (state.firstChild(route)) {
-				
-				route = state.firstChild(route);
-				console.log('map route', route);
-			}
-			
-			return route;
-		})
-		//.filter(route => route.outlet === PRIMARY_OUTLET)
-		// .flatMap(route => route.data)
-		.subscribe( (data: any) => {
-			console.log(data);
-		} )
 	}
 
 	ngOnInit() {

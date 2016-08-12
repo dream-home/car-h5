@@ -3,7 +3,7 @@ import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { Http, Response, HTTP_PROVIDERS } from '@angular/http';
 import { ControlGroup, FormBuilder, Control, NgControlGroup } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
-
+import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
@@ -11,14 +11,14 @@ import { DATEPICKER_DIRECTIVES, PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-
 
 import { BusinessApi, BusinessList, BusinessListResponse } from 'client';
 import { PaginationComponent } from 'common';
-import { MissionService } from 'services';
+import { MissionService, ThzsUtil } from 'services';
 
 @Component({
   selector: 'business-list',
   template: require('./businessList.html'),
   styles: [require('./businessList.scss')],
   directives: [DATEPICKER_DIRECTIVES, ROUTER_DIRECTIVES, PaginationComponent],
-  providers: [HTTP_PROVIDERS, BusinessApi],
+  providers: [HTTP_PROVIDERS, BusinessApi, ThzsUtil],
   // host: {
   //   '(click)': 'closeDatePicker($event)'
   // }
@@ -31,19 +31,30 @@ export class BusinessListComponent {
   page: any = {};
   dateShow: boolean = false;
   timeout: any;
+  shopChangeSub: Subscription;
 
-  constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi, private missionService: MissionService) {
+  constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi, private missionService: MissionService, private thzsUtil: ThzsUtil) {
     missionService.businessAddAnnounced$.subscribe(
       astronaut => {
         if (astronaut == 'business-list') {
           this.getList();
         }
       });
+      console.log('blt', this.thzsUtil);
+
+      this.shopChangeSub = this.thzsUtil.shopChanged$.subscribe( item => {
+          console.log('business list: ', item);
+      } );
+      console.log('bl: ', this.shopChangeSub)
+      
   }
 
   // 初始化
   ngOnInit() {
     this.getList();
+    
+    
+      
   }
 
   onToggleDate(event) {

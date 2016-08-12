@@ -103,13 +103,13 @@ export class CustomerDetailComponent {
       console.log('customer: ', this.customer);
     }, err => console.error(err));
   }
+  
   formatCustomer(customer) {
-    const currentYear = (new Date()).getFullYear();
-    const gender = parseInt(customer.gender || -1);
-    customer.age = customer.birthYear ? (currentYear - customer.birthYear) : '';
-    customer.sex = gender === 0 ? '女' : gender === 1 ? '男' : '其它';
-    return customer;
-  }
+		const currentYear = (new Date()).getFullYear();
+		customer.age = customer.birthYear ? (currentYear - customer.birthYear) : '';
+		customer.sex = customer.gender === 0 ? '女' : customer.gender === 1 ? '男' : '其它';
+		return customer;
+	}
 
 
   // 显示评价弹出层

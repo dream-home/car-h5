@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
+import { routes } from '../../app.routes';
 
 @Component({
     moduleId: module.id,
@@ -12,18 +13,15 @@ import * as _ from 'lodash';
 
 export class CrumbsComponent {
     routeConfig: any;
-    crumbs: <string>[] = [];
-    sub: nay;
+    crumbs: any;
+    sub: any;
     constructor( private router: Router, private route: ActivatedRoute ) {
-        this.routeConfig = this.formatConfig(this.router.config);
-        console.log('this.routeConfig', this.routeConfig);
+        this.routeConfig = this.formatConfig(routes);
         this.sub = this.router.events.filter( event => event instanceof NavigationEnd )
                                     .map( event => {
-                                        console.log('crumb map() event', event);
                                         return event.url;
                                     } )
                                     .subscribe( (data: any) => {
-                                        console.log('crumb map() data', data);
                                         let urls = [];
                                         let urlobj = {};
                                         let url = data;

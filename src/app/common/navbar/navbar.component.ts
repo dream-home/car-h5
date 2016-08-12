@@ -11,7 +11,7 @@ import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
 
 import { UserApi, ShopApi, Shop, MyAcountResponse } from 'client';
-import { Cookie,MissionService } from 'services';
+import { Cookie, MissionService, ThzsUtil } from 'services';
 
 @Component({
   moduleId: module.id,
@@ -19,7 +19,7 @@ import { Cookie,MissionService } from 'services';
   template: require('./navbar.html'),
   styles: [require('./navbar.scss')],
   directives: [ROUTER_DIRECTIVES],
-  providers: [HTTP_PROVIDERS, UserApi, ShopApi, Cookie]
+  providers: [HTTP_PROVIDERS, UserApi, ShopApi, Cookie, ThzsUtil]
 })
 
 export class NavbarComponent {
@@ -28,12 +28,16 @@ export class NavbarComponent {
   shopId: number;
   list: Array<Shop>;
 
-  constructor(private router: Router, private uApi: UserApi, private sApi: ShopApi,private missionService: MissionService) {
+  constructor(private router: Router, private uApi: UserApi, private sApi: ShopApi, private missionService: MissionService, private thzsUtil: ThzsUtil) {
     missionService.missionAnnounced$.subscribe((data) => {
       if(data=='update-store-list'){
         this.getList();
       }
     })
+    console.log('bl:', this.router)
+    this.thzsUtil.shopChanged$.subscribe( item => {
+      this.getList();
+    } )
   }
 
   ngOnInit() {
@@ -62,7 +66,14 @@ export class NavbarComponent {
     this.uApi.userShopCurrentPost(item.id).subscribe((data) => {
       this.storeName = item.name;
       Cookie.save('shopId', item.id);
-      this.router.navigate(['/dashbroad/business-list']);
+      if (this.router.url === '/dashbroad/business-list') {
+        // window.location.reload();
+        // window.location.href = window.location.href
+        this.thzsUtil.changeShop(item.id);
+      } else {
+        this.router.navigate(['/dashbroad/business-list']);
+      }
+      
     });
   }
 

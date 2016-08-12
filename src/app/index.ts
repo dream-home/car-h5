@@ -7,7 +7,7 @@ export * from './components';
 export * from './services';
 
 
-import { MissionService,DialogService,CanDeactivateGuard,AuthGuard } from './services';
+import { MissionService, DialogService, CanDeactivateGuard, AuthGuard, ThzsUtil } from './services';
 
 
 // Application wide providers
@@ -16,4 +16,5 @@ export const APP_PROVIDERS = [
   DialogService,
   CanDeactivateGuard,
   AuthGuard,
+  ThzsUtil
 ];
