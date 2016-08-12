@@ -30,11 +30,14 @@ export class CrumbsComponent {
                                         url = url.split('/');
                                         url = url.pop();
                                         if (url === '') return;
-                                        urls = this.routeConfig.filter( r => url.includes(r.path));
+                                        console.log(url);
+                                        urls = this.routeConfig.filter( r => r.path != '' && url.includes(r.path));
+                                        console.log(urls);
                                         this.crumbs.push({
                                             url: data,
                                             title: urls[0] && urls[0].data ? urls[0].data.title : ''
                                         });
+                                        console.log('c-data',data);
                                         if ( url.includes('add-store') || url.includes('modify-store') || url.includes('modify-pwd') ) {
                                             this.crumbs.unshift({
                                                 url: '/dashbroad/my-account',
@@ -59,6 +62,7 @@ export class CrumbsComponent {
                                                 title: '满意度报告'
                                             }];
                                         }
+                                        console.log('c-data', this.crumbs);
                                     } );
     }
     ngOnInit() {

@@ -32,7 +32,7 @@
       <tbody *ngIf="list?.content">
         <tr *ngFor="let item of list?.content, let i = index">
           <td>{{(i+1)+(page.current-1)*page.limit}}</td>
-          <td>{{moment(item.date,'hh:mm')}}</td>
+          <td>{{item.date | date: 'hh:mm'}}</td>
           <td ><a [routerLink]="['../customer-detail',{id: item.customerId}]" routerLinkActive="active" [attr.title]="item.licence">{{item.licence}}</a></td>
           <td>{{item.customer}}</td>
           <td>{{item.mobile}}</td>
