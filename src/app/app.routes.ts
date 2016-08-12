@@ -8,6 +8,7 @@ import { AuthGuard,CanDeactivateGuard } from './services';
 
 export const routes:RouterConfig = [
 
+  { path: '', component: components.HomeComponent },
   { path: 'login-min', component: components.LoginMinComponent },
   { path: 'register', component: components.RegisterComponent },
   { path: 'forget-pwd', component: components.ForgetPwdComponent },
