@@ -8,12 +8,14 @@ import { AuthGuard,CanDeactivateGuard } from './services';
 
 export const routes:RouterConfig = [
 
+  { path: '', component: components.HomeComponent, data: {title: '车门店'} },
   { path: 'login-min', component: components.LoginMinComponent, data: {title: '登录'} },
   { path: 'register', component: components.RegisterComponent, data: {title: '注册'} },
   { path: 'forget-pwd', component: components.ForgetPwdComponent, data: {title: '忘记密码'} },
   { path: 'init-store', component: components.InitStoreComponent,canActivate: [AuthGuard], data: {title: '添加门店'}},
   { path: 'survey-pc', component: components.SurveyPcComponent, data: {title: '调查问卷'} },
   { path: 'survey-mobile', component: components.SurveyMobileComponent, data: {title: '调查问卷'} },
+
   { path: 'dashbroad',component: components.DashbroadComponent,
     data: {
       title: '仪表盘'

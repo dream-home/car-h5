@@ -10,3 +10,4 @@ export * from './storeForm';
 export * from './dashbroad';
 export * from './search';
 export * from './guide';
+export * from './home';
