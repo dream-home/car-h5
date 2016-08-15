@@ -24,7 +24,7 @@
                         <div class="sv-q-tip">
                             (每行单选) (10分制评分，1分为非常不满意，10分为非常满意，6分为一般。如果您不了解某一个方面的服务，请选择99，为不知道或者不适用)。
                         </div>
-                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[0].hasErr">{{surveyQustions[0].errMsg}}</div>
+                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[0]?.hasErr">{{surveyQustions[0].errMsg}}</div>
                         <div class="sv-q-c">
                             
 
@@ -53,11 +53,11 @@
                     <!-- 多项评分题 -->
                     <div class="sv-q-mscore">
                         <div class="sv-q-t">Q2. {{surveyQustions[1]?.title}}</div>
-                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[1].hasErr">{{surveyQustions[1].errMsg}}</div>
+                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[1]?.hasErr">{{surveyQustions[1].errMsg}}</div>
                         <div class="sv-q-tip">
                             (每行单选) (10分制评分，1分为非常不满意，10分为非常满意，6分为一般。如果您不了解某一个方面的服务，请选择99，为不知道或者不适用)。
                         </div>
-                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[0].hasErr">{{surveyQustions[0].errMsg}}</div>
+                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[0]?.hasErr">{{surveyQustions[0].errMsg}}</div>
                         <div class="sv-q-c">
                             <div class="sv-q-score" *ngFor="let subq of surveyQustions[1]?.children; let j = index;">
                                 <div class="sv-q-t" [class.warning]="subq.hasErr">{{ subq.title }}</div>
@@ -82,7 +82,7 @@
                     <!-- 多项评分题 -->
                     <div class="sv-q-mscore">
                         <div class="sv-q-t">Q3. {{surveyQustions[2]?.title}}</div>
-                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[2].hasErr">{{surveyQustions[2].errMsg}}</div>
+                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[2]?.hasErr">{{surveyQustions[2].errMsg}}</div>
                         <div class="sv-q-tip">
                             (每行单选) (10分制评分，1分为非常不满意，10分为非常满意，6分为一般。如果您不了解某一个方面的服务，请选择99，为不知道或者不适用)。
                         </div>
@@ -113,7 +113,7 @@
                         <div class="sv-q-tip">
                             (每行单选) (10分制评分，1分为非常不满意，10分为非常满意，6分为一般。如果您不了解某一个方面的服务，请选择99，为不知道或者不适用)。
                         </div>
-                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[3].hasErr">{{surveyQustions[3].errMsg}}</div>
+                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[3]?.hasErr">{{surveyQustions[3].errMsg}}</div>
                         <div class="sv-q-c">
                             <div class="sv-q-score">
                                 <div class="sv-q-t" [class.warning]="surveyQustions[3]?.hasErr  && surveyQustions[3]?.answer === ''">您对本店的总体评价</div>
@@ -137,7 +137,7 @@
                     <!-- 性别题 -->
                     <div class="sv-q-sex">
                         <div class="sv-q-t" [class.warning]="surveyQustions[4]?.hasErr  && surveyQustions[4]?.answer === ''">Q5. {{surveyQustions[4]?.title}}</div>
-                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[4].hasErr && surveyQustions[4]?.answer === ''">{{surveyQustions[4].errMsg}}</div>
+                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[4]?.hasErr && surveyQustions[4]?.answer === ''">{{surveyQustions[4].errMsg}}</div>
                         <div class="sv-q-c">
                             <label *ngFor="let ans of surveyQustions[4]?.options; let j = index;" [class.checked]="surveyQustions[4]?.answer === ans.id">
                                 <input type="radio" (change)="onSex(surveyQustions[4], ans)" [checked]="surveyQustions[4]?.answer === ans.id" >
@@ -155,7 +155,7 @@
                     <!-- 年龄题 -->
                     <div class="sv-q-age">
                         <div class="sv-q-t" [class.warning]="surveyQustions[5]?.hasErr  && surveyQustions[5]?.answer === ''">Q6. {{surveyQustions[5]?.title}}</div>
-                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[5].hasErr && surveyQustions[5]?.answer === ''">{{surveyQustions[5].errMsg}}</div>
+                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[5]?.hasErr && surveyQustions[5]?.answer === ''">{{surveyQustions[5].errMsg}}</div>
                         <div class="sv-q-c">
                             <select name="" id="" class="q-select" [ngModel]="surveyQustions[5]?.answer" (ngModelChange)="surveyQustions[5].answer = $event">
                                 <option value="">请选择</option>
@@ -170,10 +170,10 @@
                     <!-- 单行文本题 -->
                     <div class="sv-q-stext">
                         <div class="sv-q-t" [class.warning]="surveyQustions[6]?.hasErr  && surveyQustions[6]?.answer === ''">Q7. {{surveyQustions[6]?.title}}</div>
-                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[6].hasErr">{{surveyQustions[6].errMsg}}</div>
+                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[6]?.hasErr">{{surveyQustions[6].errMsg}}</div>
                         <div class="sv-q-c">
                             <label>
-                                <span>车牌号:</span><input type="text" class="sv-ipt" [class.disabled]="surveyQustions[6].disabled" [disabled]="surveyQustions[6].disabled" [attr.minlength]="surveyQustions[6]?.min" [attr.maxlength]="surveyQustions[6]?.max" [ngModel]="surveyQustions[6]?.answer" (ngModelChange)="surveyQustions[6].answer = $event" (focus)="stextFocus(surveyQustions[6])" (blur)="stextBlur(surveyQustions[6], 6)" >
+                                <span>车牌号:</span><input type="text" class="sv-ipt" [class.disabled]="surveyQustions[6]?.disabled" [disabled]="surveyQustions[6]?.disabled" [attr.minlength]="surveyQustions[6]?.min" [attr.maxlength]="surveyQustions[6]?.max" [ngModel]="surveyQustions[6]?.answer" (ngModelChange)="surveyQustions[6].answer = $event" (focus)="stextFocus(surveyQustions[6])" (blur)="stextBlur(surveyQustions[6], 6)" >
                             </label>
 
                         </div>
@@ -189,7 +189,7 @@
                     <!-- 单行文本题 -->
                     <div class="sv-q-stext">
                         <div class="sv-q-t" [class.warning]="surveyQustions[7]?.hasErr  && surveyQustions[7]?.answer === ''">Q8. {{surveyQustions[7]?.title}}</div>
-                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[7].hasErr">{{surveyQustions[7].errMsg}}</div>
+                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[7]?.hasErr">{{surveyQustions[7].errMsg}}</div>
                         <div class="sv-q-c">
                             <label>
                                 <span>手机号:</span><input type="tel" class="sv-ipt" [attr.minlength]="surveyQustions[7]?.min" [attr.maxlength]="surveyQustions[7]?.max" [ngModel]="surveyQustions[7]?.answer" (ngModelChange)="surveyQustions[7].answer = $event" (focus)="stextFocus(surveyQustions[7])" (blur)="stextBlur(surveyQustions[7], 7)" >
@@ -202,7 +202,7 @@
                     <!-- 单行文本题 -->
                     <div class="sv-q-stext">
                         <div class="sv-q-t" [class.warning]="surveyQustions[8]?.hasErr  && surveyQustions[8]?.answer === ''">Q9. {{surveyQustions[8]?.title}}</div>
-                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[8].hasErr">{{surveyQustions[8].errMsg}}</div>
+                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[8]?.hasErr">{{surveyQustions[8].errMsg}}</div>
                         <div class="sv-q-c">
                             <label>
                                 <span>车品牌:</span><input type="text" class="sv-ipt" [attr.minlength]="surveyQustions[8]?.min" [attr.maxlength]="surveyQustions[8]?.max" [ngModel]="surveyQustions[8]?.answer" (ngModelChange)="surveyQustions[8].answer = $event" (focus)="stextFocus(surveyQustions[8])" (blur)="stextBlur(surveyQustions[8], 8)">
@@ -216,7 +216,7 @@
                     <!-- 单行文本题 -->
                     <div class="sv-q-stext">
                         <div class="sv-q-t" [class.warning]="surveyQustions[9]?.hasErr  && surveyQustions[9]?.answer === ''">Q10. {{surveyQustions[9]?.title}}</div>
-                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[9].hasErr">{{surveyQustions[9].errMsg}}</div>
+                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[9]?.hasErr">{{surveyQustions[9].errMsg}}</div>
                         <div class="sv-q-c">
                             <label>
                                 <span>汽车型号:</span>
@@ -237,7 +237,7 @@
                     <!-- 单选题 -->
                     <div class="sv-q-radio">
                         <div class="sv-q-t" [class.warning]="surveyQustions[10]?.hasErr  && surveyQustions[10]?.answer === ''">Q11 {{surveyQustions[10]?.title}}</div>
-                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[10].hasErr && surveyQustions[10]?.answer === ''">{{surveyQustions[10].errMsg}}</div>
+                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[10]?.hasErr && surveyQustions[10]?.answer === ''">{{surveyQustions[10].errMsg}}</div>
                         <div class="sv-q-c">
                             <label class="checked" *ngFor="let ans of surveyQustions[10]?.options" [class.checked]="surveyQustions[10]?.answer === ans.id">
                                 <input type="radio" (change)="surveyQustions[10].answer = ans.id" [checked]="surveyQustions[10]?.answer === ans.id">
@@ -261,7 +261,7 @@
                     <!-- 单选题 -->
                     <div class="sv-q-radio">
                         <div class="sv-q-t" [class.warning]="surveyQustions[11]?.hasErr  && surveyQustions[11]?.answer === ''">Q12 {{surveyQustions[11]?.title}}</div>
-                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[11].hasErr && surveyQustions[11]?.answer === ''">{{surveyQustions[11].errMsg}}</div>
+                        <div class="sv-q-errtip warning" *ngIf="surveyQustions[11]?.hasErr && surveyQustions[11]?.answer === ''">{{surveyQustions[11].errMsg}}</div>
                         <div class="sv-q-c">
                             <label *ngFor="let ans of surveyQustions[11]?.options" [class.checked]="surveyQustions[11]?.answer === ans.id">
                                 <input type="radio" (change)="surveyQustions[11].answer = ans.id" [checked]="surveyQustions[11]?.answer === ans.id">

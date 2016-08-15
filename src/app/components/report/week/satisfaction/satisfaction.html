@@ -1,7 +1,7 @@
 <!-- 主内容 -->
 <!-- 切换卡 -->
 <div class="pr c-tab">
-  <a class="c-tab-item" [routerLink]="['report/week/satisfaction']">满意度评价报告</a>
+  <a class="c-tab-item" href="javascript:;">满意度评价报告</a>
 
   <div class="pa rp-head-print ico-print" (click)="onPrint()">打印本周周报</div>
 </div>
@@ -106,7 +106,7 @@
     </div>
 
     <!-- 列表分页 -->
-    <pagination *ngIf="improvements.length" (pageChanged)="changePage($event)"  [boundaryLinks]="true" [rotate]="false"  [totalItems]="page.total" [itemsPerPage]="page.limit" [maxSize]="7" [(ngModel)]="page.current"></pagination>
+    <pagination *ngIf="page.pageTotal > 1" (pageChanged)="changePage($event)"  [boundaryLinks]="true" [rotate]="false"  [totalItems]="page.total" [itemsPerPage]="page.limit" [maxSize]="7" [(ngModel)]="page.current"></pagination>
     <!-- 列表分页 end -->
 
   </div>

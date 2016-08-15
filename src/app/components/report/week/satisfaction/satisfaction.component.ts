@@ -56,6 +56,7 @@ export class ReportWeekSatisfactionComponent {
 				this.page.current = data.meta.current;
 				this.page.limit = data.meta.limit;
 				this.page.total = data.meta.total;
+				this.page.pageTotal = Math.ceil(this.page.total / this.page.limit);
 			}
 		}, err => console.error(err) );
 	}

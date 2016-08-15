@@ -38,6 +38,7 @@ export class RegisterComponent {
 
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi) {
     this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
+    console.log('zone', this.zone);
     //表单验证
     this.rForm = fb.group({
       'phone': [''],
@@ -116,6 +117,7 @@ export class RegisterComponent {
         // this.seekBtnTitle = '发送验证码';
         //倒计时
         this.timeout = window.setInterval(() => {
+          console.log('timeout', this.timeout);
           this.zone.run(() => {
             if (this.seekTime > 1) {
               this.seekTime--;
@@ -123,6 +125,7 @@ export class RegisterComponent {
             } else {
               this.seekBtnTitle = '重新发送';
               this.seekDisabeld = 0;
+              clearInterval(this.timeout);
             }
           });
         }, 1000);

@@ -93,7 +93,7 @@
     </div>
     <!-- 顾客服务记录end -->
     <!-- 列表分页 -->
-    <pagination *ngIf="histories?.length" (pageChanged)="changePage($event)"  [boundaryLinks]="true" [rotate]="false"  [totalItems]="page.total" [itemsPerPage]="page.limit" [maxSize]="7" [(ngModel)]="page.current"></pagination>
+    <pagination *ngIf="page.pageTotal > 1" (pageChanged)="changePage($event)"  [boundaryLinks]="true" [rotate]="false"  [totalItems]="page.total" [itemsPerPage]="page.limit" [maxSize]="7" [(ngModel)]="page.current"></pagination>
     <!-- 列表分页 end -->
   </div>
   <!-- 顾客详情 end -->
@@ -168,7 +168,7 @@
         <div class="fwin-btns g-btns">
           <div class="g-btn" [ngClass]="{'g-btn-green': !hasSend && !sendErr.times, 'g-btn-gray': hasSend || sendErr.times }" (click)="onSend()">{{ hasSend ? '已发送' : '立即发送' }}</div>
           <div class="pa resend" *ngIf="hasSend" [class.sendgray]="sendErr.times" (click)="onResend()">重新发送</div>
-          <a [routerLink]="['../../survey-pc',{url: commentUrl.url}]"  target="_blank" class="g-btn g-btn-green">马上评价</a>
+          <a [routerLink]="['../../survey-pc',{url: commentUrl.url}]"  target="_blank"  class="g-btn g-btn-green">马上评价</a>
         </div>
       </div>
     </div>

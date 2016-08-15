@@ -10,7 +10,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { UserApi, CommonApi, CustomerApi, Customer } from 'client';
 import { MainLogoComponent, PageFooterComponent, NavbarComponent, MenusComponent, SearchBarComponent } from 'common';
 import { CustomerFormComponent } from '../customerForm/customerForm.component';
-import { DialogService } from 'services';
+import { DialogService, ThzsUtil } from 'services';
 
 @Component({
 	moduleId: module.id,
@@ -27,16 +27,16 @@ export class CustomerEditComponent {
 	sub:any;
 
 	@ViewChild(CustomerFormComponent) cf: CustomerFormComponent;
-	constructor(private router: Router, fb: FormBuilder, private route: ActivatedRoute,  private cApi: CustomerApi, private dialogService: DialogService ) {
+	constructor(private router: Router, fb: FormBuilder, private route: ActivatedRoute,  private cApi: CustomerApi, private dialogService: DialogService, private thzsUtil: ThzsUtil ) {
 
 	}
 
 	ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      this.customerId = +params['id'];
-			this.getCustomerById(this.customerId);
-    });
-  }
+		this.sub = this.route.params.subscribe(params => {
+		this.customerId = +params['id'];
+				this.getCustomerById(this.customerId);
+		});
+	}
 
   ngOnDestroy() {
     this.sub.unsubscribe();
@@ -45,9 +45,12 @@ export class CustomerEditComponent {
 	getCustomerById(id) {
 		this.cApi.customerCustomerIdGet(id).subscribe(data => {
 			console.log(data);
-			if(data.data) {
+			if (data.data) {
+				if (data.data.vehicleYear === '2005') {
+					data.data.vehicleYear = '2005年及以前';
+				}
 				this.customerFields = data.data;
-				console.log('c-f', this.customerFields)
+				this.thzsUtil.getCustomerInfo(this.customerFields); // 编辑顾客时车牌号可以改么？
 				setTimeout(() => this.cf.initFb(), 0);
 			}
 		}, err => console.error(err));

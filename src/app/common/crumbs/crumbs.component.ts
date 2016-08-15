@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
 import { routes } from '../../app.routes';
-
+import { ThzsUtil } from 'services';
 @Component({
     moduleId: module.id,
     selector: 'crumbs',
@@ -15,7 +15,8 @@ export class CrumbsComponent {
     routeConfig: any;
     crumbs: any;
     sub: any;
-    constructor( private router: Router, private route: ActivatedRoute ) {
+    customerInfoSub: any;
+    constructor( private router: Router, private route: ActivatedRoute, private thzsUtil: ThzsUtil ) {
         this.routeConfig = this.formatConfig(routes);
         this.sub = this.router.events.filter( event => event instanceof NavigationEnd )
                                     .map( event => {
@@ -38,7 +39,8 @@ export class CrumbsComponent {
                                             title: urls[0] && urls[0].data ? urls[0].data.title : ''
                                         });
                                         console.log('c-data',data);
-                                        if ( url.includes('add-store') || url.includes('modify-store') || url.includes('modify-pwd') ) {
+                                        
+                                        if ( url.includes('add-store') || url.includes('modify-store') || url.includes('modify-pwd') || url.includes('search-list') ) {
                                             this.crumbs.unshift({
                                                 url: '/dashbroad/my-account',
                                                 title: '我的账户'
@@ -64,9 +66,18 @@ export class CrumbsComponent {
                                         }
                                         console.log('c-data', this.crumbs);
                                     } );
+        this.customerInfoSub = this.thzsUtil.customerInfo$.subscribe( info => {
+            console.log('onfo: ', info);
+            this.crumbs.forEach( item => {
+                if (item.url.includes('customer-detail') || item.url.includes('customer-edit')) {
+                    item.title = info.vehicleLicence;
+                }
+            });
+        });
     }
-    ngOnInit() {
-
+    ngOnDestroy() {
+        this.sub.unsubscribe();
+        this.customerInfoSub.unsubscribe();
     }
     formatConfig(config = []) {
         let ret = [];

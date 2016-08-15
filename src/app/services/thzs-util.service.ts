@@ -6,19 +6,19 @@ import { Subscription } from 'rxjs/Subscription';
 @Injectable()
 export class ThzsUtil {
     public shopChanged$: Observable<number>;
+    public customerInfo$: Observable<any>;
     private shopChangedSource = new Subject<number>();
-    private scs: Subscription;
+    private customerInfoSource = new Subject<any>();
     constructor () {
        this.shopChanged$ = this.shopChangedSource.asObservable();
-        this.scs = this.shopChanged$.subscribe( item => {
-            console.log('thzsutil: ', item);
-        });
-        console.log('scs', this.scs);
+       this.customerInfo$ = this.customerInfoSource.asObservable();
     }
-   
-  changeShop(id) {
-      console.log('changeShop: ', id);
-      this.shopChangedSource.next(id);
-      
-  }
+    changeShop(id) {
+        console.log('changeShop: ', id);
+        this.shopChangedSource.next(id);
+    }
+    getCustomerInfo(info: any) {
+        console.log('customer info', info);
+        this.customerInfoSource.next(info);
+    }
 }

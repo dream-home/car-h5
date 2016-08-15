@@ -23,8 +23,7 @@ import { DialogService } from 'services';
 export class CustomerAddComponent {
 	customerFields: any;
 	@ViewChild(CustomerFormComponent) cf: CustomerFormComponent;
-	constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private cApi: CustomerApi, private dialogService: DialogService ) {
-		
+	constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private cApi: CustomerApi, private dialogService: DialogService  ) {
 	}
 
 	ngOnInit() {

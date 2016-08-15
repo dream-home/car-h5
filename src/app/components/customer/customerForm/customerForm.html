@@ -5,8 +5,7 @@
             <!-- 顾客表单字段 -->
             <div class="pr  ">
               <div class="g-field">
-                <label for="customer_plate" class="g-label">
-                  <span class="warning">*</span>车牌号</label>
+                <label for="customer_plate" class="g-label">车牌号</label>
                 <div class="g-ipt">
                   <input type="text" id="customer_plate" placeholder="必填项" class="g-w343" required [(ngModel)]="customerCurrent.vehicleLicence" name="vehicleLicence" #vehicleLicence="ngModel" (keyup)="subjectAjax()" (focus)="onVehiclePlateFocus()" >
                   <div class="g-field-tip warning" *ngIf ="vehiclePlateNull || vehiclePlateLen || vehiclePlateHas">
@@ -44,7 +43,7 @@
             </div>
             <h5>
               <i class="arrow-up"></i>
-              <span class="ml20 suctip">填写更多信息(选填)</span>
+              <span class="ml20 suctip">其它信息</span>
             </h5>
             <div class="pr ">
               <div class="g-field">
@@ -58,7 +57,7 @@
                 </div>
               </div>
               <div class="g-field">
-                <label for="employee_code" class="g-label">出生年月</label>
+                <label for="employee_code" class="g-label">出生年份</label>
                 <div class="g-ipt">
                   <select class="g-w343" [(ngModel)]="customerCurrent.birthYear" name="birthYear" #birthYear="ngModel">
                     <option value="">请选择</option>

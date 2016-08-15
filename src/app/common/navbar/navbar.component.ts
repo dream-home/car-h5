@@ -19,7 +19,7 @@ import { Cookie, MissionService, ThzsUtil } from 'services';
   template: require('./navbar.html'),
   styles: [require('./navbar.scss')],
   directives: [ROUTER_DIRECTIVES],
-  providers: [HTTP_PROVIDERS, UserApi, ShopApi, Cookie, ThzsUtil]
+  providers: [HTTP_PROVIDERS, UserApi, ShopApi, Cookie]
 })
 
 export class NavbarComponent {
@@ -34,10 +34,7 @@ export class NavbarComponent {
         this.getList();
       }
     })
-    console.log('bl:', this.router)
-    this.thzsUtil.shopChanged$.subscribe( item => {
-      this.getList();
-    } )
+    
   }
 
   ngOnInit() {

@@ -103,12 +103,19 @@ export class EmployeeFormComponent {
 		let result = this.save();
 		if (result) {
 			result.subscribe(data => {
-				console.log('创建了一个新的员工');
-				this.employee = {
-					name: '',
-					code: '',
-					mobile: ''
-				};
+				if (data.meta.code === 200 && data.data ) {
+					console.log('创建了一个新的员工');
+					this.employee = {
+						name: '',
+						code: '',
+						mobile: ''
+					};
+				} else {
+					if (data.error && data.error.message) {
+						alert(data.error.message);
+					}
+				}
+					
 				this.submitting = false;
 			}, err => {
 				console.error('创建新的员工失败');

@@ -112,12 +112,18 @@ export class BusinessAddComponent implements OnInit {
   }
 
   onSubmit(f) {
+
     this.loading = 1;
     let data = Object.assign({}, this.business);
     data.shopId = Cookie.load('shopId');
     if (data.employeeId === 'other') {
+      if ( !this.business.employeeName && !this.business.employeeCode) {
+        alert('技师姓名与技师编号至少填一项');
+        this.loading = 0;
+        return;
+      }
       // payload: models.BusinessDetail
-      this.eApi.employeeSavePost(this.business.employeeName, this.business.employeeCode, '').subscribe(res => {
+      this.eApi.employeeSavePost(this.business.employeeName || '', this.business.employeeCode || '', '').subscribe(res => {
         if (res.meta.code === 200) {
           data.employeeId = res.data.id;
           this.save(data);

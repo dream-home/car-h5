@@ -28,8 +28,8 @@
           <td>{{cr.mobile || '-'}}</td>
           <td>{{cr.vehicleBrand || '-'}}</td>
           <td>{{cr.vehicleModel || '-'}}</td>
-          <td>{{cr.vehicleMiles ? cr.vehicleMiles + '公里' : '-'}}</td>
-          <td>{{ (cr.lastEnterDate | date:'y-MM-dd' ) || '-'}}</td>
+          <td>{{cr.vehicleMiles ? cr.vehicleMiles : '-'}}</td>
+          <td>{{ (cr.lastEnterDate | date:'y-MM-dd HH:mm' ) || '-'}}</td>
           <td>
             <a [routerLink]="['../customer-detail',{id: cr.id}]" routerLinkActive="active">查看详情</a>
           </td>
@@ -37,7 +37,7 @@
       </tbody>
     </table>
     <!-- 列表分页 -->
-    <pagination *ngIf="customers.length" (pageChanged)="changePage($event)"  [boundaryLinks]="true" [rotate]="false"  [totalItems]="page.total" [itemsPerPage]="page.limit" [maxSize]="7" [(ngModel)]="page.current"></pagination>
+    <pagination *ngIf="page.pageTotal > 1" (pageChanged)="changePage($event)"  [boundaryLinks]="true" [rotate]="false"  [totalItems]="page.total" [itemsPerPage]="page.limit" [maxSize]="7" [(ngModel)]="page.current"></pagination>
     <!-- 列表分页 end -->
   </div>
   <div class="list-empty" *ngIf="!customers.length && !isSearch">

@@ -38,7 +38,7 @@
       </tbody>
     </table>
     <!-- 列表分页 -->
-    <pagination *ngIf="customers.length" (pageChanged)="changePage($event)"  [boundaryLinks]="true" [rotate]="false"  [totalItems]="page.total" [itemsPerPage]="page.limit" [maxSize]="7" [(ngModel)]="page.current"></pagination>
+    <pagination *ngIf="page.pageTotal > 1" (pageChanged)="changePage($event)"  [boundaryLinks]="true" [rotate]="false"  [totalItems]="page.total" [itemsPerPage]="page.limit" [maxSize]="7" [(ngModel)]="page.current"></pagination>
     <!-- 列表分页 end -->
   </div>
   <div class="list-empty" *ngIf="!customers.length && !isSearch">

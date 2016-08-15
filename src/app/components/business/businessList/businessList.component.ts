@@ -1,7 +1,8 @@
-import { Component, Input, Output, NgZone, Injectable } from '@angular/core';
+import { Component, Input, Output, NgZone, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from '@angular/router';
 import { Http, Response, HTTP_PROVIDERS } from '@angular/http';
 import { ControlGroup, FormBuilder, Control, NgControlGroup } from '@angular/common';
+import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
@@ -11,17 +12,15 @@ import { DATEPICKER_DIRECTIVES, PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-
 
 import { BusinessApi, BusinessList, BusinessListResponse } from 'client';
 import { PaginationComponent } from 'common';
-import { MissionService, ThzsUtil } from 'services';
+import { Cookie, MissionService, ThzsUtil } from 'services';
 
 @Component({
   selector: 'business-list',
   template: require('./businessList.html'),
   styles: [require('./businessList.scss')],
   directives: [DATEPICKER_DIRECTIVES, ROUTER_DIRECTIVES, PaginationComponent],
-  providers: [HTTP_PROVIDERS, BusinessApi, ThzsUtil],
-  // host: {
-  //   '(click)': 'closeDatePicker($event)'
-  // }
+  providers: [HTTP_PROVIDERS, BusinessApi]
+  
 })
 
 export class BusinessListComponent {
@@ -34,7 +33,7 @@ export class BusinessListComponent {
   shopChangeSub: Subscription;
 
   constructor(private router: Router, private route: ActivatedRoute, private bApi: BusinessApi, private missionService: MissionService, private thzsUtil: ThzsUtil) {
-    missionService.businessAddAnnounced$.subscribe(
+      missionService.businessAddAnnounced$.subscribe(
       astronaut => {
         if (astronaut == 'business-list') {
           this.getList();
@@ -44,17 +43,18 @@ export class BusinessListComponent {
 
       this.shopChangeSub = this.thzsUtil.shopChanged$.subscribe( item => {
           console.log('business list: ', item);
+          this.getList();
       } );
-      console.log('bl: ', this.shopChangeSub)
+      
       
   }
 
   // 初始化
   ngOnInit() {
     this.getList();
-    
-    
-      
+  }
+  ngOnDestroy() {
+    this.shopChangeSub.unsubscribe();
   }
 
   onToggleDate(event) {
@@ -113,6 +113,7 @@ export class BusinessListComponent {
           this.page.current = data.meta.current || 1;
           this.page.limit = data.meta.limit || 20;
           this.page.total = data.meta.total || 0;
+          this.page.pageTotal = Math.ceil(this.page.total / this.page.limit);
         }
       })
     }, 500)

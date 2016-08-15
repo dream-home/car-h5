@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
 import { CustomerApi, Customer, BusinessDetail, BusinessHistoryDetail, BusinessApi } from 'client';
 import { MainLogoComponent, PageFooterComponent, NavbarComponent, MenusComponent, SearchBarComponent, PaginationComponent } from 'common';
-import { MissionService } from 'services';
+import { MissionService, ThzsUtil } from 'services';
 
 @Component({
   moduleId: module.id,
@@ -44,7 +44,7 @@ export class CustomerDetailComponent {
 	delRecord:any;
   next:number;
 
-  constructor(private router: Router, private route: ActivatedRoute, private cApi: CustomerApi, private bApi: BusinessApi, private missionService: MissionService) {
+  constructor(private router: Router, private route: ActivatedRoute, private cApi: CustomerApi, private bApi: BusinessApi, private missionService: MissionService, private thzsUtil: ThzsUtil) {
     missionService.businessAddAnnounced$.subscribe(
       astronaut => {
         if (astronaut == 'customer-detail') {
@@ -88,6 +88,7 @@ export class CustomerDetailComponent {
         this.customer = this.customerDetail.customers && this.customerDetail.customers.length ? this.customerDetail.customers[0] : {};
         this.histories = this.customerDetail.histories || [];
         this.customer = this.formatCustomer(this.customer);
+        this.thzsUtil.getCustomerInfo(this.customer);
         this.customerDetail.historiesTotol = data.meta.total;
         this.customerDetail.totalAvgScore = this.customerDetail.totalAvgScore ? this.customerDetail.totalAvgScore.toFixed(2) : 0;
         // console.log('customerDetail: ', this.customerDetail);
@@ -96,6 +97,8 @@ export class CustomerDetailComponent {
         this.page.current = data.meta.current;
         this.page.limit = data.meta.limit;
         this.page.total = data.meta.total;
+        this.page.pageTotal = Math.ceil(this.page.total / this.page.limit);
+        console.log('page: ', this.page);
       } else {
         //啥都没有
         this.customerDetail = {};
@@ -225,5 +228,7 @@ export class CustomerDetailComponent {
   onCancel() {
     this.showDelWin = false;
   }
+
+  
 
 }

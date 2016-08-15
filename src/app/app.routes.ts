@@ -37,7 +37,7 @@ export const routes:RouterConfig = [
       { path: 'customer-edit', component: components.CustomerEditComponent, canDeactivate: [CanDeactivateGuard],canActivate: [AuthGuard], data: {title: '编辑顾客'} },
       { path: 'customer-detail', component: components.CustomerDetailComponent,canActivate: [AuthGuard], data: {title: '顾客详情'} },
       { path: 'customer-list', component: components.CustomerListComponent,canActivate: [AuthGuard], data: {title: '顾客列表'} },
-      { path: 'search-list', component: components.SearchListComponent,canActivate: [AuthGuard], data: {title: '查询结果'} },
+      { path: 'search-list', component: components.SearchListComponent,canActivate: [AuthGuard], data: {title: '搜索结果'} },
       // { path: 'report/week/business', component: components.ReportWeekBusinessComponent,canActivate: [AuthGuard], data: {title: '满意度报告'} },
       { path: 'report/week/satisfaction', component: components.ReportWeekSatisfactionComponent,canActivate: [AuthGuard], data: {title: '满意度报告'} },
       { path: 'business-add', component: components.BusinessAddComponent,canActivate: [AuthGuard], data: {title: '添加服务'} },

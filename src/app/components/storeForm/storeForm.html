@@ -89,7 +89,7 @@
         <div class="g-field">
           <label for="store_tel" class="g-label">联系方式</label>
           <div class="g-ipt" [class.error]="!phone?.valid && !phone?.pristine">
-            <input type="text" id="store_tel" #phone="ngModel" name="phone" #phone="ngModel" [(ngModel)]="shop.phone" pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$" class="g-wm">
+            <input type="text" id="store_tel" #phone="ngModel" name="phone" #phone="ngModel" [(ngModel)]="shop.phone" class="g-wm" maxlength="50">
           </div>
           <div class="msg">
             <span class="text-error" *ngIf="!phone.valid && !phone.pristine">
@@ -110,7 +110,7 @@
         <div class="g-field">
           <label for="store_area" class="g-label">门店面积</label>
           <div class="g-ipt" [class.error]="!area?.valid && !area?.pristine">
-            <input type="text" maxlength="4"  name="area" #area="ngModel" [(ngModel)]="shop.area" pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$" class="g-wm">
+            <input type="text" maxlength="4"  name="area" #area="ngModel" [(ngModel)]="shop.area" class="g-wm">
             <span class="g-unit">m<i>2</i>
             </span>
           </div>
