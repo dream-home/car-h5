@@ -31,18 +31,11 @@ export class CustomerListComponent {
 	}
 
 	ngOnInit() {
-		this.sub = this.route.params.subscribe(params => {
-			console.log(params);
-			this.searchStr = params['s'];
-			console.log(this.searchStr);
-			this.isSearch = this.searchStr === undefined || this.searchStr === '' || this.searchStr === null ? false : true;
-
-			this.isSearch ?  this.getSearchCustomers() : this.getCustomers();
-		});
+		this.getCustomers()
 	}
 
 	ngOnDestroy() {
-		this.sub.unsubscribe();
+		
 	}
 
 	changePage(cur){
@@ -58,35 +51,13 @@ export class CustomerListComponent {
 			this.page.current = data.meta.current;
 			this.page.limit = data.meta.limit;
 			this.page.total = data.meta.total;
+			this.page.pageTotal = Math.ceil(this.page.total / this.page.limit);
 		}, err => {
 			console.error(err);
 			this.customers = [];
 		});
 	}
-	getSearchCustomers() {
-		console.log('customer search list....',this.isSearch);
-		if ( !this.isSearch ) return;
-		this.cApi.customerSearchPhoneOrVehicleLicenceGet(this.searchStr,this.page.current,this.page.limit).subscribe( data => {
-
-			if (data.data) {
-				let dd = data.data;
-				if ( dd.customers.length === 1 ) {
-					this.router.navigate(['/dashbroad/customer-detail', { id: dd.customers[0].id }]);
-				} else {
-					this.customers = dd.customers;
-				}
-				this.page.current = data.meta.current;
-				this.page.limit = data.meta.limit;
-				this.page.total = data.meta.total;
-				this.page.pageTotal = Math.ceil(this.page.total / this.page.limit);
-			} else {
-				this.customers = [];
-			}
-		}, err => {
-			console.error(err);
-			this.customers = [];
-		});
-	}
+	
 
 
 

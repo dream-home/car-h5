@@ -3,3 +3,5 @@
 .employee-list table tbody tr > td:last-child {min-width:100px;}
 .employee-list table tbody tr > td:nth-child(8) { min-width:120px; }
 .employee-list table tbody tr > td:nth-child(3) { max-width:150px; min-width:100px; }
+.employee-list table tbody tr > td:nth-child(5), 
+.employee-list table tbody tr > td:nth-child(6) { max-width:200px; min-width:100px; overflow:hidden; }

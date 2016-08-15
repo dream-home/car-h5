@@ -70,15 +70,16 @@ export class SearchListComponent {
 		this.cApi.customerSearchPhoneOrVehicleLicenceGet(this.searchStr).subscribe( data => {
 			if (data.data) {
 				let dd = data.data;
-				if ( dd.customers.length === 1 ) {
-					this.router.navigate(['/dashbroad/customer-detail', { id: dd.customers[0].id }]);
+				if ( dd.length === 1 ) {
+					this.router.navigate(['/dashbroad/customer-detail', { id: dd[0].id }]);
 				} else {
-					this.customers = dd.customers;
+					this.customers = dd;
 					this.onOpenba();
 				}
 				this.page.current = data.meta.current;
 				this.page.limit = data.meta.limit;
 				this.page.total = data.meta.total;
+				this.page.pageTotal = Math.ceil(this.page.total / this.page.limit);
 			} else {
 				this.customers = [];
 				this.onOpenba();

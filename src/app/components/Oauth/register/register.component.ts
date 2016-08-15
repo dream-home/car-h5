@@ -154,8 +154,8 @@ export class RegisterComponent {
       .subscribe((data) => {
         this.loading = 0;
         if (data.meta.code == 200) {
-          Cookie.save('token', data.data.User.token, 7);
-          this.sApi.shopMyshopGet(data.data.User.token).subscribe(data => {
+          Cookie.save('token', data.data.token, 7);
+          this.sApi.shopMyshopGet(data.data.token).subscribe(data => {
             if (data.meta.code === 200) {
               if (data.data.length > 0) {
                 this.router.navigate(['/dashbroad/business-list']);

@@ -110,7 +110,7 @@ export class CustomerDetailComponent {
   formatCustomer(customer) {
 		const currentYear = (new Date()).getFullYear();
 		customer.age = customer.birthYear ? (currentYear - customer.birthYear) : '';
-		customer.sex = customer.gender === 0 ? '女' : customer.gender === 1 ? '男' : '其它';
+		customer.sex = customer.gender === 0 ? '女' : customer.gender === 1 ? '男' : '';
 		return customer;
 	}
 

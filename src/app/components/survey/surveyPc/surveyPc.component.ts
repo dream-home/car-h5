@@ -202,7 +202,7 @@ export class SurveyPcComponent {
             questions[9].answer = profile.vehicleModel;
         }
         // 购买年份
-        if ( profile.birthYear !== null ) {
+        if ( profile.vehicleYear !== null ) {
             let year = parseInt(profile.vehicleYear, 10);
             year = isNaN(year) ? profile.vehicleYear : year;
             for (const opt of questions[10].options) {

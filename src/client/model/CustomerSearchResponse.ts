@@ -33,7 +33,7 @@ export interface CustomerSearchResponse {
 
     meta?: models.Meta;
 
-    data?: models.CustomerSearch;
+    data?: Array<models.BusinessHistoryDetail>;
 
     error?: models.Error;
 }

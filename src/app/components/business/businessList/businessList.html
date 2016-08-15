@@ -7,7 +7,7 @@
       <datepicker [ngModel]="date" [initDate]="date" [maxDate]="today" (ngModelChange)="onPickerChange($event)" [showWeeks]="false" ></datepicker>
     </div>
   </div>
-  <h5 class="dib title">记录新服务</h5>
+  <h5 class="dib title">今日服务</h5>
   <div class="dib fr business-info">
     合计: <span class="warning">{{page?.total||0}}</span> 笔服务 平均 <span class="warning">{{list?.score||0}}</span> 分
   </div>
@@ -32,7 +32,7 @@
       <tbody *ngIf="list?.content">
         <tr *ngFor="let item of list?.content, let i = index">
           <td>{{(i+1)+(page.current-1)*page.limit}}</td>
-          <td>{{item.date | date: 'hh:mm'}}</td>
+          <td>{{item.date | date: 'HH:mm'}}</td>
           <td ><a [routerLink]="['../customer-detail',{id: item.customerId}]" routerLinkActive="active" [attr.title]="item.licence">{{item.licence}}</a></td>
           <td>{{item.customer}}</td>
           <td>{{item.mobile}}</td>

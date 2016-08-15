@@ -39,8 +39,11 @@ export class CrumbsComponent {
                                             title: urls[0] && urls[0].data ? urls[0].data.title : ''
                                         });
                                         console.log('c-data',data);
+                                        if (url.includes('business-list')) {
+                                            this.crumbs = [];
+                                        }
                                         
-                                        if ( url.includes('add-store') || url.includes('modify-store') || url.includes('modify-pwd') || url.includes('search-list') ) {
+                                        if ( url.includes('add-store') || url.includes('modify-store') || url.includes('modify-pwd') ) {
                                             this.crumbs.unshift({
                                                 url: '/dashbroad/my-account',
                                                 title: '我的账户'
@@ -52,7 +55,7 @@ export class CrumbsComponent {
                                                 title: '我的员工'
                                             });
                                         }
-                                        if ( url.includes('customer-add') || url.includes('customer-edit') || url.includes('customer-detail') ) {
+                                        if ( url.includes('customer-add') || url.includes('customer-edit') || url.includes('customer-detail') || url.includes('search-list') ) {
                                             this.crumbs.unshift({
                                                 url: '/dashbroad/customer-list',
                                                 title: '我的顾客'

@@ -150,18 +150,24 @@ export class ForgetPwdComponent {
           alert('密码修改成功');
           this.router.navigate(['/login-min']);
         } else {
-          this.next = 1;
           this.errorWin(data.error.message);
-          this.getCodeImg();
+          
         }
       });
   }
 
-  onClose() {
-    this.openProtocol = false;
-    if(this.errorPhoneCode === '短信验证码超时，导致userId不存在'){
-      this.router.navigate(['/login-min']);
+  onClose(key) {
+    if (key === 'okey') {
+        
+        if(this.errorPhoneCode === '短信验证码超时，导致userId不存在'){
+          // this.router.navigate(['/login-min']);
+          this.next = 1;
+          this.getCodeImg();
+        } 
+        
     }
+    this.openProtocol = false;
+    
   }
 
   toHome() {
