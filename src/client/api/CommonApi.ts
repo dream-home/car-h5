@@ -66,7 +66,7 @@ export class CommonApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 204) {
+                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login-min';                     return undefined;                 } else if (response.status === 204) {
                     return undefined;
                 } else {
                     return response;
@@ -95,13 +95,60 @@ export class CommonApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 204) {
+                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login-min';                     return undefined;                 } else if (response.status === 204) {
                     return undefined;
                 } else {
                     return response;
                 }
             });
     }
+
+    /**
+     * 验证图形验证码的有效性
+     * 
+     * @param uuid 访问验证码生成的uuid
+     * @param code 验证码
+     */
+    public commonCaptchaValidateGet (uuid: string, code: string, extraHttpRequestParams?: any ) : Observable<models.CommonResponse> {
+        const path = this.basePath + '/common/captcha/validate';
+
+        let queryParameters = new URLSearchParams();
+        let headerParams = this.defaultHeaders;
+
+        headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
+        headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+
+
+        // verify required parameter 'uuid' is not null or undefined
+        if (uuid === null || uuid === undefined) {
+            throw new Error('Required parameter uuid was null or undefined when calling commonCaptchaValidateGet.');
+        }
+        // verify required parameter 'code' is not null or undefined
+        if (code === null || code === undefined) {
+            throw new Error('Required parameter code was null or undefined when calling commonCaptchaValidateGet.');
+        }
+        if (code !== undefined) {
+            queryParameters.set('code', code);
+        }
+
+            headerParams.set('uuid', uuid);
+
+        let requestOptions: RequestOptionsArgs = {
+            method: 'GET',
+            headers: headerParams,
+            search: queryParameters
+        };
+
+        return this.http.request(path, requestOptions)
+            .map((response: Response) => {
+                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login-min';                     return undefined;                 } else if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json();
+                }
+            });
+    }
+
 
     /**
      * 找回密码，检验手机验证码有效性， 客户端在点下一步时候调用, 如果服务端返回200， 则json里个修改密码的凭证sign. 客户端需要将在/user/updatePwd接口用到sign
@@ -149,7 +196,7 @@ export class CommonApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 204) {
+                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login-min';                     return undefined;                 } else if (response.status === 204) {
                     return undefined;
                 } else {
                     return response.json();
@@ -178,7 +225,7 @@ export class CommonApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 204) {
+                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login-min';                     return undefined;                 } else if (response.status === 204) {
                     return undefined;
                 } else {
                     return response.json();

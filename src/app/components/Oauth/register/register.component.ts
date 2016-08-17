@@ -12,11 +12,10 @@ import { MainLogoComponent, PageFooterComponent } from 'common';
 import { Cookie } from 'services';
 
 @Component({
-  moduleId: module.id,
   selector: 'register',
   template: require('./register.html'),
   styles: [require('./register.scss')],
-  directives: [ROUTER_DIRECTIVES,  MainLogoComponent, PageFooterComponent],
+  directives: [ROUTER_DIRECTIVES, MainLogoComponent, PageFooterComponent],
   providers: [HTTP_PROVIDERS, UserApi, CommonApi, ShopApi, Md5]
 })
 
@@ -35,7 +34,8 @@ export class RegisterComponent {
   errorMsg: string;
   loading: number = 0;
   openErrorProtocol: boolean = false;
-  oldPhone:number;
+  oldPhone: number;
+  isCode: boolean = true;
 
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi) {
     this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
@@ -47,13 +47,9 @@ export class RegisterComponent {
       'pwd': [''],
     });
   }
-<<<<<<< HEAD
+
 
   blur(data, e) {
-=======
-  
-  blur(data,e){
->>>>>>> ec32367721e5453c7943d3c20f37cc0b3f71fee6
     data.blur = e.type == 'blur';
   }
 
@@ -88,28 +84,40 @@ export class RegisterComponent {
     this.openProtocol = 0;
   }
 
-  onChkPhone(e){
-      if(e.target.value===this.oldPhone){
+  onChkPhone(e) {
+    if (e.target.value === this.oldPhone) {
 
-      }else{
-          this.errorPhoneCode = '';
-          this.oldPhone = e.target.value;
-      }
+    } else {
+      this.errorPhoneCode = '';
+      this.oldPhone = e.target.value;
+    }
   }
 
   errorWin(message) {
-    if (message === '短信验证码超时，导致userId不存在'||message === '您今天的短信发送已达到3次上限') {
+    if (message === '短信验证码不存在' || message === '短信验证码超时，导致userId不存在' || message === '您今天的短信发送已达到3次上限') {
       this.openErrorProtocol = true;
-      this.errorPhoneCode = message;
-    } else {
+      if (message === '短信验证码不存在') {
+        this.errorPhoneCode = '验证码已失效,请更换';
+      } else {
         this.errorPhoneCode = message;
-        this.errorMsg = message;
+      }
+    } else {
+      this.errorPhoneCode = message;
+      this.errorMsg = message;
     }
     this.getCodeImg();
   }
 
   onErrorClose() {
     this.openErrorProtocol = false;
+  }
+
+  chkRnd(e) {
+    let rnd = e.target.value;
+    let uuid = this.uApi.defaultHeaders.get('uuid');
+    this.cApi.commonCaptchaValidateGet(uuid, rnd).subscribe(data => {
+      this.isCode = data.meta.code == 200 ? false : true;
+    });
   }
 
   /**
@@ -130,7 +138,7 @@ export class RegisterComponent {
       return;
     }
     this.seekDisabeld = 1;
-    this.seekTime = 59;
+    this.seekTime = 60;
     this.getPhoneCode(phone, rnd).subscribe(data => {
       if (data.meta.code !== 200) {
         this.errorWin(data.error.message);
@@ -185,12 +193,11 @@ export class RegisterComponent {
                 this.router.navigate(['/init-store']);
               }
             } else {
-              alert(data.error.message);
-
+              this.errorWin(data.error.message);
             }
           });
         } else {
-          this.errorMsg = data.error.message;
+          this.errorWin(data.error.message);
         }
       })
   }

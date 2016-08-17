@@ -15,7 +15,7 @@ import { MainLogoComponent, PageFooterComponent } from 'common';
   selector: 'forget-pwd',
   template: require('./forgetPwd.html'),
   styles: [require('./forgetPwd.scss')],
-  directives: [ROUTER_DIRECTIVES,  MainLogoComponent, PageFooterComponent],
+  directives: [ROUTER_DIRECTIVES, MainLogoComponent, PageFooterComponent],
   providers: [HTTP_PROVIDERS, UserApi, CommonApi, Md5],
 })
 
@@ -30,9 +30,10 @@ export class ForgetPwdComponent {
   img: any;
   diff: number = 0;
   timeout: any;
-  errorPhoneCode: string;
+  errorMsg: string;
   openProtocol: boolean = false;
-  fp:any = {};
+  fp: any = {};
+  isCode: boolean = true;
 
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi) {
     this.zone = new NgZone({ enableLongStackTrace: true }); // 事务控制器
@@ -56,6 +57,10 @@ export class ForgetPwdComponent {
     this.getCodeImg();
   }
 
+  blur(data, e) {
+    data.blur = e.type == 'blur';
+  }
+
   /**
    * 点击发送验证码
    * @param  {[type]} phone 手机号码
@@ -73,10 +78,9 @@ export class ForgetPwdComponent {
       return;
     }
     this.seekDisabeld = 1;
-    this.seekTime = 59;
+    this.seekTime = 60;
     this.getPhoneCode(phone, rnd).subscribe(data => {
       if (data.meta.code !== 200) {
-        this.getCodeImg();
         this.errorWin(data.error.message);
         this.seekBtnTitle = '重新发送';
         this.seekDisabeld = 0;
@@ -111,6 +115,7 @@ export class ForgetPwdComponent {
   }
   //验证手机号
   onCheckPhone() {
+    this.errorMsg = null;
     this.loading = 1;
     let params = this.fp;
     params.uuid = this.uApi.defaultHeaders.get('uuid');
@@ -121,15 +126,31 @@ export class ForgetPwdComponent {
         this.sign = data.data.sign;
       } else {
         this.errorWin(data.error.message);
-        this.getCodeImg();
       }
       this.loading = 0;
     });
   }
 
   errorWin(message) {
-    this.openProtocol = true;
-    this.errorPhoneCode = message === '短信验证码超时，导致userId不存在' ? '你离开的时间过长,请重新操作' : message;
+    if (message === '短信验证码不存在' || message === '您离开的时间太长，请重新操作' || message === '您今天的短信发送已达到3次上限') {
+      this.openProtocol = true;
+      if (message === '短信验证码不存在') {
+        this.errorMsg = '验证码已失效,请更换';
+      } else {
+        this.errorMsg = message;
+      }
+    } else {
+      this.errorMsg = message;
+    }
+    this.getCodeImg();
+  }
+
+  chkRnd(e) {
+    let rnd = e.target.value;
+    let uuid = this.uApi.defaultHeaders.get('uuid');
+    this.cApi.commonCaptchaValidateGet(uuid, rnd).subscribe(data => {
+      this.isCode = data.meta.code == 200 ? false : true;
+    });
   }
 
   // 重置密码
@@ -152,23 +173,23 @@ export class ForgetPwdComponent {
           this.router.navigate(['/login-min']);
         } else {
           this.errorWin(data.error.message);
-          
+
         }
       });
   }
 
   onClose(key) {
     if (key === 'okey') {
-        
-        if(this.errorPhoneCode === '短信验证码超时，导致userId不存在'){
-          // this.router.navigate(['/login-min']);
-          this.next = 1;
-          this.getCodeImg();
-        } 
-        
+
+      if (this.errorMsg === '短信验证码超时，导致userId不存在') {
+        // this.router.navigate(['/login-min']);
+        this.next = 1;
+        this.getCodeImg();
+      }
+
     }
     this.openProtocol = false;
-    
+
   }
 
   toHome() {
