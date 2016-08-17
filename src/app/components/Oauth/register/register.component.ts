@@ -93,9 +93,13 @@ export class RegisterComponent {
   }
 
   errorWin(message) {
-    if (message === '短信验证码超时，导致userId不存在'||message === '您今天的短信发送已达到3次上限') {
+    if (message === '短信验证码不存在'||message === '短信验证码超时，导致userId不存在'||message === '您今天的短信发送已达到3次上限') {
       this.openErrorProtocol = true;
-      this.errorPhoneCode = message;
+      if(message === '短信验证码不存在'){
+        this.errorPhoneCode = '验证码已失效,请更换';
+      }else{
+        this.errorPhoneCode = message;
+      }
     } else {
         this.errorPhoneCode = message;
         this.errorMsg = message;
@@ -125,7 +129,7 @@ export class RegisterComponent {
       return;
     }
     this.seekDisabeld = 1;
-    this.seekTime = 59;
+    this.seekTime = 60;
     this.getPhoneCode(phone, rnd).subscribe(data => {
       if (data.meta.code !== 200) {
         this.errorWin(data.error.message);
@@ -180,12 +184,11 @@ export class RegisterComponent {
                 this.router.navigate(['/init-store']);
               }
             } else {
-              alert(data.error.message);
-
+              this.errorWin(data.error.message);
             }
           });
         } else {
-          this.errorMsg = data.error.message;
+          this.errorWin(data.error.message);
         }
       })
   }

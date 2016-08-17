@@ -77,7 +77,7 @@ export class ForgetPwdComponent {
       return;
     }
     this.seekDisabeld = 1;
-    this.seekTime = 59;
+    this.seekTime = 60;
     this.getPhoneCode(phone, rnd).subscribe(data => {
       if (data.meta.code !== 200) {
         this.errorWin(data.error.message);
@@ -131,9 +131,13 @@ export class ForgetPwdComponent {
   }
 
   errorWin(message) {
-    if (message === '短信验证码超时，导致userId不存在' || message === '您今天的短信发送已达到3次上限') {
+    if (message === '短信验证码不存在' || message === '您离开的时间太长，请重新操作' || message === '您今天的短信发送已达到3次上限') {
       this.openProtocol = true;
-      this.errorMsg = message === '短信验证码超时，导致userId不存在' ? '你离开的时间过长,请重新操作' : message;
+      if (message === '短信验证码不存在') {
+        this.errorMsg = '验证码已失效,请更换';
+      } else {
+        this.errorMsg = message;
+      }
     } else {
       this.errorMsg = message;
     }
