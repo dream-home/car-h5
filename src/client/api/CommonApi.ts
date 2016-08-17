@@ -66,7 +66,7 @@ export class CommonApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 204) {
+                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login-min';                     return undefined;                 } else if (response.status === 204) {
                     return undefined;
                 } else {
                     return response;
@@ -95,7 +95,7 @@ export class CommonApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 204) {
+                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login-min';                     return undefined;                 } else if (response.status === 204) {
                     return undefined;
                 } else {
                     return response;
@@ -149,7 +149,7 @@ export class CommonApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 204) {
+                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login-min';                     return undefined;                 } else if (response.status === 204) {
                     return undefined;
                 } else {
                     return response.json();
@@ -178,7 +178,7 @@ export class CommonApi {
 
         return this.http.request(path, requestOptions)
             .map((response: Response) => {
-                if (response.status === 204) {
+                if (response.status === 401||response.status === 403) {                     window.location.href = '/#/login-min';                     return undefined;                 } else if (response.status === 204) {
                     return undefined;
                 } else {
                     return response.json();
