@@ -10,16 +10,14 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { UserApi, CommonApi, ShopApi, User } from 'client';
 import { MainLogoComponent, PageFooterComponent } from 'common';
 import { Cookie } from 'services';
-import { BlurForwarder } from 'directives';
 
 @Component({
   moduleId: module.id,
   selector: 'register',
   template: require('./register.html'),
   styles: [require('./register.scss')],
-  directives: [ROUTER_DIRECTIVES,  MainLogoComponent, PageFooterComponent,BlurForwarder],
+  directives: [ROUTER_DIRECTIVES, MainLogoComponent, PageFooterComponent],
   providers: [HTTP_PROVIDERS, UserApi, CommonApi, ShopApi, Md5],
-  host: {'(input-blur)':'onInputBlur($event)'},
 })
 
 export class RegisterComponent {
@@ -36,7 +34,8 @@ export class RegisterComponent {
   errorPhoneCode: string;
   errorMsg: string;
   loading: number = 0;
-  openErrorProtocol:boolean = false;
+  openErrorProtocol: boolean = false;
+  oldPhone:number;
 
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi) {
     this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
@@ -48,10 +47,8 @@ export class RegisterComponent {
       'pwd': [''],
     });
   }
-  onInputBlur(e){
-    //   console.log('onInputBlur',e);
-  }
-  blur(data,e){
+
+  blur(data, e) {
     data.blur = e.type == 'blur';
   }
 
@@ -86,12 +83,27 @@ export class RegisterComponent {
     this.openProtocol = 0;
   }
 
-  errorWin(message) {
-    this.openErrorProtocol = true;
-    this.errorPhoneCode = message === '短信验证码超时，导致userId不存在' ? '你离开的时间过长,请重新操作' : message;
+  onChkPhone(e){
+      if(e.target.value===this.oldPhone){
+
+      }else{
+          this.errorPhoneCode = '';
+          this.oldPhone = e.target.value;
+      }
   }
 
-  onErrorClose(){
+  errorWin(message) {
+    if (message === '短信验证码超时，导致userId不存在'||message === '您今天的短信发送已达到3次上限') {
+      this.openErrorProtocol = true;
+      this.errorPhoneCode = message;
+    } else {
+        this.errorPhoneCode = message;
+        this.errorMsg = message;
+    }
+    this.getCodeImg();
+  }
+
+  onErrorClose() {
     this.openErrorProtocol = false;
   }
 
@@ -117,15 +129,12 @@ export class RegisterComponent {
     this.getPhoneCode(phone, rnd).subscribe(data => {
       if (data.meta.code !== 200) {
         this.errorWin(data.error.message);
-        this.errorPhoneCode = data.error.message;
-        this.errorMsg = data.error.message;
         this.seekBtnTitle = '重新发送';
         this.seekDisabeld = 0;
       } else {
         // this.seekBtnTitle = '发送验证码';
         //倒计时
         this.timeout = window.setInterval(() => {
-          console.log('timeout', this.timeout);
           this.zone.run(() => {
             if (this.seekTime > 1) {
               this.seekTime--;

@@ -6,7 +6,7 @@
     </li>
     <li *ngFor="let p of pages, let i = index"  [class.active]="p.active" [class.page-ellipse]="p.text=='...'" [class.disabled]="p.text=='...'"  >
       <a *ngIf="p.active" href="javascript:void(0);" (click)="selectPage(p.number, $event)" [innerHTML]="p.text">第{{p.text}}页</a>
-      <a *ngIf="!p.active" href="javascript:void(0);" (click)="selectPage(p.number, $event)" [innerHTML]="p.text">{{p.text}}</a>
+      <a *ngIf="!p.active" href="javascript:void(0);" (click)="p.text!=='...'&&selectPage(p.number, $event)" [innerHTML]="p.text">{{p.text}}</a>
     </li>
     <li class="txt-page next-page"
         [class.disabled]="noNext()||disabled">
