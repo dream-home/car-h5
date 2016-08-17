@@ -1,6 +1,6 @@
 .rp-head { line-height: 54px;  font-size:24px; color:#343434; }
 .rp-head .rp-head-time { font-size:14px; top:0; left:37px; color:#000; }
-.rp-head .rp-head-print, .c-tab .rp-head-print { font-size:14px; top:0; right: 34px; padding-left:26px; cursor:pointer; }
+.rp-head .rp-head-print, .c-tab .rp-head-print { color:#343434;font-size:14px; top:0; right: 34px; padding-left:26px; cursor:pointer; }
 .rp-head .rp-head-print:before, .c-tab .rp-head-print:before  { position:absolute; display:block; content:""; width:16px; height:16px; background:url(/assets/images/icos.png) no-repeat -50px -30px; left:0; top:17px; }
 
 .pr-block-table { display:table; width:100%; border-spacing:36px 0; margin-top:20px; }
@@ -23,6 +23,7 @@
 .pr-tech-list > .ds-cell:first-child { border-right: 1px solid #cedbde;  }
 .pr-tech-list .ds-cell { width:50%; text-align: center; font-size:14px; line-height: 43px;   }
 .pr-tech-list .ds-table .ds-cell { border-bottom:1px solid #cedbde; }
+.pr-tech-list .ds-table > .ds-row { background:#fff; }
 .pr-tech-list .ds-table > .ds-row:first-child .ds-cell { border-top:1px solid #cedbde; }
 .pr-tech-list .ds-table > .ds-row:nth-child(2n) { background:#fff; }
 

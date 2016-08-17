@@ -6,8 +6,8 @@
             <div class="pr  ">
               <div class="g-field">
                 <label for="customer_plate" class="g-label">车牌号</label>
-                <div class="g-ipt">
-                  <input type="text" id="customer_plate" placeholder="必填项" class="g-w343" required [(ngModel)]="customerCurrent.vehicleLicence" name="vehicleLicence" #vehicleLicence="ngModel" (keyup)="subjectAjax()" (focus)="onVehiclePlateFocus()" >
+                <div class="g-ipt" [class.warnBorder]="vehiclePlateNull || vehiclePlateLen || vehiclePlateHas">
+                  <input type="text" id="customer_plate" placeholder="必填项" class="g-w343" maxlength="9" minlength="7" required [(ngModel)]="customerCurrent.vehicleLicence" name="vehicleLicence" #vehicleLicence="ngModel" (keyup)="subjectAjax()" (focus)="onVehiclePlateFocus()" >
                   <div class="g-field-tip warning" *ngIf ="vehiclePlateNull || vehiclePlateLen || vehiclePlateHas">
                     <div *ngIf="vehiclePlateNull">
                         <span>*</span>请填写车牌号 
@@ -24,7 +24,7 @@
 
               <div class="g-field">
                 <label for="employee_code" class="g-label">手机号</label>
-                <div class="g-ipt">
+                <div class="g-ipt" [class.warnBorder]="mobileFormatValid">
                   <input type="tel" id="employee_code" placeholder="" class="g-w343" [(ngModel)]="customerCurrent.mobile" name="mobile" #mobile="ngModel"  (blur)="onMobileValid()" (focus)="onMobileFocus()">
                   <div class="g-field-tip warning" *ngIf="mobileFormatValid">
                     <div>
@@ -50,7 +50,7 @@
                 <label for="employee_name" class="g-label">姓名</label>
                 <div class="g-ipt">
                   <input type="text" id="employee_name" placeholder="" class="g-w343" [(ngModel)]="customerCurrent.name" name="name" #name="ngModel" maxlength="20">
-                  <div class="g-field-tip suctip" >
+                  <div class="g-field-tip" >
                     车主信息越完善有助于您更好管理顾客
 
                   </div>

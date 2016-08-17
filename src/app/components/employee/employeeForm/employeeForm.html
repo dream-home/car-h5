@@ -4,13 +4,13 @@
     <div class="pr g-fields">
         <div class="g-field">
             <label for="employee_name" class="g-label">员工姓名</label>
-            <div class="g-ipt">
+            <div class="g-ipt" [class.warnBorder]="formErr.required || formErr.lenerr">
                 <input type="text" id="employee_name" class="g-w343" [ngModel]="employee?.name" (ngModelChange)="employee.name = $event" (focus)="onHideTip('required');onHideTip('lenerr')" maxlength="20" >
                 <div class="g-field-tip warning" [class.warning]="formErr.required" *ngIf="!formErr.lenerr" ><span>*</span>员工姓名与员工编号至少填一项</div>
                 <div class="g-field-tip warning" *ngIf="formErr.lenerr"><span>*</span>员工姓名与员工编号任一项不超过20个字</div>
             </div>
         </div>
-        <div class="g-field">
+        <div class="g-field" [class.warnBorder]="formErr.required || formErr.lenerr">
             <label for="employee_code" class="g-label">员工编号</label>
             <div class="g-ipt">
                 <input type="text" id="employee_code" class="g-w343" [ngModel]="employee?.code" (ngModelChange)="employee.code = $event" (focus)="onHideTip('required');onHideTip('lenerr')" maxlength="20" >
@@ -19,7 +19,7 @@
         </div>
         <div class="g-field">
             <label for="employee_tel" class="g-label">手机号码</label>
-            <div class="g-ipt">
+            <div class="g-ipt" [class.warnBorder]="formErr.mobile">
                 <input type="text" id="employee_tel" class="g-w343" [ngModel]="employee?.mobile" (ngModelChange)="employee.mobile = $event" (focus)="onHideTip('mobile')" (blur)="onCheckMobile()">
                 <div class="g-field-tip warning" *ngIf="formErr.mobile">请输入正确格式的手机号</div>
             </div>

@@ -66,7 +66,7 @@
               <label for="store_name" class="g-label"></label>
               <div class="g-ipt" [class.warnBorder]="addEmployeeErr || addEmployeeCodeErr">
                 <input type="text" placeholder="请输入员工编号" maxlength="20" name="employeeCode" [(ngModel)]="business.employeeCode" #employeeCode="ngModel" class="g-wml db" (focus)="onAddEmpyeeFocus()">
-                <label class="g-field-tip g-field-ckb" [class.active]="employeeChecked" ><input type="checkbox" name="employeeChecked" [(ngModel)]="employeeChecked" >我的员工</label>
+                <label class="g-field-tip g-field-ckb" [class.active]="employeeChecked" ><input type="checkbox" name="employeeChecked" [(ngModel)]="employeeChecked" >我的技师</label>
                 
               </div>
               <div class="msg" *ngIf="addEmployeeCodeErr">

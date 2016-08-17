@@ -8,6 +8,7 @@ export class ThzsUtil {
     public shopChanged$: Observable<number>;
     public customerInfo$: Observable<any>;
     public currentShopInfo: any;
+    public currentCustomerInfo: any;
     private shopChangedSource = new Subject<number>();
     private customerInfoSource = new Subject<any>();
     constructor () {

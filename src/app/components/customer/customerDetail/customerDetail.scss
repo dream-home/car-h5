@@ -9,7 +9,7 @@
 .cd-name .fr { line-height: 1; margin:19px 24px 0 0; }
 .cd-name .fr span { margin:0 9px 0 19px; color:#f16557; }
 .cd-name .fr a { color:#38b549; text-decoration: underline; margin-left:28px; cursor:pointer; }
-.cd-base table { width:100%; border-collapse: collapse; border-spacing: 0; }
+.cd-base table { width:100%; border-collapse: collapse; border-spacing: 0; margin-bottom:0; }
 .cd-base table tr td { border:1px solid #b2c2cc; background:#fff; line-height: 44px; padding-left:56px; }
 .cd-base table tr > td:nth-child(1),
 .cd-base table tr > td:nth-child(3) { width:130px; text-align: center; background:#eef8f2; padding:0; }
@@ -21,7 +21,7 @@
 .cd-records > div { margin-top:15px; }
 .cd-records > div:first-child { margin-top:0; }
 .cd-records table { width:100%; text-align: center; line-height: 43px; border-collapse: collapse; border-spacing: 0; }
-.cd-records table th { text-align:center; border-top:1px solid #b2c2cc; background:#eef8f2; }
+.cd-records table th { text-align:center; border-top:1px solid #b2c2cc; background:#eef8f2; font-weight:normal; }
 .cd-records table td { border:1px solid #b2c2cc; border-left:none; border-right:none; background:#fff; }
 .cd-records table .cd-border { border:1px solid #b2c2cc;  }
 .cd-records table .w174 { width:174px; }
@@ -88,4 +88,34 @@
     top: 14.5%;
     right: 8.9%;
   }
+}
+
+.employee-del-win {
+    .fwin-box { width:447px; height:231px; margin:-115px 0 0 -223px; }
+    .fwin-content { 
+        padding:42px 0 0;
+        h1 { 
+            text-align: center;
+            margin-bottom:20px;
+            +div {
+                line-height: 30px;
+            }
+        }
+        > div {
+            width:280px;
+            margin:0 auto;
+            padding:0;
+            &:before {
+                content: none;
+            }
+        }
+    }
+    .g-btns {
+        bottom:28px;
+        >.g-btn {
+            &:first-child {
+                margin-left:0;
+            }
+        }
+    }
 }

@@ -612,7 +612,7 @@ html {
   line-height: 48px;
   font-size: 0;
   border-bottom: 1px solid #cedbde;
-  background: #eef8f2;
+  background: #f6f6f6;
 }
 .c-tab .c-tab-item {
   display: inline-block;
@@ -846,7 +846,7 @@ datepicker {
 }
 
 .warnBorder {
-  input[type="text"], select {
+  input[type="text"], select, input[type="tel"] {
     border-color:#f32c52;
   }
 }
