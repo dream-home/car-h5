@@ -10,16 +10,14 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { UserApi, CommonApi, ShopApi, User } from 'client';
 import { MainLogoComponent, PageFooterComponent } from 'common';
 import { Cookie } from 'services';
-import { BlurForwarder } from 'directives';
 
 @Component({
   moduleId: module.id,
   selector: 'register',
   template: require('./register.html'),
   styles: [require('./register.scss')],
-  directives: [ROUTER_DIRECTIVES,  MainLogoComponent, PageFooterComponent,BlurForwarder],
-  providers: [HTTP_PROVIDERS, UserApi, CommonApi, ShopApi, Md5],
-  host: {'(input-blur)':'onInputBlur($event)'},
+  directives: [ROUTER_DIRECTIVES,  MainLogoComponent, PageFooterComponent],
+  providers: [HTTP_PROVIDERS, UserApi, CommonApi, ShopApi, Md5]
 })
 
 export class RegisterComponent {
@@ -48,9 +46,7 @@ export class RegisterComponent {
       'pwd': [''],
     });
   }
-  onInputBlur(e){
-    //   console.log('onInputBlur',e);
-  }
+  
   blur(data,e){
     data.blur = e.type == 'blur';
   }
