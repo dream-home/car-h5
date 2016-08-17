@@ -14,6 +14,14 @@ import { MissionService, ThzsUtil } from 'services';
 const YEARS_16 = [2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000];
 const STATION_30 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
 const SERVICE_LIST = [{ "id": 1, "name": "快修快保" }, { "id": 2, "name": "美容改装" }, { "id": 3, "name": "轮胎专项" }, { "id": 4, "name": "综合维修" }, { "id": 5, "name": "其他" }];
+const SHOP_VALIDATE = {
+  name: false,
+  provinceId: false,
+  cityId: false,
+  address: false,
+  serverType: false,
+  area: true
+};
 
 @Component({
   selector: 'store-form',
@@ -53,11 +61,13 @@ export class StoreFormComponent {
   zone: any;
   showDetail:boolean = true;
   isCurrentStore: boolean = false;
+  serverTypeErr = [];
+  formValid: boolean = false;
   // @Input('store') shopList:Array<Shop>;
   @Output() success = new EventEmitter();
 
   constructor(private router: Router, private route: ActivatedRoute, private cApi: CommonApi, private sApi: ShopApi, private rApi: RegionApi, private uApi: UserApi, private missionService: MissionService, private thzsUtil: ThzsUtil) {
-    this.shopList = [{index:1, sList: _.cloneDeep(SERVICE_LIST) }];
+    this.shopList = [{index: 1, sList: _.cloneDeep(SERVICE_LIST), valid: _.cloneDeep(SHOP_VALIDATE), showTip: _.cloneDeep(SHOP_VALIDATE) }];
     this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
     console.log('store form ', this.thzsUtil);
   }
@@ -66,6 +76,7 @@ export class StoreFormComponent {
     console.log(f);
   }
 
+  
 
   // 初始化
   ngOnInit() {
@@ -189,13 +200,22 @@ export class StoreFormComponent {
           return this.id == data.id;
         }).map((data) => {
           data.sList = _.cloneDeep(SERVICE_LIST);
+          data.valid = _.cloneDeep(SHOP_VALIDATE);
+          data.showTip = _.cloneDeep(SHOP_VALIDATE);
           data.sList.map((sub) => {
             sub.checked = data.serviceIds.indexOf(sub.id) != -1;
           })
           this.getCity(data.provinceId, data);
-
+          for (let key in data.valid) {
+            data.valid[key] = true;
+          }
+          console.log('data: ', data);
+          
           return data;
         });
+        this.formValid = this.formRequiredValid();
+        console.log(this.formValid)
+        console.log(!this.formValid, this.loading)
         console.log("old:", this.shopList)
 
       } else {
@@ -255,7 +275,9 @@ export class StoreFormComponent {
   }
 
   onAddShop(index,shop) {
-    this.shopList.splice(index, 0, { index:shop.index+1,sList: _.cloneDeep(SERVICE_LIST)});
+    this.shopList.splice(index+1, 0, { index:shop.index+1,sList: _.cloneDeep(SERVICE_LIST), valid: _.cloneDeep(SHOP_VALIDATE), showTip: _.cloneDeep(SHOP_VALIDATE)});
+    this.formValid = this.formRequiredValid();
+    console.log('shoplist', this.shopList);
     // this.shopList.push({index:shop.index+1, name: '', provinceId: undefined, cityId: undefined, address: '', ownerName: '', phone: '', openingDate: '', area: null, station: undefined, sList: _.cloneDeep(SERVICE_LIST) });
   }
 
@@ -286,9 +308,29 @@ export class StoreFormComponent {
     this.showDelWin = false;
   }
 
+  validAllStoreRequiredItems() {}
+
   onChangeProvince(id, item) {
     item.provinceId = id;
-    this.getCity(id, item);
+    this.formValid = false;
+    if (id && id !== 'undefined') {
+      item.valid.provinceId = true;
+      this.getCity(id, item);
+    } else {
+      item.valid.provinceId = false;
+    }
+    item.showTip.provinceId = id === 'undefined' ? true : false;
+    
+  }
+  onChangeCity(id, shop) {
+    shop.cityId = id;
+    if (id && id !== 'undefined') {
+      shop.valid.cityId = true;
+    } else {
+      shop.valid.cityId = false;
+    }
+    shop.showTip.cityId = id === 'undefined' ? true : false;
+    this.formValid = this.formRequiredValid();
   }
 
   AssemblyServiceId(data) {
@@ -341,4 +383,84 @@ export class StoreFormComponent {
     }
 
   }
+
+  formRequiredValid() {
+    for (let shop of this.shopList) {
+      if ( !(shop.valid.name && shop.valid.provinceId && shop.valid.cityId && shop.valid.address && shop.valid.serverType && shop.valid.area) ) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+// 面积的验证是反的
+  onStoreAreaBlur(shop) {
+    if (shop.area === undefined || shop.area === '') {
+      shop.valid.area = true;
+      shop.showTip.area = true;
+      this.formValid = this.formRequiredValid();
+      return;
+    }
+    shop.valid.area = /^\d+(\.\d+)?$/.test(shop.area) && shop.area >= 1 && shop.area < 1000000000 ? true : false;
+    shop.showTip.area = shop.valid.area ? true : false;
+    this.formValid = this.formRequiredValid();
+  }
+  onStoreAreaFocus(shop) {
+    shop.valid.area = true;
+    shop.showTip.area = true;
+
+  }
+  onShopNameSet($event, shop) {
+    console.log(arguments);
+    shop.name = $event;
+    shop.valid.name = shop.name ? true : false;
+    this.formValid = this.formRequiredValid();
+  }
+  onShopNameBlur(shop) {
+    shop.valid.name = shop.name ? true : false;
+    shop.showTip.name = shop.valid.name ? false : true;
+    console.log('name blur', shop);
+    this.formValid = this.formRequiredValid();
+  }
+  onShopNameFocus(shop) {
+    shop.showTip.name = false;
+  }
+  onShopAddressSet($event, shop) {
+    console.log(arguments);
+    shop.address = $event;
+    shop.valid.address = shop.address ? true : false;
+    this.formValid = this.formRequiredValid();
+  }
+  onShopAddressBlur(shop) {
+    shop.valid.address = shop.address ? true : false;
+    shop.showTip.address = shop.valid.address ? false : true;
+    console.log('address blur', shop);
+    this.formValid = this.formRequiredValid();
+  }
+  onShopAddressFocus(shop) {
+    shop.showTip.address = false;
+  }
+  selectServerType (shop, type, evt) {
+    type.checked = evt;
+    if (type.checked) {
+      shop.valid.serverType = true;
+      shop.showTip.serverType = false;
+      this.formValid = this.formRequiredValid();
+      return;
+    }
+    let hasChecks = shop.sList.filter(sl => sl.checked);
+    console.log(hasChecks);
+    if (hasChecks.length > 0) {
+      shop.valid.serverType = true;
+      shop.showTip.serverType = false;
+      this.formValid = this.formRequiredValid();
+    } else {
+      shop.valid.serverType = false;
+      shop.showTip.serverType = true;
+      this.formValid = false;
+    }
+    
+    
+  }
+
 }

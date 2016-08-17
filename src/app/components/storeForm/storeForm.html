@@ -1,5 +1,5 @@
 <!-- 门店表单 -->
-<form (ngSubmit)="onResigerShop()" #f="ngForm">
+<form (ngSubmit)="onResigerShop()" #f="ngForm" novalidate>
   <div class="" *ngFor="let shop of shopList,let i = index;">
     <!-- 门店表单字段 -->
     <div class="c-form c-modify-store">
@@ -7,11 +7,10 @@
         <span class="title-underline">基础信息</span>
       </h5>
       <div class="g-field">
-        <label for="store_name" class="g-label">
-          <span class="warning">*</span>门店名称</label>
-        <div class="g-ipt" [class.error]="!name?.valid && !name?.pristine">
-          <input type="text" required name="name" maxlength="200" [(ngModel)]="shop.name" #name="ngModel" class="g-wl">
-          <a *ngIf="!!id" class="g-addico" (click)="onAddShop(i,shop)">
+        <label for="store_name" class="g-label">门店名称</label>
+        <div class="g-ipt" [class.warnBorder]="shop.showTip.name">
+          <input type="text" required [ngModelOptions]="{standalone: true}" placeholder="必填项" maxlength="200" [ngModel]="shop.name" (ngModelChange)="onShopNameSet($event, shop)" (blur)="onShopNameBlur(shop)" (focus)="onShopNameFocus(shop)" #name="ngModel" class="g-402">
+          <a *ngIf="!id" class="g-addico" (click)="onAddShop(i,shop)">
             <i></i>
             <span>新增门店</span>
           </a>
@@ -24,24 +23,32 @@
         </div>
       </div>
       <div class="g-field">
-        <label for="store_name" class="g-label">
-          <span class="warning">*</span>门店地址</label>
-        <div class="g-sel">
-          <select class="g-ws mr10" required name="provinceId" #provinceId="ngModel" [ngModel]="shop.provinceId" (ngModelChange)="onChangeProvince($event,shop)">
+        <label for="store_name" class="g-label">门店地址</label>
+        <div class="g-sel g-addr">
+          <select class="g-195" [class.warnBorder]="shop.showTip.provinceId" required [ngModelOptions]="{standalone: true}" #provinceId="ngModel" [ngModel]="shop.provinceId" (ngModelChange)="onChangeProvince($event,shop)">
             <option value="undefined">请选择省市</option>
             <option [value]="plist.id" *ngFor="let plist of provinceList">{{plist.name}}</option>
           </select>
-          <select class="g-ws" required name="cityId" #cityId="ngModel" [(ngModel)]="shop.cityId">
+          <select class="g-195" [class.warnBorder]="shop.showTip.cityId" required [ngModelOptions]="{standalone: true}" #cityId="ngModel" [ngModel]="shop.cityId" (ngModelChange)="onChangeCity($event,shop)">
             <option value="undefined">请选择城市</option>
             <option [value]="clist.id" *ngFor="let clist of shop.cityList">{{clist.name}}</option>
           </select>
-          <span>必填项</span>
+          <div class="g-f-tip">
+            <span>必填项</span>
+          </div>
+          
         </div>
       </div>
-      <div class="g-field">
+      <div class="g-field" >
         <label for="store_name" required class="g-label" maxlength="200" placeholder="详细地址"></label>
-        <input type="text" name="address" [(ngModel)]="shop.address" #address="ngModel" class="g-wml">
-        <span>与周边门店的服务数据进行对比</span>
+        <div class="g-ipt" [class.warnBorder]="shop.showTip.address">
+          <input type="text" [ngModelOptions]="{standalone: true}" placeholder="必填项" required [ngModel]="shop.address" (ngModelChange)="onShopAddressSet($event, shop)"  (blur)="onShopAddressBlur(shop)" (focus)="onShopAddressFocus(shop)" maxlength="200" #address="ngModel" class="g-402">
+        </div>
+        
+        <div class="g-f-tip">
+            <span>与周边门店的服务数据进行对比</span>
+        </div>
+        
         <div class="msg">
           <span class="text-error" *ngIf="!provinceId.valid && !provinceId.pristine">
             <span class="warning" *ngIf="provinceId.errors?.required">省市不能为空</span>
@@ -56,19 +63,23 @@
         </div>
       </div>
       <div class="g-field fs14">
-        <label for="store_server" class="g-label">
-          <span class="warning">*</span>服务类型</label>
+        <label for="store_server" class="g-label">服务类型</label>
         <div class="g-ipt g-wml g-checkbox-group">
-          <md-checkbox *ngFor="let sl of shop.sList, let j = index" [checked]="sl.checked" (change)="sl.checked = $event.checked">{{sl.name}}</md-checkbox>
+          <!--<md-checkbox *ngFor="let sl of shop.sList, let j = index" [checked]="sl.checked" (change)="sl.checked = $event.checked">{{sl.name}}</md-checkbox>-->
+          <label class="g-cbk"  *ngFor="let sl of shop.sList, let j = index" [class.active]="sl.checked">
+              <input type="checkbox" [ngModelOptions]="{standalone: true}" [ngModel]="sl.checked" (ngModelChange)="selectServerType(shop, sl, $event)">
+              {{sl.name}}
+          </label>
         </div>
-        <span>与相同类型门店的服务数据进行对比</span>
-      </div>
-      <div class="g-field fs14">
-        <label class="g-label"></label>
-        <div class="g-ipt g-wml g-checkbox-group warning" *ngIf="errorServiceType">
-          服务类型不能为空
+        
+        <div class="g-f-tip">
+            <span>与相同类型门店的服务数据进行对比</span>
+        </div>
+        <div class="g-f-serve-err warning" *ngIf="shop.showTip.serverType">
+            服务类型不能为空
         </div>
       </div>
+        
       <h5>
         <span class="title-underline">详细信息</span>
         <i class="arrow-up" (click)="onToggleDetail()" [class.down]="!showDetail"></i>
@@ -77,8 +88,11 @@
         <div class="g-field">
           <label for="store_director" class="g-label">负责人</label>
           <div class="g-ipt" [class.error]="!ownerName?.valid && !ownerName?.pristine">
-            <input type="text" maxlength="50" name="ownerName" #ownerName="ngModel" [(ngModel)]="shop.ownerName" class="g-wm fl">
-            <span style="margin-left:20px;max-width: 200px;word-break: break-all;display: inline-block;">您提供的门店信息越是完整,平台将更精确的匹配与您相同规模门店,进行服务数据进行对比</span>
+            <input type="text" maxlength="50" [ngModelOptions]="{standalone: true}" #ownerName="ngModel" [(ngModel)]="shop.ownerName" class="g-197">
+            
+            <div class="g-f-tip g-f-tip-extra">
+              <span >您提供的门店信息越是完整,平台将更精确的匹配与您相同规模门店,进行服务数据进行对比</span>
+            </div>
           </div>
           <div class="msg">
             <span class="text-error" *ngIf="!ownerName.valid && !ownerName.pristine">
@@ -89,7 +103,7 @@
         <div class="g-field">
           <label for="store_tel" class="g-label">联系方式</label>
           <div class="g-ipt" [class.error]="!phone?.valid && !phone?.pristine">
-            <input type="text" id="store_tel" #phone="ngModel" name="phone" #phone="ngModel" [(ngModel)]="shop.phone" class="g-wm" maxlength="50">
+            <input type="text" id="store_tel" class="g-197" #phone="ngModel" [ngModelOptions]="{standalone: true}" #phone="ngModel" [(ngModel)]="shop.phone" maxlength="50">
           </div>
           <div class="msg">
             <span class="text-error" *ngIf="!phone.valid && !phone.pristine">
@@ -100,31 +114,28 @@
         <div class="g-field">
           <label for="store_year" class="g-label">开店年份</label>
           <div class="g-sel">
-            <select id="store_year" name="openingDate" [(ngModel)]="shop.openingDate" class="g-wm">
+            <select id="store_year" [ngModelOptions]="{standalone: true}" [(ngModel)]="shop.openingDate" class="g-197">
               <option value="undefined">请选择开店年份</option>
               <option [value]="y" *ngFor="let y of YEARS_16">{{y}}</option>
               <option value="1999">1999年以前</option>
             </select>
           </div>
         </div>
-        <div class="g-field">
+        <div class="g-field g-f-area">
           <label for="store_area" class="g-label">门店面积</label>
-          <div class="g-ipt" [class.error]="!area?.valid && !area?.pristine">
-            <input type="text" maxlength="9"  name="area" #area="ngModel" [(ngModel)]="shop.area" class="g-wm">
+          <div class="g-ipt" [class.warnBorder]="!shop.showTip.area">
+            <input type="text" maxlength="9" [ngModelOptions]="{standalone: true}" #area="ngModel" [(ngModel)]="shop.area" class="g-197" (blur)="onStoreAreaBlur(shop)" (focus)="onStoreAreaFocus(shop)"  >
             <span class="g-unit">m<i>2</i>
             </span>
           </div>
-          <div class="msg">
-            <span class="text-error" *ngIf="!area.valid && !area.pristine">
-              <span class="warning" *ngIf="area.errors?.maxlength">门店面积不能为空</span>
-              <span class="warning" *ngIf="area.errors?.pattern">门店面积区间1~9999<span class="g-unit">m<i>2</i></span></span>
-            </span>
+          <div class="g-f-tip" *ngIf="!shop.showTip.area"> 
+            <span class="warning" >门店面积区间1~999999999的数字</span>
           </div>
         </div>
         <div class="g-field">
           <label for="store_park" class="g-label">汽修工位</label>
           <div class="g-sel">
-            <select id="store_park" class="g-wm" name="station" [(ngModel)]="shop.station">
+            <select id="store_park" class="g-197" [ngModelOptions]="{standalone: true}" [(ngModel)]="shop.station">
               <option value="undefined">请选择汽修工位</option>
               <option [value]="s" *ngFor="let s of STATION_30">{{s}}</option>
             </select>
@@ -139,7 +150,7 @@
   <!-- 门店表单字段 end -->
   <!-- 门店表单按钮  -->
   <div class="sf-btns">
-    <button class="g-btn g-btn-green" type="submit" [disabled]="!f.valid||loading">保存</button>
+    <button class="g-btn g-btn-green" type="submit" [disabled]="!formValid||loading">保存</button>
     <button class="g-btn g-btn-gray" type="button" *ngIf="id" (click)="onExit()">取消</button>
     <button class="g-btn g-btn-red" type="button" *ngIf="id && !isCurrentStore" (click)="onOpenDelWin()">删除门店</button>
   </div>
