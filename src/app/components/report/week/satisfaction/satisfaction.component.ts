@@ -39,12 +39,13 @@ export class ReportWeekSatisfactionComponent {
 	}
 
 	changePage(cur) {
-    this.page.current = event;
-    this.getWeekReport();
-  }
+		this.page.current = cur.page;
+		this.getWeekReport();
+	}
 
 	getWeekReport() {
-		this.rApi.reportAttitudeGet(this.start, this.end).subscribe(data => {
+		this.page.pageSize = this.page.current ? 10 : undefined;
+		this.rApi.reportAttitudeGet(this.start, this.end, this.page.current, this.page.pageSize).subscribe(data => {
 			if(data.data ) {
 				const dd = data.data;
 				this.percent = dd.percent;
@@ -54,9 +55,9 @@ export class ReportWeekSatisfactionComponent {
 				this.employeeBads = dd.employeeBads;
 				this.improvements = dd.improvements;
 				this.page.current = data.meta.current;
-				this.page.limit = data.meta.limit;
+				this.page.limit = 10;
 				this.page.total = data.meta.total;
-				this.page.pageTotal = Math.ceil(this.page.total / this.page.limit);
+				this.page.pageTotal = Math.ceil(this.page.total / 10);
 			}
 		}, err => console.error(err) );
 	}

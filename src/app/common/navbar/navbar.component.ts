@@ -52,8 +52,9 @@ export class NavbarComponent {
     this.sApi.shopMyshopGet().subscribe((data) => {
       this.list = data.data;
       _.forEach(this.list, (val, i) => {
-        if (this.shopId == val.id) {
+        if (this.shopId === val.id) {
           this.storeName = val.name;
+          this.thzsUtil.currentShopInfo = val;
         }
       })
     })

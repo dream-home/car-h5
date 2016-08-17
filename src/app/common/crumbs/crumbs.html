@@ -1,6 +1,6 @@
 <!-- 面包屑导航 -->
 <div class="crumbs">
 <a routerLink="/dashbroad/business-list" routerLinkActive="active">首页</a>
-<a class="crumbs-link" *ngFor="let cr of crumbs" routerLink="{{cr.url}}" routerLinkActive="active">{{cr.title}}</a>
+<a class="crumbs-link" *ngFor="let cr of crumbs" [routerLink]="cr.url" routerLinkActive="active">{{cr.title}}</a>
 </div>
 <!-- 面包屑导航 end -->

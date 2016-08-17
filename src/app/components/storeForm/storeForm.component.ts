@@ -9,7 +9,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import * as _ from 'lodash';
 
 import { CommonApi, ShopApi, RegionApi, RegionItem, Shop,MyAcountResponse,UserApi } from 'client';
-import { MissionService } from 'services';
+import { MissionService, ThzsUtil } from 'services';
 
 const YEARS_16 = [2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000];
 const STATION_30 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
@@ -52,18 +52,20 @@ export class StoreFormComponent {
   errorMsg: string;
   zone: any;
   showDetail:boolean = true;
-
+  isCurrentStore: boolean = false;
   // @Input('store') shopList:Array<Shop>;
   @Output() success = new EventEmitter();
 
-  constructor(private router: Router, private route: ActivatedRoute, private cApi: CommonApi, private sApi: ShopApi, private rApi: RegionApi, private uApi: UserApi,private missionService: MissionService) {
+  constructor(private router: Router, private route: ActivatedRoute, private cApi: CommonApi, private sApi: ShopApi, private rApi: RegionApi, private uApi: UserApi, private missionService: MissionService, private thzsUtil: ThzsUtil) {
     this.shopList = [{index:1, sList: _.cloneDeep(SERVICE_LIST) }];
     this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
+    console.log('store form ', this.thzsUtil);
   }
 
   info(f){
     console.log(f);
   }
+
 
   // 初始化
   ngOnInit() {
@@ -71,7 +73,10 @@ export class StoreFormComponent {
     this.sub = this.route.params.subscribe((params) => {
       if (params['id']) {
         this.id = +params['id'];
+        
+        
         this.getStoreList();
+        this.getMe();
       }
     });
     // this.getServiceType();
@@ -79,19 +84,32 @@ export class StoreFormComponent {
     this.STATION_30 = STATION_30;
     this.YEARS_16 = YEARS_16;
     this.SERVICE_LIST = SERVICE_LIST;
-    this.getMe();
+    //this.getMe();
     this.getCodeImg();
+  }
+
+  getMe() {
+    this.uApi.userMeGet().subscribe((data: MyAcountResponse) => {
+      if ( data.meta.code === 200) {
+          this.defaultPhone = data.data.user.mobile;
+          this.isCurrentStore = this.id === data.data.user.lastShopId ? true : false;
+          console.log('dd', data.data.user.lastShopId)
+          console.log(this.id)
+
+      }
+      
+    })
   }
 
   onToggleDetail(){
     this.showDetail = !this.showDetail;
   }
 
-  getMe() {
-    this.uApi.userMeGet().subscribe((data: MyAcountResponse) => {
-      this.defaultPhone = data.data.user.mobile;
-    })
-  }
+  // getMe() {
+  //   this.uApi.userMeGet().subscribe((data: MyAcountResponse) => {
+      
+  //   })
+  // }
 
   ngOnDestroy() {
     window.clearInterval(this.timeout);

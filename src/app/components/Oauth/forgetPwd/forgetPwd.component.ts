@@ -85,9 +85,9 @@ export class ForgetPwdComponent {
         //倒计时
         this.timeout = window.setInterval(() => {
           this.zone.run(() => {
-            if (this.seekTime > 1) {
-              this.seekTime--;
+            if (this.seekTime > 0) {
               this.seekBtnTitle = this.seekTime + 's';
+              this.seekTime--;
             } else {
               this.seekBtnTitle = '重新发送';
               this.seekDisabeld = 0;

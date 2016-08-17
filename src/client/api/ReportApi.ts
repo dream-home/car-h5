@@ -51,7 +51,7 @@ export class ReportApi {
      * @param startDate 开始时间，格式yyyy-MM-dd
      * @param endDate 结束时间，格式yyyy-MM-dd
      */
-    public reportAttitudeGet (startDate?: string, endDate?: string, extraHttpRequestParams?: any ) : Observable<models.AttitudeReportResponse> {
+    public reportAttitudeGet (startDate?: string, endDate?: string, pageNumber?: string, pageSize?: string, extraHttpRequestParams?: any ) : Observable<models.AttitudeReportResponse> {
         const path = this.basePath + '/report/attitude';
 
         let queryParameters = new URLSearchParams();
@@ -66,6 +66,14 @@ export class ReportApi {
 
         if (endDate !== undefined) {
             queryParameters.set('endDate', endDate);
+        }
+
+        if (pageNumber !== undefined) {
+            queryParameters.set('pageNumber', pageNumber);
+        }
+
+        if (pageSize !== undefined) {
+            queryParameters.set('pageSize', pageSize);
         }
 
         let requestOptions: RequestOptionsArgs = {

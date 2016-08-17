@@ -26,19 +26,24 @@ export class CrumbsComponent {
                                         let urls = [];
                                         let urlobj = {};
                                         let url = data;
+                                        let param = {
+                                            params: {},
+                                            url: ''
+                                        };
                                         if (!url) return;
                                         this.crumbs = [];
                                         url = url.split('/');
                                         url = url.pop();
                                         if (url === '') return;
-                                        console.log(url);
                                         urls = this.routeConfig.filter( r => r.path != '' && url.includes(r.path));
-                                        console.log(urls);
+                                        if (data.indexOf(';') > -1) {
+                                            param.params = this.getParamObj(data);
+                                            param.url = data.slice(0, data.indexOf(';'));
+                                        }
                                         this.crumbs.push({
-                                            url: data,
+                                            url: data.indexOf(';') > -1 ? [param.url, param.params] : [data],
                                             title: urls[0] && urls[0].data ? urls[0].data.title : ''
                                         });
-                                        console.log('c-data',data);
                                         if (url.includes('business-list')) {
                                             this.crumbs = [];
                                         }
@@ -67,12 +72,10 @@ export class CrumbsComponent {
                                                 title: '满意度报告'
                                             }];
                                         }
-                                        console.log('c-data', this.crumbs);
                                     } );
         this.customerInfoSub = this.thzsUtil.customerInfo$.subscribe( info => {
-            console.log('onfo: ', info);
             this.crumbs.forEach( item => {
-                if (item.url.includes('customer-detail') || item.url.includes('customer-edit')) {
+                if (item.url.includes('/dashbroad/customer-detail') || item.url.includes('/dashbroad/customer-edit')) {
                     item.title = info.vehicleLicence;
                 }
             });
@@ -93,6 +96,32 @@ export class CrumbsComponent {
             }
         }
         getRoute(config);
+        return ret;
+    }
+    getParamObj(s) {
+        // let ret = '{';
+        // let params = s.slice(s.indexOf(';') + 1);
+        // params = params.split(';');
+        
+        // for ( let i = 0, len = params.length; i < len; i++ ) {
+        //     let karr = params[i].split('=');
+        //     if (karr.length > 1) {
+        //         if (i > 0) {
+        //             ret += ',';
+        //         }
+        //         ret += `${karr[0]}:'${karr[1]}'`;
+        //     }
+        // }
+        // ret += '}';
+        let ret = {};
+        let params = s.slice(s.indexOf(';') + 1);
+        params = params.split(';');
+        for (let k of params) {
+            let arr = k.split('=');
+            if (arr.length > 1) {
+                ret[arr[0]] = arr[1];
+            }
+        }
         return ret;
     }
     

@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class ThzsUtil {
     public shopChanged$: Observable<number>;
     public customerInfo$: Observable<any>;
+    public currentShopInfo: any;
     private shopChangedSource = new Subject<number>();
     private customerInfoSource = new Subject<any>();
     constructor () {

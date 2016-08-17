@@ -6,7 +6,7 @@
         <h3 class="business-protocol-title" *ngIf="business?.id">编辑服务记录</h3>
         <a href="javascript:void(0);" class="business-protocol-close" (click)="onUnsubmitClose()"></a>
       </div>
-      <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <form (ngSubmit)="onSubmit(f)" #f="ngForm" novalidate>
         <div class="business-protocol-row">
           <div class="business-protocol-content">
             <div class="g-field">
