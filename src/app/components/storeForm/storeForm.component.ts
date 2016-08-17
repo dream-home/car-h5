@@ -196,7 +196,8 @@ export class StoreFormComponent {
     this.sApi.shopMyshopGet().subscribe(data => {
       this.loading = 0;
       if (data.meta.code === 200) {
-        this.shopList = data.data.filter(data => {
+        let dd: any = _.cloneDeep(data.data);
+        this.shopList = dd.filter(data => {
           return this.id == data.id;
         }).map((data) => {
           data.sList = _.cloneDeep(SERVICE_LIST);
