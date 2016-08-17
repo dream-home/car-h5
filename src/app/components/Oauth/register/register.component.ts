@@ -15,7 +15,7 @@ import { Cookie } from 'services';
   selector: 'register',
   template: require('./register.html'),
   styles: [require('./register.scss')],
-  directives: [ROUTER_DIRECTIVES,  MainLogoComponent, PageFooterComponent],
+  directives: [ROUTER_DIRECTIVES, MainLogoComponent, PageFooterComponent],
   providers: [HTTP_PROVIDERS, UserApi, CommonApi, ShopApi, Md5]
 })
 
@@ -34,7 +34,8 @@ export class RegisterComponent {
   errorMsg: string;
   loading: number = 0;
   openErrorProtocol: boolean = false;
-  oldPhone:number;
+  oldPhone: number;
+  isCode: boolean = true;
 
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi) {
     this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
@@ -48,7 +49,7 @@ export class RegisterComponent {
   }
 
 
-  blur(data,e){
+  blur(data, e) {
     data.blur = e.type == 'blur';
   }
 
@@ -83,32 +84,40 @@ export class RegisterComponent {
     this.openProtocol = 0;
   }
 
-  onChkPhone(e){
-      if(e.target.value===this.oldPhone){
+  onChkPhone(e) {
+    if (e.target.value === this.oldPhone) {
 
-      }else{
-          this.errorPhoneCode = '';
-          this.oldPhone = e.target.value;
-      }
+    } else {
+      this.errorPhoneCode = '';
+      this.oldPhone = e.target.value;
+    }
   }
 
   errorWin(message) {
-    if (message === '短信验证码不存在'||message === '短信验证码超时，导致userId不存在'||message === '您今天的短信发送已达到3次上限') {
+    if (message === '短信验证码不存在' || message === '短信验证码超时，导致userId不存在' || message === '您今天的短信发送已达到3次上限') {
       this.openErrorProtocol = true;
-      if(message === '短信验证码不存在'){
+      if (message === '短信验证码不存在') {
         this.errorPhoneCode = '验证码已失效,请更换';
-      }else{
+      } else {
         this.errorPhoneCode = message;
       }
     } else {
-        this.errorPhoneCode = message;
-        this.errorMsg = message;
+      this.errorPhoneCode = message;
+      this.errorMsg = message;
     }
     this.getCodeImg();
   }
 
   onErrorClose() {
     this.openErrorProtocol = false;
+  }
+
+  chkRnd(e) {
+    let rnd = e.target.value;
+    let uuid = this.uApi.defaultHeaders.get('uuid');
+    this.cApi.commonCaptchaValidateGet(uuid, rnd).subscribe(data => {
+      this.isCode = data.meta.code == 200 ? false : true;
+    });
   }
 
   /**

@@ -33,6 +33,7 @@ export class ForgetPwdComponent {
   errorMsg: string;
   openProtocol: boolean = false;
   fp: any = {};
+  isCode: boolean = true;
 
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi) {
     this.zone = new NgZone({ enableLongStackTrace: true }); // 事务控制器
@@ -142,6 +143,14 @@ export class ForgetPwdComponent {
       this.errorMsg = message;
     }
     this.getCodeImg();
+  }
+
+  chkRnd(e) {
+    let rnd = e.target.value;
+    let uuid = this.uApi.defaultHeaders.get('uuid');
+    this.cApi.commonCaptchaValidateGet(uuid, rnd).subscribe(data => {
+      this.isCode = data.meta.code == 200 ? false : true;
+    });
   }
 
   // 重置密码
