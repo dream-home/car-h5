@@ -34,7 +34,8 @@ export class RegisterComponent {
   errorPhoneCode: string;
   errorMsg: string;
   loading: number = 0;
-  openErrorProtocol:boolean = false;
+  openErrorProtocol: boolean = false;
+  oldPhone:number;
 
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi) {
     this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
@@ -46,8 +47,13 @@ export class RegisterComponent {
       'pwd': [''],
     });
   }
+<<<<<<< HEAD
+
+  blur(data, e) {
+=======
   
   blur(data,e){
+>>>>>>> ec32367721e5453c7943d3c20f37cc0b3f71fee6
     data.blur = e.type == 'blur';
   }
 
@@ -82,12 +88,27 @@ export class RegisterComponent {
     this.openProtocol = 0;
   }
 
-  errorWin(message) {
-    this.openErrorProtocol = true;
-    this.errorPhoneCode = message === '短信验证码超时，导致userId不存在' ? '你离开的时间过长,请重新操作' : message;
+  onChkPhone(e){
+      if(e.target.value===this.oldPhone){
+
+      }else{
+          this.errorPhoneCode = '';
+          this.oldPhone = e.target.value;
+      }
   }
 
-  onErrorClose(){
+  errorWin(message) {
+    if (message === '短信验证码超时，导致userId不存在'||message === '您今天的短信发送已达到3次上限') {
+      this.openErrorProtocol = true;
+      this.errorPhoneCode = message;
+    } else {
+        this.errorPhoneCode = message;
+        this.errorMsg = message;
+    }
+    this.getCodeImg();
+  }
+
+  onErrorClose() {
     this.openErrorProtocol = false;
   }
 
@@ -113,15 +134,12 @@ export class RegisterComponent {
     this.getPhoneCode(phone, rnd).subscribe(data => {
       if (data.meta.code !== 200) {
         this.errorWin(data.error.message);
-        this.errorPhoneCode = data.error.message;
-        this.errorMsg = data.error.message;
         this.seekBtnTitle = '重新发送';
         this.seekDisabeld = 0;
       } else {
         // this.seekBtnTitle = '发送验证码';
         //倒计时
         this.timeout = window.setInterval(() => {
-          console.log('timeout', this.timeout);
           this.zone.run(() => {
             if (this.seekTime > 1) {
               this.seekTime--;

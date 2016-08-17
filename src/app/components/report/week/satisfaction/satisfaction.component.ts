@@ -28,7 +28,7 @@ export class ReportWeekSatisfactionComponent {
 	employeeGoods: any = [];
 	employeeBads: any = [];
 	improvements: any = [];
-	page:any = {};
+	page:any = {current:1,pageSize:10};
 	constructor(private router: Router, fb: FormBuilder, private route: ActivatedRoute, private rApi: ReportApi) {
 		this.end = moment().format('YYYY-MM-DD');
 		this.start = (moment().subtract(7, 'days')).format('YYYY-MM-DD');
@@ -55,9 +55,9 @@ export class ReportWeekSatisfactionComponent {
 				this.employeeBads = dd.employeeBads;
 				this.improvements = dd.improvements;
 				this.page.current = data.meta.current;
-				this.page.limit = 10;
+				this.page.limit = data.meta.limit;
 				this.page.total = data.meta.total;
-				this.page.pageTotal = Math.ceil(this.page.total / 10);
+				this.page.pageTotal = Math.ceil(this.page.total / this.page.limit);
 			}
 		}, err => console.error(err) );
 	}
