@@ -18,6 +18,8 @@ export class CrumbsComponent {
     customerInfoSub: any;
     constructor( private router: Router, private route: ActivatedRoute, private thzsUtil: ThzsUtil ) {
         this.routeConfig = this.formatConfig(routes);
+        
+        
         this.sub = this.router.events.filter( event => event instanceof NavigationEnd )
                                     .map( event => {
                                         return event.url;
@@ -46,6 +48,9 @@ export class CrumbsComponent {
                                         });
                                         if (url.includes('business-list')) {
                                             this.crumbs = [];
+                                        }
+                                        if (url.includes('customer-detail') || url.includes('customer-edit')) {
+                                            this.crumbs[0].title = this.thzsUtil.currentCustomerInfo ? this.thzsUtil.currentCustomerInfo.vehicleLicence : this.crumbs[0].title;
                                         }
                                         
                                         if ( url.includes('add-store') || url.includes('modify-store') || url.includes('modify-pwd') ) {
@@ -77,6 +82,7 @@ export class CrumbsComponent {
             this.crumbs.forEach( item => {
                 if (item.url.includes('/dashbroad/customer-detail') || item.url.includes('/dashbroad/customer-edit')) {
                     item.title = info.vehicleLicence;
+                    this.thzsUtil.currentCustomerInfo = info;
                 }
             });
         });
