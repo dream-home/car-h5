@@ -1,7 +1,7 @@
 <!-- 主内容标题 -->
 <div class="pr c-header">
-    我的员工
-    <a [routerLink]="['../employee-add']" routerLinkActive="active" class="pa s-btn" *ngIf="employeeList.length">+新员工</a>
+    我的技师
+    <a [routerLink]="['../employee-add']" routerLinkActive="active" class="pa s-btn" *ngIf="employeeList.length">+新技师</a>
 </div>
 <!-- 主内容标题 end -->
 <!-- 主内容 -->
@@ -11,9 +11,9 @@
             <thead>
                 <tr>
                     <th>序号</th>
-                    <th>技师姓名</th>
-                    <th>技师编号</th>
-                    <th>技师手机号</th>
+                    <th>员工姓名</th>
+                    <th>员工编号</th>
+                    <th>手机号码</th>
                     <th>服务次数</th>
                     <th>操作</th>
                 </tr>
@@ -42,8 +42,8 @@
     <div class="list-empty" *ngIf="!employeeList.length">
         <div class="le-img"></div>
         <div class="le-txt tc">
-            当前未添加员工
-            <a class="g-btn g-btn-green" [routerLink]="['../employee-add']" routerLinkActive="active">+  添加新员工</a>
+            当前未添加技师
+            <a class="g-btn g-btn-green" [routerLink]="['../employee-add']" routerLinkActive="active">+  新技师</a>
         </div>
     </div>
 </div>
@@ -52,12 +52,12 @@
 <div class="fwin del-win employee-del-win" [ngClass]="{show:winShow}">
     <div class="fwin-mask">
         <div class="fwin-box">
-            <div class="fwin-close" ng-click="onClose()"></div>
+            <div class="fwin-close" (click)="onClose()"></div>
             <div class="fwin-content">
                 <div>
-                    <h1>确定删除该员工？</h1>
+                    <h1>确定删除该技师？</h1>
                     <div>
-                        该员工及其信息将被删除，其历史服务记录<br> 不会被删除
+                        该技师及其信息将被删除，其历史服务记录<br> 不会被删除
 
                     </div>
                 </div>

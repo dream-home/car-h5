@@ -16,8 +16,8 @@ import { Cookie } from 'services';
   selector: 'register',
   template: require('./register.html'),
   styles: [require('./register.scss')],
-  directives: [ROUTER_DIRECTIVES, MainLogoComponent, PageFooterComponent],
-  providers: [HTTP_PROVIDERS, UserApi, CommonApi, ShopApi, Md5],
+  directives: [ROUTER_DIRECTIVES,  MainLogoComponent, PageFooterComponent],
+  providers: [HTTP_PROVIDERS, UserApi, CommonApi, ShopApi, Md5]
 })
 
 export class RegisterComponent {
@@ -47,8 +47,13 @@ export class RegisterComponent {
       'pwd': [''],
     });
   }
+<<<<<<< HEAD
 
   blur(data, e) {
+=======
+  
+  blur(data,e){
+>>>>>>> ec32367721e5453c7943d3c20f37cc0b3f71fee6
     data.blur = e.type == 'blur';
   }
 

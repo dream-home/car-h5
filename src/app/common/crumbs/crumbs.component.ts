@@ -57,7 +57,7 @@ export class CrumbsComponent {
                                         if ( url.includes('employee-add') || url.includes('employee-edit') ) {
                                             this.crumbs.unshift({
                                                 url: '/dashbroad/employee-list',
-                                                title: '我的员工'
+                                                title: '我的技师'
                                             });
                                         }
                                         if ( url.includes('customer-add') || url.includes('customer-edit') || url.includes('customer-detail') || url.includes('search-list') ) {

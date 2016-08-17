@@ -44,8 +44,8 @@ export class ReportWeekSatisfactionComponent {
 	}
 
 	getWeekReport() {
-		// this.page.pageSize = this.page.current ? 10 : undefined;
-		this.rApi.reportAttitudeGet(this.start, this.end, this.page.current, this.page.pageSize).subscribe(data => {
+		this.page.current = this.page.current ? this.page.current : 1;
+		this.rApi.reportAttitudeGet(this.start, this.end, this.page.current, 10).subscribe(data => {
 			if(data.data ) {
 				const dd = data.data;
 				this.percent = dd.percent;

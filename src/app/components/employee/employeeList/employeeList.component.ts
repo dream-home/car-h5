@@ -57,7 +57,6 @@ export class EmployeeListComponent {
 
   onAgreeDel() {
     this.eApi.employeeDeleteDelete(this.deleteEmployee.id).subscribe(data => {
-      console.log("删除员工", this.deleteEmployee.id);
       this.employeeList.splice(this.deleteEmployee.idx, 1);
       this.onClose();
     }, err => { });

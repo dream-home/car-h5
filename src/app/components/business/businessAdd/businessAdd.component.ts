@@ -43,6 +43,7 @@ export class BusinessAddComponent implements OnInit {
   businessItemErr: boolean = false;
   businessEmployeeErr: boolean = false;
   addEmployeeErr: boolean = false;
+  addEmployeeCodeErr: boolean = false;
   showLoading: boolean = false;
   oldPlate: string = '';
   hadPlate: boolean = false;
@@ -95,6 +96,8 @@ export class BusinessAddComponent implements OnInit {
         this.isNewPlate = data.data === null ? true : false;
       } else {
         alert(data.error.message);
+        
+        
       }
       this.showLoading = false;
     });
@@ -160,6 +163,9 @@ export class BusinessAddComponent implements OnInit {
     } else {
       this.addEmployeeErr = false;
     }
+    if (this.addEmployeeCodeErr) {
+      return false;
+    }
 
     this.loading = 1;
     
@@ -171,7 +177,10 @@ export class BusinessAddComponent implements OnInit {
           data.employeeId = res.data.id;
           this.save(data);
         } else {
-          alert(res.error.message);
+          // alert(res.error.message);
+          if (res.error.message === '该技师编号已存在') {
+            this.addEmployeeCodeErr = true;
+          }
           this.loading = 0;
         }
       }, err => {
@@ -260,6 +269,7 @@ export class BusinessAddComponent implements OnInit {
   }
   onAddEmpyeeFocus() {
     this.addEmployeeErr = false;
+    this.addEmployeeCodeErr = false;
   }
   onUnsubmitClose() {
     let bs = Md5.hashStr(JSON.stringify(this.business)).toString();
