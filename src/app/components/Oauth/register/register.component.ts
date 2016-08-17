@@ -10,14 +10,16 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { UserApi, CommonApi, ShopApi, User } from 'client';
 import { MainLogoComponent, PageFooterComponent } from 'common';
 import { Cookie } from 'services';
+import { BlurForwarder } from 'directives';
 
 @Component({
   moduleId: module.id,
   selector: 'register',
   template: require('./register.html'),
   styles: [require('./register.scss')],
-  directives: [ROUTER_DIRECTIVES,  MainLogoComponent, PageFooterComponent],
+  directives: [ROUTER_DIRECTIVES,  MainLogoComponent, PageFooterComponent,BlurForwarder],
   providers: [HTTP_PROVIDERS, UserApi, CommonApi, ShopApi, Md5],
+  host: {'(input-blur)':'onInputBlur($event)'},
 })
 
 export class RegisterComponent {
@@ -38,7 +40,6 @@ export class RegisterComponent {
 
   constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi) {
     this.zone = new NgZone({ enableLongStackTrace: false }); //事务控制器
-    console.log('zone', this.zone);
     //表单验证
     this.rForm = fb.group({
       'phone': [''],
@@ -47,6 +48,13 @@ export class RegisterComponent {
       'pwd': [''],
     });
   }
+  onInputBlur(e){
+    //   console.log('onInputBlur',e);
+  }
+  blur(data,e){
+    data.blur = e.type == 'blur';
+  }
+
   //初始化
   ngOnInit() {
     this.getCodeImg();
