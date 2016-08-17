@@ -11,7 +11,7 @@
           <div class="business-protocol-content">
             <div class="g-field">
               <label for="store_name" class="g-label">车牌号</label>
-              <div class="g-ipt">
+              <div class="g-ipt" [class.warnBorder]="plateErr.empty || plateErr.len">
                 <input type="text" placeholder="必填项" required name="vehicleLicence" maxlength="9" minlength="7" autocomplete="off" [(ngModel)]="business.vehicleLicence" #vehicleLicence="ngModel" (keyup)="onChangeVL($event)" (blur)="onVehicleLicenceBlur()" (focus)="onVehicleLicenceFocus()" class="g-wml">
                 <div class="runtimeLoading" *ngIf="showLoading"></div>
               </div>
@@ -30,7 +30,7 @@
             </div>
             <div class="g-field">
               <label for="store_name" class="g-label">服务项目</label>
-              <div class="g-ipt">
+              <div class="g-ipt" [class.warnBorder]="businessItemErr">
                 <input type="text" placeholder="必填项" required maxlength="250" name="name" autocomplete="off" [(ngModel)]="business.name" #name="ngModel" (blur)="onBuinessItemBulr()" (focus)="onBuinessItemFocus()" class="g-wml">
               </div>
               <div class="msg" *ngIf="businessItemErr">
@@ -41,7 +41,7 @@
             </div>
             <div class="g-field">
               <label for="store_name" class="g-label">主理技师</label>
-              <div class="g-ipt">
+              <div class="g-ipt" [class.warnBorder]="businessEmployeeErr">
                 <select id="store_year" required name="employeeId" [ngModel]="business.employeeId" (ngModelChange)="selectEmployee($event)"  #employeeId="ngModel" class="g-wm">
                   <option value="null">请选择主理技师</option>
                   <option [value]="e.id" *ngFor="let e of employeeList">{{e.name||e.code}}</option>
@@ -57,17 +57,22 @@
             </div>
             <div class="g-field g-field-extra" *ngIf="business.employeeId=='other'">
               <label for="store_name" class="g-label"></label>
-              <div class="g-ipt" [class.warnBorder]="addEmployeeErr">
-                <input type="text" placeholder="请输入技师姓名" maxlength="20" name="employeeName" [(ngModel)]="business.employeeName" #employeeName="ngModel" class="g-wml db" (focus)="onAddEmpyeeFocus()" >
+              <div class="g-ipt" [class.warnBorder]="addEmployeeErr || addEmployeeCodeErr">
+                <input type="text" placeholder="请输入员工姓名" maxlength="20" name="employeeName" [(ngModel)]="business.employeeName" #employeeName="ngModel" class="g-wml db" (focus)="onAddEmpyeeFocus()" >
                 <div class="g-field-tip" [class.warning]="addEmployeeErr">*至少填一项</div>
               </div>
             </div>
             <div class="g-field g-field-extra" *ngIf="business.employeeId=='other'">
               <label for="store_name" class="g-label"></label>
-              <div class="g-ipt" [class.warnBorder]="addEmployeeErr">
-                <input type="text" placeholder="请输入技师编号" maxlength="20" name="employeeCode" [(ngModel)]="business.employeeCode" #employeeCode="ngModel" class="g-wml db" (focus)="onAddEmpyeeFocus()">
+              <div class="g-ipt" [class.warnBorder]="addEmployeeErr || addEmployeeCodeErr">
+                <input type="text" placeholder="请输入员工编号" maxlength="20" name="employeeCode" [(ngModel)]="business.employeeCode" #employeeCode="ngModel" class="g-wml db" (focus)="onAddEmpyeeFocus()">
                 <label class="g-field-tip g-field-ckb" [class.active]="employeeChecked" ><input type="checkbox" name="employeeChecked" [(ngModel)]="employeeChecked" >我的员工</label>
                 
+              </div>
+              <div class="msg" *ngIf="addEmployeeCodeErr">
+                <span class="text-error">
+                  <span class="warning" *ngIf="addEmployeeCodeErr">该员工编号已存在</span>
+                </span>
               </div>
             </div>
             <div class="g-field">

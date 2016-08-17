@@ -844,3 +844,9 @@ datepicker {
     border-bottom: 4px solid #38b549;
   }
 }
+
+.warnBorder {
+  input[type="text"], select {
+    border-color:#f32c52;
+  }
+}
