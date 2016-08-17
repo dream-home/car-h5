@@ -12,7 +12,6 @@ import { MainLogoComponent, PageFooterComponent } from 'common';
 import { Cookie } from 'services';
 
 @Component({
-  moduleId: module.id,
   selector: 'register',
   template: require('./register.html'),
   styles: [require('./register.scss')],
@@ -47,13 +46,9 @@ export class RegisterComponent {
       'pwd': [''],
     });
   }
-<<<<<<< HEAD
 
-  blur(data, e) {
-=======
-  
+
   blur(data,e){
->>>>>>> ec32367721e5453c7943d3c20f37cc0b3f71fee6
     data.blur = e.type == 'blur';
   }
 
