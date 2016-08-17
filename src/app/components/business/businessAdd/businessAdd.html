@@ -1,84 +1,115 @@
-<div class="business-protocol-overlay" *ngIf="businessShow">
-  <div class="business-protocol-block">
-    <div class="business-protocol-header">
-      <h3 class="business-protocol-title">新增服务记录</h3>
-      <a href="javascript:void(0);" class="business-protocol-close" (click)="onClose()">X</a>
+<div class="business-protocol-overlay" *ngIf="businessShow" [class.bsoverlay] = "confirmWinShow">
+  <div class="box box-v-cc">
+    <div class="business-protocol-block">
+      <div class="business-protocol-header">
+        <h3 class="business-protocol-title" *ngIf="!business?.id">新增服务记录</h3>
+        <h3 class="business-protocol-title" *ngIf="business?.id">编辑服务记录</h3>
+        <a href="javascript:void(0);" class="business-protocol-close" (click)="onUnsubmitClose()"></a>
+      </div>
+      <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <div class="business-protocol-row">
+          <div class="business-protocol-content">
+            <div class="g-field">
+              <label for="store_name" class="g-label">车牌号</label>
+              <div class="g-ipt">
+                <input type="text" placeholder="必填项" required name="vehicleLicence" maxlength="9" minlength="7" autocomplete="off" [(ngModel)]="business.vehicleLicence" #vehicleLicence="ngModel" (keyup)="onChangeVL($event)" (blur)="onVehicleLicenceBlur()" (focus)="onVehicleLicenceFocus()" class="g-wml">
+                <div class="runtimeLoading" *ngIf="showLoading"></div>
+              </div>
+              <div class="msg" *ngIf="plateErr.empty || plateErr.len">
+                <span>
+                  <span class="warning" *ngIf="plateErr.empty">车牌号不能为空</span>
+                  <span class="warning" *ngIf="plateErr.len">请输入正确的车牌号</span>
+                </span>
+                <!--<span class="text-error" *ngIf="!vehicleLicence.valid && !vehicleLicence.pristine">
+                  <span class="warning" *ngIf="vehicleLicence.errors?.required">车牌号不能为空</span>
+                  <span class="warning" *ngIf="vehicleLicence.errors?.pattern">请输入正确的车牌号</span>
+                  <span class="warning" *ngIf="vehicleLicence.errors?.minlength">请输入正确的车牌号</span>
+                  <span class="warning" *ngIf="vehicleLicence.errors?.maxlength">请输入正确的车牌号</span>
+                </span>-->
+              </div>
+            </div>
+            <div class="g-field">
+              <label for="store_name" class="g-label">服务项目</label>
+              <div class="g-ipt">
+                <input type="text" placeholder="必填项" required maxlength="250" name="name" autocomplete="off" [(ngModel)]="business.name" #name="ngModel" (blur)="onBuinessItemBulr()" (focus)="onBuinessItemFocus()" class="g-wml">
+              </div>
+              <div class="msg" *ngIf="businessItemErr">
+                <span class="text-error">
+                  <span class="warning" *ngIf="businessItemErr">服务项目不能为空</span>
+                </span>
+              </div>
+            </div>
+            <div class="g-field">
+              <label for="store_name" class="g-label">主理技师</label>
+              <div class="g-ipt">
+                <select id="store_year" required name="employeeId" [ngModel]="business.employeeId" (ngModelChange)="selectEmployee($event)"  #employeeId="ngModel" class="g-wm">
+                  <option value="null">请选择主理技师</option>
+                  <option [value]="e.id" *ngFor="let e of employeeList">{{e.name||e.code}}</option>
+                  <option value="other">其他</option>
+                </select>
+                <!--<md-checkbox *ngIf="business.employeeId=='other'" name="employeeChecked" [(ngModel)]="business.employeeChecked">我的员工</md-checkbox>-->
+              </div>
+              <div class="msg" *ngIf="businessEmployeeErr">
+                <span class="text-error">
+                  <span class="warning" *ngIf="businessEmployeeErr">请选择主理技师</span>
+                </span>
+              </div>
+            </div>
+            <div class="g-field g-field-extra" *ngIf="business.employeeId=='other'">
+              <label for="store_name" class="g-label"></label>
+              <div class="g-ipt" [class.warnBorder]="addEmployeeErr">
+                <input type="text" placeholder="请输入技师姓名" maxlength="20" name="employeeName" [(ngModel)]="business.employeeName" #employeeName="ngModel" class="g-wml db" (focus)="onAddEmpyeeFocus()" >
+                <div class="g-field-tip" [class.warning]="addEmployeeErr">*至少填一项</div>
+              </div>
+            </div>
+            <div class="g-field g-field-extra" *ngIf="business.employeeId=='other'">
+              <label for="store_name" class="g-label"></label>
+              <div class="g-ipt" [class.warnBorder]="addEmployeeErr">
+                <input type="text" placeholder="请输入技师编号" maxlength="20" name="employeeCode" [(ngModel)]="business.employeeCode" #employeeCode="ngModel" class="g-wml db" (focus)="onAddEmpyeeFocus()">
+                <label class="g-field-tip g-field-ckb" [class.active]="employeeChecked" ><input type="checkbox" name="employeeChecked" [(ngModel)]="employeeChecked" >我的员工</label>
+                
+              </div>
+            </div>
+            <div class="g-field">
+              <label for="store_name" class="g-label">
+                备注</label>
+              <div class="g-ipt">
+                <textarea [(ngModel)]="business.description" name="description" #description="ngModel" rows="8" cols="40" class="g-wml" maxlength="1000"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="business-protocol-right" *ngIf="showPlateImg">
+            <div class="new-customer" *ngIf="!isNewPlate">
+              <img src="/assets/images/new-customer.png" alt="新顾客哦"/>
+              <div class="">老顾客啦</div>
+            </div>
+            <div class="old-customer" *ngIf="isNewPlate">
+              <img src="/assets/images/old-customer.png" alt="老顾客啦"/>
+              <div class="">新顾客哦</div>
+            </div>
+          </div>
+        </div>
+        <div class="btn-block">
+          <button type="submit" class="submit" [disabled]="!f.valid||loading">提交</button>
+          <!--<button type="button" class="cancel ml25" *ngIf="business.id" (click)="onClose()">取消</button>-->
+        </div>
+      </form>
     </div>
-    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-      <div class="business-protocol-row">
-        <div class="business-protocol-content business-protocol-left">
-          <div class="g-field">
-            <label for="store_name" class="g-label">
-              <span class="warning">*</span>车牌号</label>
-            <div class="g-ipt">
-              <input type="text" required name="vehicleLicence" maxlength="9" minlength="7" [(ngModel)]="business.vehicleLicence" #vehicleLicence="ngModel" (keyup)="onChangeVL($event)" class="g-wml">
-            </div>
-            <div class="msg">
-              <span class="text-error" *ngIf="!vehicleLicence.valid && !vehicleLicence.pristine">
-                <span class="warning" *ngIf="vehicleLicence.errors?.required">车牌号不能为空</span>
-                <span class="warning" *ngIf="vehicleLicence.errors?.pattern">请输入正确的车牌号</span>
-                <span class="warning" *ngIf="vehicleLicence.errors?.minlength">请输入正确的车牌号</span>
-                <span class="warning" *ngIf="vehicleLicence.errors?.maxlength">请输入正确的车牌号</span>
-              </span>
-            </div>
-          </div>
-          <div class="g-field">
-            <label for="store_name" class="g-label">
-              <span class="warning">*</span>服务项目</label>
-            <div class="g-ipt">
-              <input type="text" required maxlength="200" name="name" [(ngModel)]="business.name" #name="ngModel" class="g-wml">
-            </div>
-            <div class="msg">
-              <span class="text-error" *ngIf="!name.valid && !name.pristine">
-                <span class="warning" *ngIf="name.errors?.required">服务项目不能为空</span>
-                <span class="warning" *ngIf="name.errors?.maxlength">服务项目不能超过250个字</span>
-              </span>
-            </div>
-          </div>
-          <div class="g-field">
-            <label for="store_name" class="g-label">
-              <span class="warning">*</span>主理技师</label>
-            <div class="g-ipt">
-              <select id="store_year" required name="employeeId" [(ngModel)]="business.employeeId" #employeeId="ngModel" class="g-wm">
-                <option value="null">请选择主理技师</option>
-                <option [value]="e.id" *ngFor="let e of employeeList">{{e.name||e.code}}</option>
-                <option value="other">其他</option>
-              </select>
-              <md-checkbox *ngIf="business.employeeId=='other'" name="employeeChecked" [(ngModel)]="business.employeeChecked">我的员工</md-checkbox>
-            </div>
-          </div>
-          <div class="g-field" *ngIf="business.employeeId=='other'">
-            <label for="store_name" class="g-label">
-              <span class="warning">*</span>至少填一项
-            </label>
-            <div class="g-ipt">
-              <input type="text" placeholder="请输入技师姓名" maxlength="20" name="employeeName" [(ngModel)]="business.employeeName" #employeeName="ngModel" class="g-wml db">
-              <input type="text" placeholder="请输入技师编号" maxlength="20" name="employeeCode" [(ngModel)]="business.employeeCode" #employeeCode="ngModel" class="g-wml db">
-            </div>
-          </div>
-          <div class="g-field">
-            <label for="store_name" class="g-label">
-              备注</label>
-            <div class="g-ipt">
-              <textarea [(ngModel)]="business.description" name="description" #description="ngModel" rows="8" cols="40" class="g-wml"></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="business-protocol-right">
-          <div class="new-customer" *ngIf="customer?.id===null">
-            <img src="/assets/images/new-customer.png" alt="新顾客哦"/>
-            <div class="">新顾客</div>
-          </div>
-          <div class="old-customer" *ngIf="customer?.id!==null">
-            <img src="/assets/images/old-customer.png" alt="老顾客啦"/>
-            <div class="">老顾客</div>
-          </div>
-        </div>
-      </div>
-      <div class="btn-block">
-        <button type="submit" class="submit" [disabled]="!f.valid||loading">提交</button>
-        <button type="button" class="cancel ml25" *ngIf="business.id" (click)="onClose()">取消</button>
-      </div>
-    </form>
   </div>
+    
 </div>
+<!-- 弹出层 -->
+<div class="fwin del-win business-close-win" [ngClass]="{show:confirmWinShow}">
+    <div class="fwin-mask">
+        <div class="fwin-box">
+            <div class="fwin-content tc">
+                服务信息尚未提交， 是否确认离开？
+            </div>
+            <div class="fwin-btns g-btns">
+                <div class="g-btn g-btn-green" (click)="onConfirmOkey()">确认</div>
+                <div class="g-btn g-btn-gray" (click)="onConfirmCancel()">取消</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 弹出层 end -->

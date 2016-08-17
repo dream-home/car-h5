@@ -70,6 +70,7 @@ html {
 }
 .c-drop .legend {
   position: relative;
+  vertical-align: top;
 }
 .c-drop .legend i {
   display: inline-block;
@@ -515,13 +516,14 @@ html {
   font-size: 14px;
 }
 .c-table table td,
-.c-table table th {
+.c-table table thead th {
   font-weight: normal;
   border: 1px solid #d6dee4;
   border-left: none;
   border-right: none;
   text-align: center;
-  line-height: 43px;
+  line-height: 41px;
+  padding:3px;
 }
 .c-table table th {
   background: #fff;
@@ -531,6 +533,9 @@ html {
 }
 .c-table table tbody tr > td:first-child {
   width: 200px;
+}
+.c-table table tbody > tr:nth-child(even) {
+  background:#eef8f2;
 }
 .c-table table td a {
   color: #38b549;

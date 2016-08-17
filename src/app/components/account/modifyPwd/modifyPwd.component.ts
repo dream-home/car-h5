@@ -58,7 +58,6 @@ export class ModifyPwdComponent {
                     
             });
         } else {
-            alert('请输入正确的信息');
             return false;
         }
 

@@ -171,7 +171,7 @@ export class EmployeeApi {
      * @param code 技师编号
      * @param mobile 手机号
      */
-    public employeeSavePost (name?: string, code?: string, mobile?: string, extraHttpRequestParams?: any ) : Observable<models.EmployeeResponse> {
+    public employeeSavePost (name?: string, code?: string, mobile?: string, type?: string, extraHttpRequestParams?: any ) : Observable<models.EmployeeResponse> {
         const path = this.basePath + '/employee/save';
 
         let queryParameters = new URLSearchParams();
@@ -187,6 +187,7 @@ export class EmployeeApi {
         formParams.append('name',name);
         formParams.append('code',code);
         formParams.append('mobile',mobile);
+        formParams.append('type', type ? type : '1');
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
             headers: headerParams,

@@ -91,6 +91,7 @@ export class ForgetPwdComponent {
             } else {
               this.seekBtnTitle = '重新发送';
               this.seekDisabeld = 0;
+              clearInterval(this.timeout);
             }
           });
         }, 1000);

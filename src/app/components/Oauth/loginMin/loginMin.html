@@ -1,6 +1,6 @@
 <div class="login-min">
   <main-logo></main-logo>
-  <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+  <form (ngSubmit)="onLogin()" #loginForm="ngForm" novalidate>
     <div class="login-min-block">
       <div class="">
         <h2 class="login-min-title">登录<a routerLink="/register" routerLinkActive="active" class="login-min-register-link fr">注册新账户</a>

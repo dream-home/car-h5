@@ -75,13 +75,13 @@ export class CustomerDetailComponent {
 
 
   changePage(cur) {
-    this.page.current = event;
+    this.page.current = cur.page;
     this.getCustomerById(this.customerId);
   }
 
 
   getCustomerById(id) {
-    this.cApi.customerHistoryCustomerIdGet(id).subscribe(data => {
+    this.cApi.customerHistoryCustomerIdGet(id, this.page.current, this.page.limit).subscribe(data => {
       if (data.data) {
         this.customerDetail = data.data;
         // this.customer = this.customerDetail.customers.length ? this.customerDetail.customers[0] || [];
@@ -202,10 +202,12 @@ export class CustomerDetailComponent {
   }
 
   onOpenBusinessAdd() {
+    console.log('xxx', this.customer);
     this.missionService.confirmBusinessAdd({ selector: 'customer-detail', data: { vehicleLicence: this.customer.vehicleLicence, customerId: this.customer.id } });
   }
 
   onOpenBusinessEdit(data) {
+    console.log('hs', data);
     data.vehicleLicence = this.customer.vehicleLicence;
     this.missionService.confirmBusinessAdd({ selector: 'customer-detail', data: data });
   }

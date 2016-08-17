@@ -85,7 +85,7 @@ export class CustomerApi {
      *
      * @param customerId 顾客id
      */
-    public customerHistoryCustomerIdGet (customerId: string, extraHttpRequestParams?: any ) : Observable<models.CustomerSearchResponse> {
+    public customerHistoryCustomerIdGet (customerId: string, pageNumber?: string, pageSize?: string, extraHttpRequestParams?: any ) : Observable<models.CustomerSearchResponse> {
         const path = this.basePath + '/customer/history/{customerId}'
             .replace('{' + 'customerId' + '}', String(customerId));
 
@@ -99,6 +99,15 @@ export class CustomerApi {
         if (customerId === null || customerId === undefined) {
             throw new Error('Required parameter customerId was null or undefined when calling customerHistoryCustomerIdGet.');
         }
+
+        if (pageNumber !== undefined) {
+            queryParameters.set('pageNumber', pageNumber);
+        }
+
+        if (pageSize !== undefined) {
+            queryParameters.set('pageSize', pageSize);
+        }
+
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
             headers: headerParams,

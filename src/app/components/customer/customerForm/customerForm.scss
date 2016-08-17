@@ -3,4 +3,10 @@
     select {
         color:#343434;
     }
+    .g-field {
+        
+        input[type="text"], input[type="tel"], select {
+            margin-bottom:0;
+        }
+    }
 }

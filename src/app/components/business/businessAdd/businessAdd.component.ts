@@ -12,7 +12,7 @@ import { MdCheckbox } from '@angular2-material/checkbox/checkbox';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Md5 } from 'ts-md5/dist/md5';
-import { Cookie,MissionService } from '../../../services';
+import { Cookie, MissionService } from '../../../services';
 
 import { BusinessApi, EmployeeApi, CustomerApi, Customer, EmployeeListItem, CustomerSearchResponse, BusinessDetail } from 'client';
 
@@ -21,26 +21,40 @@ import { BusinessApi, EmployeeApi, CustomerApi, Customer, EmployeeListItem, Cust
   template: require('./businessAdd.html'),
   styles: [require('./businessAdd.scss')],
   directives: [ROUTER_DIRECTIVES, MdCheckbox],
-  providers: [HTTP_PROVIDERS, BusinessApi, EmployeeApi, CustomerApi]
+  providers: [HTTP_PROVIDERS, BusinessApi, EmployeeApi, CustomerApi, Md5]
 })
 
 export class BusinessAddComponent implements OnInit {
   businessShow: boolean = false;
   loading: number = 0;
   employeeList: Array<EmployeeListItem>;
-  customer: Customer = {id:null};
+  customer: any = {id:null};
   employeeChecked: boolean = true;
   business: BusinessDetail;
   subscription: Subscription;
   anchor:string;
   zone: any;
+  showPlateImg: boolean = false;
+  isNewPlate: boolean = false;
+  plateErr = {
+    empty: false,
+    len: false
+  };
+  businessItemErr: boolean = false;
+  businessEmployeeErr: boolean = false;
+  addEmployeeErr: boolean = false;
+  showLoading: boolean = false;
+  oldPlate: string = '';
+  hadPlate: boolean = false;
+  confirmWinShow: boolean = false;
+  businessStr: string = '';
 
   private searchVehicleCode = new Subject<CustomerSearchResponse>();
 
   private VehicleCode: Observable<CustomerSearchResponse> = this.searchVehicleCode
     .debounceTime(300)
     .distinctUntilChanged()
-    .switchMap((term:string) => term.length > 0
+    .switchMap((term: string) => term.length > 0
                ? this.cApi.customerVehicleVehicleLicenceGet(term)
                : Observable.of({}));
 
@@ -49,21 +63,27 @@ export class BusinessAddComponent implements OnInit {
     this.zone = new NgZone({ enableLongStackTrace: false }); // 事务控制器
     this.subscription = this.missionService.businessAddConfirmed$.subscribe(
       data => {
+        console.log('b s', data);
         this.getEmployeeList();
         this.anchor = data.selector;
-        this.business = _.merge({ vehicleLicence: '', name: '', employeeId: null, customerId: null, description: '' },data.data);
-        if(this.business.customerId){
-          this.customer.id = this.business.customerId;
-        }
-        if (!this.business.vehicleLicence || this.business.vehicleLicence.length < 6) {
+        this.business = _.merge({ vehicleLicence: '', name: '', employeeId: null, customerId: null, description: '' }, data.data);
+        console.log('bsid', this.business);
+        // 这是干嘛？
+        // if (this.business.customerId){
+        //   this.customer.id = this.business.customerId;
+        // }
+        console.log('bsid', this.customer);
+        // if (!this.business.vehicleLicence || this.business.vehicleLicence.length < 6) {
 
-        }else{
-          this.searchVehicleCode.next(this.business.vehicleLicence);
-        }
+        // }else{
+        //   this.oldPlate = this.business.vehicleLicence;
+        //   this.searchVehicleCode.next(this.business.vehicleLicence);
+          
+        // }
         this.zone.run(() => {
           this.onOpen();
         });
-      },error=>{console.error(error)});
+      }, error => {console.error(error)});
   }
   // 初始化
   ngOnInit() {
@@ -71,9 +91,12 @@ export class BusinessAddComponent implements OnInit {
     this.VehicleCode.subscribe(data => {
       if (data.meta.code === 200) {
         this.customer = data.data;
+        this.showPlateImg = true;
+        this.isNewPlate = data.data === null ? true : false;
       } else {
         alert(data.error.message);
       }
+      this.showLoading = false;
     });
   }
 
@@ -98,10 +121,16 @@ export class BusinessAddComponent implements OnInit {
   }
 
   onChangeVL(val) {
-    if (!val.target.value || val.target.value.length < 6) {
+    if ( this.oldPlate === val.target.value) {
+      return;
+    }
+    this.oldPlate = val.target.value;
+    if (!val.target.value || val.target.value.length < 7) {
       return false;
     }
     this.searchVehicleCode.next(val.target.value);
+    this.showLoading = true;
+    this.showPlateImg = false;
     // this.cApi.customerVehicleVehicleLicenceGet(val.target.value).subscribe(data => {
     //   if (data.meta.code === 200) {
     //     this.customer = data.data;
@@ -112,18 +141,32 @@ export class BusinessAddComponent implements OnInit {
   }
 
   onSubmit(f) {
+    // 正式员 or 临时工
+    let type = this.employeeChecked ? '1' : '2';
+    let data = Object.assign({}, this.business);
+    data.employeeChecked = this.employeeChecked;
+    if (!this.onVehicleLicenceBlur() || !this.onBuinessItemBulr()) {
+      return false;
+    }
+    if ( !this.business.employeeId || this.businessEmployeeErr ) {
+      this.businessEmployeeErr = true;
+      return false;
+    } else {
+      this.businessEmployeeErr = false;
+    }
+    if (data.employeeId === 'other' && !data.employeeName && !data.employeeCode ) {
+      this.addEmployeeErr = true;
+      return false;
+    } else {
+      this.addEmployeeErr = false;
+    }
 
     this.loading = 1;
-    let data = Object.assign({}, this.business);
+    
     data.shopId = Cookie.load('shopId');
     if (data.employeeId === 'other') {
-      if ( !this.business.employeeName && !this.business.employeeCode) {
-        alert('技师姓名与技师编号至少填一项');
-        this.loading = 0;
-        return;
-      }
-      // payload: models.BusinessDetail
-      this.eApi.employeeSavePost(this.business.employeeName || '', this.business.employeeCode || '', '').subscribe(res => {
+      
+      this.eApi.employeeSavePost(this.business.employeeName || '', this.business.employeeCode || '', '', type).subscribe(res => {
         if (res.meta.code === 200) {
           data.employeeId = res.data.id;
           this.save(data);
@@ -159,10 +202,79 @@ export class BusinessAddComponent implements OnInit {
 
   onOpen(){
     this.businessShow = true;
+    this.businessStr = Md5.hashStr(JSON.stringify(this.business)).toString();
+    console.log(this.businessStr);
   }
 
   onClose() {
     this.missionService.announceBusinessAdd(this.anchor);
+    this.showPlateImg = false;
     this.businessShow = false;
+    this.plateErr = {
+      empty: false,
+      len: false
+    };
+    this.businessItemErr = false;
+    this.businessEmployeeErr = false;
+    this.addEmployeeErr = false;
+    this.showLoading = false;
+    this.confirmWinShow = false;
+  }
+  onVehicleLicenceFocus() {
+    this.plateErr = {
+      empty: false,
+      len: false
+    };
+  }
+  onVehicleLicenceBlur() {
+    let plate = this.business.vehicleLicence;
+    if (!plate) {
+      this.plateErr.empty = true;
+      this.showPlateImg = false;
+      return false;
+    }
+    if (plate.length < 7 || plate.length > 9) {
+      this.plateErr.len = true;
+      this.showPlateImg = false;
+      return false;
+    }
+    return true;
+  }
+  onBuinessItemBulr() {
+    let item = this.business.name;
+    if (!item) {
+      this.businessItemErr = true;
+      return false;
+    }
+    return true;
+  }
+  onBuinessItemFocus() {
+    this.businessItemErr = false;
+  }
+  selectEmployee(evt) {
+    console.log(evt === 'null');
+    this.businessEmployeeErr = !evt || evt === 'null' ? true : false;
+    console.log(this.businessEmployeeErr);
+    this.business.employeeId = evt;
+    this.employeeChecked = evt === 'other' ? true : false;
+  }
+  onAddEmpyeeFocus() {
+    this.addEmployeeErr = false;
+  }
+  onUnsubmitClose() {
+    let bs = Md5.hashStr(JSON.stringify(this.business)).toString();
+    console.log('bs', bs );
+    if ( this.businessStr === bs ) {
+      this.onClose();
+    } else {
+      this.confirmWinShow = true;
+    }
+    
+  }
+  onConfirmOkey() {
+    this.onClose();
+  }
+  onConfirmCancel() {
+    this.confirmWinShow = false;
   }
 }

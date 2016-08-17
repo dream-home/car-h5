@@ -5,6 +5,12 @@
       margin: 0;
       font-weight: normal;
     }
+    .curtime {
+      &:hover {
+        cursor:pointer;
+        color:#38b549;
+      }
+    }
   }
 .date-directive{
   position: relative;
@@ -35,4 +41,11 @@ table tbody td.ellipsis, table tbody th.ellipsis {
     max-width: 80px;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.c-table table tbody > tr:nth-child(even) {
+  background:#eef8f2;
+}
+.c-table table tbody > tr:nth-child(odd) {
+  background:#fff;
 }

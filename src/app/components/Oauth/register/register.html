@@ -1,11 +1,11 @@
 <div class="register">
   <main-logo></main-logo>
-  <form (ngSubmit)="onRegister()" #rForm="ngForm">
+  <form (ngSubmit)="onRegister()" #rForm="ngForm" novalidate autocomplete="off">
     <div class="register-block">
       <h2 class="register-title">注册<a routerLink="/login-min" routerLinkActive="active" class="register-login-link fr">已有账户登录</a>
       </h2>
       <div class="register-input " [class.error]="!phone?.valid && !phone?.pristine||errorMsg">
-        <input type="text" name="phone" #phone="ngModel" [(ngModel)]="user.phone" required pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$" placeholder="请输入您的手机号码">
+        <input type="text" name="phone" #phone="ngModel" [(ngModel)]="user.phone" autocomplete="off" required pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$" placeholder="请输入您的手机号码">
         <div class="msg">
           <span class="text-error" *ngIf="errorMsg">
             <span *ngIf="errorMsg!=='手机号已被注册'">{{errorMsg}}</span>
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="register-input" [class.error]="!rnd?.valid && !rnd?.pristine">
-        <input type="" class="w180 dib" #rnd="ngModel" [(ngModel)]="user.rnd" maxlength="4" name="rnd" required placeholder="请输入右侧图形校验码">
+        <input type="" class="w180 dib" #rnd="ngModel" [(ngModel)]="user.rnd" maxlength="4" name="rnd" autocomplete="off" required placeholder="请输入右侧图形校验码">
         <img [src]="img" class="dib link ml10" alt="验证码" (click)="onChangeCode()">
         <a class="dib link ml10" (click)="onChangeCode()">换一张</a>
         <div class="msg">
@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="register-input" [class.error]="!code?.valid && !code?.pristine">
-        <input type="text" class="inner-group" #code="ngModel" [(ngModel)]="user.code" maxlength="10" name="code" required placeholder="请输入短信验证码">
+        <input type="text" class="inner-group" #code="ngModel" [(ngModel)]="user.code" [ngModelOptions]="{standalone: true}" maxlength="10" autocomplete="off"  required placeholder="请输入短信验证码">
         <a class="inner-btn" [class.disabled]="seekDisabeld||!phone?.valid||!rnd?.valid" (click)="onSeekPhone(rForm.value.phone,rForm.value.rnd)">{{seekBtnTitle}}</a>
         <div class="msg">
           <span class="text-error" *ngIf="!code?.valid">验证码错误</span>
@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="register-input" [class.error]="!pwd?.valid && !pwd?.pristine">
-        <input type="password" minlength="6" maxlength="16" #pwd="ngModel" [(ngModel)]="user.pwd" name="pwd" required placeholder="请设置您的密码(6-16位长度)">
+        <input type="password" minlength="6" maxlength="16" #pwd="ngModel" [(ngModel)]="user.pwd" [ngModelOptions]="{standalone: true}"  autocomplete="off" required placeholder="请设置您的密码(6-16位长度)">
         <div class="msg">
           <span class="text-error" *ngIf="!pwd?.valid">请输入正确的密码</span>
         </div>

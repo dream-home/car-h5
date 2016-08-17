@@ -24,7 +24,7 @@ export class MenusComponent {
     this.router.navigate(['/login-min']);
   }
 
-  onGuide(){
+  onGuide() {
     localStorage.removeItem("olds");
     localStorage.removeItem("next");
     this.missionService.confirmMission('menus');

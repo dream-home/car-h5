@@ -110,7 +110,7 @@
         <div class="g-field">
           <label for="store_area" class="g-label">门店面积</label>
           <div class="g-ipt" [class.error]="!area?.valid && !area?.pristine">
-            <input type="text" maxlength="4"  name="area" #area="ngModel" [(ngModel)]="shop.area" class="g-wm">
+            <input type="text" maxlength="9"  name="area" #area="ngModel" [(ngModel)]="shop.area" class="g-wm">
             <span class="g-unit">m<i>2</i>
             </span>
           </div>

@@ -74,7 +74,7 @@ export class SearchListComponent {
 					this.router.navigate(['/dashbroad/customer-detail', { id: dd[0].id }]);
 				} else {
 					this.customers = dd;
-					this.onOpenba();
+					// this.onOpenba();
 				}
 				this.page.current = data.meta.current;
 				this.page.limit = data.meta.limit;
@@ -82,7 +82,7 @@ export class SearchListComponent {
 				this.page.pageTotal = Math.ceil(this.page.total / this.page.limit);
 			} else {
 				this.customers = [];
-				this.onOpenba();
+				// this.onOpenba();
 			}
 		}, err => {
 			console.error(err);

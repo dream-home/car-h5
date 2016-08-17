@@ -1,11 +1,11 @@
 <div class="forgetPwd">
   <main-logo></main-logo>
-  <form (ngSubmit)="onCheckPhone()" #fpForm="ngForm"  *ngIf="next === null ? false : next===1">
+  <form (ngSubmit)="onCheckPhone()" #fpForm="ngForm"  *ngIf="next === null ? false : next===1" novalidate> 
     <div class="forgetPwd-block">
       <h2 class="forgetPwd-title">找回密码<a routerLink="/register" routerLinkActive="active" class="forgetPwd-register-link fr">注册新账户</a>
       </h2>
       <div class="forgetPwd-input" [class.error]="!phone?.valid && !phone?.pristine">
-        <input type="text" name="phone" #phone="ngModel" [(ngModel)]="fp.phone" required pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$"
+        <input type="text" name="phone" #phone="ngModel" [(ngModel)]="fp.phone"  required pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$"
           placeholder="请输入您的手机号码">
         <div class="msg">
           <span class="text-error" >

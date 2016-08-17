@@ -84,7 +84,7 @@
               <td></td>
               <td></td>
               <td></td>
-              <td class="cd-r-op"><a (click)="onOpenBusinessEdit(hs)">修改</a> | <a (click)="onDelBusiness(hs)">删除</a></td>
+              <td class="cd-r-op"><a *ngIf="hs.score === null" (click)="onOpenBusinessEdit(hs)">修改</a> <span *ngIf="hs.score === null">|</span> <a (click)="onDelBusiness(hs)">删除</a></td>
             </tr>
 
           </tbody>

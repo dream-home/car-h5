@@ -2,7 +2,7 @@
 <!-- 主内容标题 -->
 <div class="sub-header tc">
   <div class="dib fl date-directive">
-    <a href="javascript:void(0);" class="last" (click)="onLastDate()"> &lt; </a> &nbsp;&nbsp;&nbsp;&nbsp; <span (click)="onToggleDate($event)">{{moment(date)}}</span> &nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:void(0);" *ngIf="!isToday()" class="next" (click)="onNextDate()"> 	&gt; </a>
+    <a href="javascript:void(0);" class="last" (click)="onLastDate()"> &lt; </a> &nbsp;&nbsp;&nbsp;&nbsp; <span class="curtime" (click)="onToggleDate($event)">{{moment(date)}}</span> &nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:void(0);" *ngIf="!isToday()" class="next" (click)="onNextDate()"> 	&gt; </a>
     <div class="datepicker-tip" *ngIf="dateShow">
       <datepicker [ngModel]="date" [initDate]="date" [maxDate]="today" (ngModelChange)="onPickerChange($event)" [showWeeks]="false" ></datepicker>
     </div>

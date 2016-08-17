@@ -39,7 +39,7 @@ export const routes:RouterConfig = [
       { path: 'customer-list', component: components.CustomerListComponent,canActivate: [AuthGuard], data: {title: '我的顾客'} },
       { path: 'search-list', component: components.SearchListComponent,canActivate: [AuthGuard], data: {title: '检索结果'} },
       // { path: 'report/week/business', component: components.ReportWeekBusinessComponent,canActivate: [AuthGuard], data: {title: '满意度报告'} },
-      { path: 'report/week/satisfaction', component: components.ReportWeekSatisfactionComponent,canActivate: [AuthGuard], data: {title: '满意度报告'} },
+      { path: 'report/week/satisfaction', component: components.ReportWeekSatisfactionComponent,canActivate: [AuthGuard], data: {title: '满意度评价报告'} },
       { path: 'business-add', component: components.BusinessAddComponent,canActivate: [AuthGuard], data: {title: '添加服务'} },
       { path: 'business-list', component: components.BusinessListComponent,canActivate: [AuthGuard], data: {title: '服务列表'} }
     ]
