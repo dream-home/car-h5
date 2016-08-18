@@ -446,6 +446,9 @@ input::-webkit-inner-spin-button{
     margin: 0; 
 }
 input[type="number"]{-moz-appearance:textfield;}
+table {
+  margin-bottom:0;
+}
 
 @media print {
   a::after {
