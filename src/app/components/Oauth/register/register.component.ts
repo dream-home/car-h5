@@ -70,6 +70,7 @@ export class RegisterComponent {
     this.cApi.commonCaptchaBase64Post().subscribe((data: Response) => {
       this.img = 'data:image/jpeg;base64,' + (data.text() || '');
       this.uApi.defaultHeaders.set('uuid', data.headers.get('uuid'));
+      this.isCode = true;
     });
   }
   onChangeCode() {
@@ -116,7 +117,9 @@ export class RegisterComponent {
     let rnd = e.target.value;
     let uuid = this.uApi.defaultHeaders.get('uuid');
     this.cApi.commonCaptchaValidateGet(uuid, rnd).subscribe(data => {
-      this.isCode = data.meta.code == 200 ? false : true;
+      this.zone.run(()=>{
+        this.isCode = data.meta.code == 200 ? false : true;
+      });
     });
   }
 

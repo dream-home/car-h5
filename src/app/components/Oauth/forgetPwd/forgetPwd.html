@@ -16,25 +16,25 @@
                     </span>
                 </div>
             </div>
-            <div class="forgetPwd-input" [class.error]="!rnd?.valid && rnd?.blur||errorMsg==='校验码错误，请重新输入'">
-                <input type="" class="w180 dib" maxlength="4" #rnd="ngModel" [(ngModel)]="fp.rnd" (blur)="blur(rnd,$event)" (focus)="blur(rnd,$event)" name="rnd" required placeholder="请输入右侧图形校验码">
+            <div class="forgetPwd-input" [class.error]="!rnd?.valid && rnd?.blur||errorMsg==='验证码错误，请重新输入'">
+                <input type="" class="w180 dib" maxlength="4" #rnd="ngModel" [(ngModel)]="fp.rnd" (keyup)="chkRnd($event.target.value)" (blur)="blur(rnd,$event)" (focus)="blur(rnd,$event)" name="rnd" required placeholder="请输入右侧图形验证码">
                 <img [src]="img" class="dib link ml10" alt="验证码" (click)="onChangeCodeImg()">
                 <a class="dib link ml10" (click)="onChangeCodeImg()">换一张</a>
+                <div class="msg">
+                    <span class="text-error" *ngIf="errorMsg==='验证码错误，请重新输入'">
+                        验证码错误，请重新输入
+                    </span>
+                    <span class="text-error" *ngIf="rnd?.errors?.required">请输入右侧图形校验码</span>
+                </div>
+            </div>
+            <div class="forgetPwd-input" [class.error]="!code?.valid && code?.blur||errorMsg==='校验码错误，请重新输入'">
+                <input type="text" class="inner-group" maxlength="10" #code="ngModel" [(ngModel)]="fp.code" (blur)="blur(code,$event)" (focus)="blur(code,$event)" name="code" required placeholder="请输入短信验证码">
+                <a class="inner-btn" [class.disabled]="isCode||seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限'" (click)="!(isCode||seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限')&&onSeekPhone(fp.phone,fp.rnd)">{{seekBtnTitle}}</a>
                 <div class="msg">
                     <span class="text-error" *ngIf="errorMsg==='校验码错误，请重新输入'">
                         校验码错误，请重新输入
                     </span>
-                    <span class="text-error" *ngIf="!rnd?.valid">请输入右侧图形校验码</span>
-                </div>
-            </div>
-            <div class="forgetPwd-input" [class.error]="!code?.valid && code?.blur||errorMsg==='手机验证码不正确'">
-                <input type="text" class="inner-group" maxlength="10" #code="ngModel" [(ngModel)]="fp.code" (blur)="blur(code,$event)" (focus)="blur(code,$event)" name="code" required placeholder="请输入短信验证码">
-                <a class="inner-btn" [class.disabled]="isCode||seekDisabeld||!phone?.valid||!rnd?.valid" (click)="onSeekPhone(fp.phone,fp.rnd)">{{seekBtnTitle}}</a>
-                <div class="msg">
-                    <span class="text-error" *ngIf="errorMsg==='手机验证码不正确'">
-                        手机验证码不正确
-                    </span>
-                    <span class="text-error" *ngIf="!code?.valid">验证码错误</span>
+                    <span class="text-error" *ngIf="code?.errors?.required">校验码不能为空</span>
                 </div>
             </div>
             <button type="submit" class="forgetPwd-btn-submit" [disabled]="!fpForm.valid">下一步</button>

@@ -11,14 +11,14 @@ import { UserApi, CommonApi } from 'client';
 import { MainLogoComponent, PageFooterComponent, NavbarComponent, MenusComponent, SearchBarComponent, CrumbsComponent } from 'common';
 // import { MissionService } from '../../services';
 import { BusinessAddComponent } from '../business/businessAdd/businessAdd.component.ts';
-import { GuideComponent } from '../guide';
+// import { GuideComponent } from '../guide';
 import { Cookie, MissionService } from 'services';
 
 @Component({
 	selector: 'dashbroad',
 	template: require('./dashbroad.html'),
 	styles: [require('./dashbroad.scss')],
-	directives: [ ROUTER_DIRECTIVES,  NavbarComponent, MenusComponent, SearchBarComponent, PageFooterComponent, BusinessAddComponent,GuideComponent, CrumbsComponent ],
+	directives: [ ROUTER_DIRECTIVES,  NavbarComponent, MenusComponent, SearchBarComponent, PageFooterComponent, BusinessAddComponent,CrumbsComponent ],
 	providers: [ HTTP_PROVIDERS ]
 })
 
@@ -28,9 +28,6 @@ export class DashbroadComponent {
 			astronaut => {
 
 		});
-
-		
-		
 	}
 
 	ngOnInit() {

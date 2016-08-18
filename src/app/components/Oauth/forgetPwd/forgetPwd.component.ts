@@ -51,6 +51,7 @@ export class ForgetPwdComponent {
     this.cApi.commonCaptchaBase64Post().subscribe((data: Response) => {
       this.img = 'data:image/jpeg;base64,' + data.text();
       this.uApi.defaultHeaders.set('uuid', data.headers.get('uuid'));
+      this.isCode = true;
     });
   }
   onChangeCodeImg() {
@@ -77,6 +78,7 @@ export class ForgetPwdComponent {
     if (!rnd) {
       return;
     }
+    this.errorMsg = null;
     this.seekDisabeld = 1;
     this.seekTime = 60;
     this.getPhoneCode(phone, rnd).subscribe(data => {
@@ -145,8 +147,7 @@ export class ForgetPwdComponent {
     this.getCodeImg();
   }
 
-  chkRnd(e) {
-    let rnd = e.target.value;
+  chkRnd(rnd) {
     let uuid = this.uApi.defaultHeaders.get('uuid');
     this.cApi.commonCaptchaValidateGet(uuid, rnd).subscribe(data => {
       this.isCode = data.meta.code == 200 ? false : true;
@@ -173,7 +174,6 @@ export class ForgetPwdComponent {
           this.router.navigate(['/login-min']);
         } else {
           this.errorWin(data.error.message);
-
         }
       });
   }
