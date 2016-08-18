@@ -109,7 +109,7 @@ export class BusinessAddComponent implements OnInit {
   }
 
   getEmployeeList() {
-    this.eApi.employeeListGet().subscribe(data => {
+    this.eApi.employeeListGet(String(1), String(10000)).subscribe(data => {
       if (data.meta.code === 200) {
         this.employeeList = data.data;
       }

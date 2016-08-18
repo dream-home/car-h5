@@ -124,7 +124,7 @@
         <div class="g-field g-f-area">
           <label for="store_area" class="g-label">门店面积</label>
           <div class="g-ipt" [class.warnBorder]="!shop.showTip.area">
-            <input type="text" maxlength="9" [ngModelOptions]="{standalone: true}" #area="ngModel" [(ngModel)]="shop.area" class="g-197" (blur)="onStoreAreaBlur(shop)" (focus)="onStoreAreaFocus(shop)"  >
+            <input type="text" maxlength="9" [ngModelOptions]="{standalone: true}" #area="ngModel" [ngModel]="shop.area" (ngModelChange)="onStoreAreaChange(shop, $event)" class="g-197" (blur)="onStoreAreaBlur(shop)" (focus)="onStoreAreaFocus(shop)"  >
             <span class="g-unit">m<i>2</i>
             </span>
           </div>

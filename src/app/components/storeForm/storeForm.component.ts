@@ -460,6 +460,11 @@ export class StoreFormComponent {
     shop.showTip.area = true;
 
   }
+  onStoreAreaChange(shop, evt) {
+    shop.area = evt ? evt : '';
+    shop.valid.area = (shop.area === '' || (/^\d+(\.\d+)?$/.test(shop.area) && shop.area >= 1 && shop.area < 1000000000) ) ? true : false;
+    this.formValid = this.formRequiredValid();
+  }
   onShopNameSet($event, shop) {
     console.log(arguments);
     shop.name = $event;

@@ -20,8 +20,10 @@ export class CrumbsComponent {
         this.routeConfig = this.formatConfig(routes);
         
         
-        this.sub = this.router.events.filter( event => event instanceof NavigationEnd )
+        this.sub = this.router.events.filter( event => {console.log('events', event); return event instanceof NavigationEnd} )
                                     .map( event => {
+                                        console.log('events', this.router.events);
+                                        console.log('event1: ', event);
                                         return event.url;
                                     } )
                                     .subscribe( (data: any) => {
