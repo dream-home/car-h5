@@ -35,7 +35,7 @@
                 <a class="inner-btn" [class.disabled]="isCode||seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限'" (click)="!(isCode||seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限')&&onSeekPhone(fp.phone,fp.rnd)">{{seekBtnTitle}}</a>
                 <div class="msg">
                     <span class="text-error" *ngIf="errorMsg==='手机验证码不正确'">
-                        手机验证码不正确
+                        短信验证码错误，请重新输入
                     </span>
                     <span class="text-error" *ngIf="errorMsg==='您今天的短信发送已达到3次上限'">
                         您今天的短信发送已达到3次上限
@@ -60,8 +60,8 @@
                 <div class="msg">
                     <span class="text-error">
             <span *ngIf="pwd?.errors?.required">密码不能为空</span>
-                    <span *ngIf="pwd?.errors?.minlength">密码长度不能小于6位</span>
-                    <span *ngIf="pwd?.errors?.maxlength">密码长度不能大于16位<</span>
+                    <span *ngIf="pwd?.errors?.minlength">请输入由6~16位的英文字母、数字或字符组成的密码</span>
+                    <span *ngIf="pwd?.errors?.maxlength">请输入由6~16位的英文字母、数字或字符组成的密码</span>
                     </span>
                 </div>
             </div>
@@ -70,8 +70,8 @@
                 <div class="msg">
                     <span class="text-error">
             <span *ngIf="checkPwd?.errors?.required">确认密码不能为空</span>
-                    <span *ngIf="checkPwd?.errors?.minlength">确认密码长度不能小于6位</span>
-                    <span *ngIf="checkPwd?.errors?.maxlength">确认密码长度不能大于16位</span>
+                    <span *ngIf="checkPwd?.errors?.minlength">请输入由6~16位的英文字母、数字或字符组成的密码</span>
+                    <span *ngIf="checkPwd?.errors?.maxlength">请输入由6~16位的英文字母、数字或字符组成的密码</span>
                     </span>
                     <span class="text-error" *ngIf="diff">
             两次密码输入不一致
