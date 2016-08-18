@@ -10,11 +10,11 @@
                 <div class="g-field-tip warning" *ngIf="formErr.lenerr"><span>*</span>员工姓名与员工编号任一项不超过20个字</div>
             </div>
         </div>
-        <div class="g-field" [class.warnBorder]="formErr.required || formErr.lenerr">
+        <div class="g-field" [class.warnBorder]="formErr.required || formErr.lenerr || formErr.code">
             <label for="employee_code" class="g-label">员工编号</label>
             <div class="g-ipt">
-                <input type="text" id="employee_code" class="g-w343" [ngModel]="employee?.code" (ngModelChange)="employee.code = $event" (focus)="onHideTip('required');onHideTip('lenerr')" maxlength="20" >
-
+                <input type="text" id="employee_code" class="g-w343" [ngModel]="employee?.code" (ngModelChange)="employee.code = $event" (focus)="onHideTip('required');onHideTip('lenerr');onHideTip('code');" maxlength="20" >
+                <div class="g-field-tip warning" *ngIf="formErr.code">该技师编号已存在</div>
             </div>
         </div>
         <div class="g-field">

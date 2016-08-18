@@ -221,9 +221,7 @@
 .text-default {
 	padding: 15px 10px;
 }
-.fwin-box {
-	height: 400px;
-}
+
 .init-store-btn-submit {
 	background: #008b3d;
 	color: #fff;
@@ -359,3 +357,16 @@ i.arrow-up.down {
 		}
 	}
 }
+
+.store-del-win { font-size:14px; }
+.store-del-win .fwin-content { padding:81px 0;  }
+.store-del-win .fwin-content h1 { margin:0 0 16px 0; font-size:20px; color:#fe0000;  }
+.store-del-win .fwin-content h1 + div { font-size:14px; line-height: 36px;  }
+.store-del-win .fwin-content h1 + div .g-btn { width:115px; height:29px; line-height: 29px; margin-left:14px; }
+.store-del-win .fwin-content h1 + div input { width:230px; font-size:12px; }
+.store-del-win .fwin-content > div { position:relative; padding-left:177px; height:220px; }
+.store-del-win .fwin-content > div:before { position:absolute; display:block; content:''; top:6px; left:52px; width:96px; height:136px; background:url(/assets/images/jixiangwu/jixiangwu_8.png) no-repeat top left; background-size:cover; }
+.store-del-win .g-btns { position:absolute; bottom:32px; left:0; right: 0; text-align: center; padding:0;  }
+.store-del-win .g-btn.disabled { background:#c0c0c0; }
+.store-del-win .g-field { position:relative; }
+.store-del-win .g-field .g-code-tip { position:absolute; margin:0; bottom:-20px; left:0; font-size:12px;}

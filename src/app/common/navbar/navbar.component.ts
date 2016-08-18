@@ -33,7 +33,12 @@ export class NavbarComponent {
       if(data=='update-store-list'){
         this.getList();
       }
-    })
+    });
+    this.thzsUtil.refreshShopList$.subscribe( data => {
+      if (data) {
+        this.getList();
+      }
+    });
     
   }
 

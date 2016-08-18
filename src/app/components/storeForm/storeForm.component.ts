@@ -46,7 +46,11 @@ export class StoreFormComponent {
   shopList: any;
   oldShopList: string = '';
   showDelWin:boolean = false;
-  user:any ={};
+  user: any = {
+    code: '',
+    codeNull: '',
+    codeErr: ''
+  };
   defaultPhone:string;
 
   seekDisabeld: number = 0;
@@ -146,7 +150,9 @@ export class StoreFormComponent {
    * @param  {[type]} rnd   图片验证码
    * @return {[type]}       [description]
    */
-  onSeekPhone(phone, rnd) {
+  onSeekPhone() {
+    const phone = this.defaultPhone;
+    const rnd = Math.floor(Math.random() * 9000 + 1000);
     if (this.seekDisabeld) {
       return;
     }
@@ -157,14 +163,15 @@ export class StoreFormComponent {
       return;
     }
     this.seekDisabeld = 1;
+    this.seekBtnTitle = '发送中...';
     this.seekTime = 59;
-    this.getPhoneCode(phone, rnd).subscribe(data => {
+    this.getPhoneCode(phone, String(rnd)).subscribe(data => {
       if (data.meta.code !== 200) {
         this.errorPhoneCode = data.error.message;
         this.seekBtnTitle = '重新发送';
         this.seekDisabeld = 0;
       } else {
-        this.seekBtnTitle = '发送验证码';
+        
         //倒计时
         this.timeout = window.setInterval(() => {
           this.zone.run(() => {
@@ -201,6 +208,8 @@ export class StoreFormComponent {
           return this.id == data.id;
         }).map((data) => {
           data.sList = _.cloneDeep(SERVICE_LIST);
+          data.openingDate = data.openingDate ? data.openingDate : 'undefined';
+          data.station = data.station ? data.station : 'undefined';
           data.valid = _.cloneDeep(SHOP_VALIDATE);
           data.showTip = _.cloneDeep(SHOP_VALIDATE);
           data.sList.map((sub) => {
@@ -287,29 +296,70 @@ export class StoreFormComponent {
   }
 
   onOpenDelWin(){
+
     this.showDelWin = true;
   }
 
-  onExit(){
+  onExit() {
     window.history.back();
   }
 
-  onDel(){
-      this.sApi.shopDeleteDelete(String(this.id),this.user.code).subscribe(data => {
+  onDel() {
+      this.sApi.shopDeleteDelete(String(this.id), this.user.code).subscribe(data => {
         if (data.meta.code === 200) {
-          alert('删除成功');
-          this.onCancel();
-        }else{
-          alert(data.error.message);
+         
+          if (data.data && data.data.askForCode === 1) {
+            this.onOpenDelWin();
+          } else {
+            this.onCancelDelStore();
+            // 刷新导航中的门店列表
+            this.thzsUtil.refreshShopList(true);
+            this.router.navigate(['/dashbroad/my-account']);
+          }
+        } else {
+          if (this.showDelWin) {
+            this.user.codeErr = data.error.message;
+          } else {
+            alert(data.error.message);
+          }
+          
         }
-      })
+      });
+  }
+
+  onDelStore() {
+    if (!this.onDelCodeBlur()) return;
+    this.onDel();
+
+  }
+  onCancelDelStore() {
+    this.user.code = '';
+    this.user.codeNull = '';
+    this.user.codeErr = '';
+    this.onCancel();
+  }
+
+  onDelCodeBlur() {
+    if (this.user.code) {
+      this.user.codeNull = '';
+      this.user.codeErr = this.user.code.length === 4 ? '' : '请输入正确的验证码';
+    } else {
+      this.user.codeNull = '验证码不能为空';
+    }
+     
+    
+    return !(this.user.codeNull || this.user.codeErr);
+  }
+  onDelCodeFocus() {
+    this.user.codeNull = '';
+    this.user.codeErr = '';
   }
 
   onCancel(){
     this.showDelWin = false;
   }
 
-  validAllStoreRequiredItems() {}
+  
 
   onChangeProvince(id, item) {
     item.provinceId = id;
@@ -361,6 +411,10 @@ export class StoreFormComponent {
       return false;
     }
     // payload: models.Shop
+    post.forEach( shop => {
+      shop.station = !shop.station || shop.station === 'undefined' ? null : shop.station;
+      shop.openingDate = !shop.openingDate || shop.openingDate === 'undefined' ? null : shop.openingDate;
+    } );
     if (this.id) {
       post[0].id = this.id;
       this.sApi.shopUpdatePost(post[0]).subscribe(data => {

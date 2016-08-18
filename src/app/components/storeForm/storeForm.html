@@ -12,7 +12,7 @@
           <input type="text" required [ngModelOptions]="{standalone: true}" placeholder="必填项" maxlength="200" [ngModel]="shop.name" (ngModelChange)="onShopNameSet($event, shop)" (blur)="onShopNameBlur(shop)" (focus)="onShopNameFocus(shop)" #name="ngModel" class="g-402">
           <a *ngIf="!id" class="g-addico" (click)="onAddShop(i,shop)">
             <i></i>
-            <span>新增门店</span>
+            <span>添加</span>
           </a>
           <!-- <a href="javascript:void(0);" class="add-store" (click)="onAddShop(i,shop)" *ngIf="!id" >新增门店</a> -->
         </div>
@@ -152,13 +152,13 @@
   <div class="sf-btns">
     <button class="g-btn g-btn-green" type="submit" [disabled]="!formValid||loading">保存</button>
     <button class="g-btn g-btn-gray" type="button" *ngIf="id" (click)="onExit()">取消</button>
-    <button class="g-btn g-btn-red" type="button" *ngIf="id && !isCurrentStore" (click)="onOpenDelWin()">删除门店</button>
+    <button class="g-btn g-btn-red" type="button" *ngIf="id && !isCurrentStore" (click)="onDel()">删除门店</button>
   </div>
   <!-- 门店表单按钮 end -->
 </form>
 <!-- 门店表单 end -->
 <!-- 删除弹出层 -->
-<div class="fwin del-win employee-del-win" [class.show]="showDelWin">
+<!--<div class="fwin del-win employee-del-win show" [class.show]="showDelWin">
   <div class="fwin-mask">
     <div class="fwin-box">
       <div class="fwin-close" (click)="onCancel()"></div>
@@ -197,5 +197,36 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->
 <!-- 删除弹出层 end -->
+
+<!-- 弹出层 -->
+    <div class="fwin store-del-win" [class.show]="showDelWin">
+      <div class="fwin-mask">
+        <div class="fwin-box">
+          <div class="fwin-close" (click)="onCancel()"></div>
+          <div class="fwin-content">
+            <div>
+              <h1>确定删除该门店？</h1>
+              <div>
+                该门店所有顾客、员工、生意等信息都将一并被删除 <br>
+                {{defaultPhone}} <span class="g-btn g-btn-green" [class.disabled]="seekDisabeld" (click)="onSeekPhone()">{{seekBtnTitle}}</span>
+                <div class="g-field" [class.warnBorder]="user.codeNull || user.codeErr">
+                  <input type="text" placeholder="请输入收到的手机验证码" [(ngModel)]="user.code" maxlength="4" (blur)="onDelCodeBlur()" (focus)="onDelCodeFocus()">
+                  <div class="g-code-tip warning" *ngIf="user.codeNull || user.codeErr">
+                    <span *ngIf="user.codeNull">{{user.codeNull}}</span>
+                    <span *ngIf="user.codeErr">{{user.codeErr}}</span>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          <div class="fwin-btns g-btns">
+            <div class="g-btn g-btn-green" (click)="onDelStore()">确认删除</div>
+            <div class="g-btn g-btn-gray" (click)="onCancelDelStore()">取消</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 弹出层 end -->

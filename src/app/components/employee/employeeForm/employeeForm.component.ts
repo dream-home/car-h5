@@ -25,6 +25,7 @@ export class EmployeeFormComponent {
 	formErr: any;
 	submitting: Boolean = false;
 	hasSave: boolean = false;
+	
 	constructor(private router: Router, fb: FormBuilder, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private eApi: EmployeeApi) {
 		// this.employee = {
 		// 	name: '',
@@ -40,8 +41,6 @@ export class EmployeeFormComponent {
 	}
 
 	ngOnInit() {
-		console.log('employee edit form components init');
-		console.log("dd:", this.employee);
 	}
 	save() {
 		if (this.employee.name.trim() === '' && this.employee.code.trim() === '') {
@@ -60,9 +59,9 @@ export class EmployeeFormComponent {
 		}
 		this.formErr = {
 			required: false,
-			mobile: false
+			mobile: false,
+			code: false
 		}
-		console.log(this.employee.name, this.employee.code, this.employee.mobile);
 		if (!this.employee.id) {
 			return this.eApi.employeeSavePost( this.employee.name, this.employee.code, this.employee.mobile );
 		}
@@ -72,18 +71,21 @@ export class EmployeeFormComponent {
 		if (this.submitting)
 			return;
 		this.submitting = true;
-		console.log(this.employee)
 
 		let result = this.save();
 		if (result) {
 			result.subscribe(data => {
-				if(data.meta.code === 200) {
-					console.log('创建了一个新的员工');
+				if (data.meta.code === 200) {
 					this.hasSave = true;
 					this.onReset();
 					
 				} else {
-					alert(data.error && data.error.message);
+					if (data.error && data.error.message === '该技师编号已存在') {
+						this.formErr.code = true;
+					} else {
+						alert(data.error && data.error.message);
+					}
+					
 				}
 				this.submitting = false;	
 			}, err => {
@@ -104,15 +106,16 @@ export class EmployeeFormComponent {
 		if (result) {
 			result.subscribe(data => {
 				if (data.meta.code === 200 && data.data ) {
-					console.log('创建了一个新的员工');
 					this.employee = {
 						name: '',
 						code: '',
 						mobile: ''
 					};
 				} else {
-					if (data.error && data.error.message) {
-						alert(data.error.message);
+					if (data.error && data.error.message === '该技师编号已存在') {
+						this.formErr.code = true;
+					} else {
+						alert(data.error && data.error.message);
 					}
 				}
 					
@@ -122,6 +125,8 @@ export class EmployeeFormComponent {
 				console.error(err);
 				this.submitting = false;
 			})
+		} else {
+			this.submitting = false;
 		}
 
 	}
