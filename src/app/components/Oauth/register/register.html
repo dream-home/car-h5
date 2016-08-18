@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="register-input" [class.error]="!rnd?.valid && rnd?.blur||errorMsg==='校验码码错误，请重新输入'">
-                <input type="text" name="rnd" class="w180 dib" #rnd="ngModel" [(ngModel)]="user.rnd" (change)="chkRnd($event)" (blur)="blur(rnd,$event)" (focus)="blur(rnd,$event)" maxlength="4" autocomplete="off" required placeholder="请输入右侧图形校验码">
+                <input type="text" name="rnd" class="w180 dib" #rnd="ngModel" [(ngModel)]="user.rnd" (keyup)="chkRnd($event)" (blur)="blur(rnd,$event)" (focus)="blur(rnd,$event)" maxlength="4" autocomplete="off" required placeholder="请输入右侧图形校验码">
                 <img [src]="img" class="dib link ml10" alt="验证码" (click)="onChangeCode()">
                 <a class="dib link ml10" (click)="onChangeCode()">换一张</a>
                 <div class="msg">

@@ -70,6 +70,7 @@ export class RegisterComponent {
     this.cApi.commonCaptchaBase64Post().subscribe((data: Response) => {
       this.img = 'data:image/jpeg;base64,' + (data.text() || '');
       this.uApi.defaultHeaders.set('uuid', data.headers.get('uuid'));
+      this.isCode = true;
     });
   }
   onChangeCode() {
