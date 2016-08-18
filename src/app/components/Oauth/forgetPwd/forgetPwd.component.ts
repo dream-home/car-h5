@@ -44,7 +44,7 @@ export class ForgetPwdComponent {
     // this.initForm();
   }
 
-  onInitError(){
+  onInitError() {
     this.errorMsg = null;
   }
 
@@ -139,8 +139,10 @@ export class ForgetPwdComponent {
   }
 
   errorWin(message) {
-    if (message === '短信验证码不存在' || message === '您离开的时间太长，请重新操作' || message === '您今天的短信发送已达到3次上限') {
-      // this.openProtocol = true;
+    if (message === '短信验证码不存在' || message === '您离开的时间太长，请重新操作' || message === '您今天的短信发送已达到3次上限' || message === '短信验证码超时，导致userId不存在') {
+      if (this.next == 2) {
+        this.openProtocol = true;
+      }
       if (message === '短信验证码不存在') {
         this.errorMsg = '验证码已失效,请更换';
       } else {
@@ -153,10 +155,15 @@ export class ForgetPwdComponent {
   }
 
   chkRnd(rnd) {
-    let uuid = this.uApi.defaultHeaders.get('uuid');
-    this.cApi.commonCaptchaValidateGet(uuid, rnd).subscribe(data => {
-      this.isCode = data.meta.code == 200 ? false : true;
-    });
+    if (rnd && rnd.length > 3) {
+      let uuid = this.uApi.defaultHeaders.get('uuid');
+      this.cApi.commonCaptchaValidateGet(uuid, rnd).subscribe(data => {
+        this.isCode = data.meta.code == 200 ? false : true;
+        if (data.meta.code !== 200) {
+          this.errorMsg = data.error.message === '短信验证码超时，导致userId不存在'?'您离开的时间太长，请重新操作':data.error.message;
+        }
+      });
+    }
   }
 
   // 重置密码

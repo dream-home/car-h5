@@ -20,7 +20,7 @@
                     </span>
                 </div>
             </div>
-            <div class="register-input" [class.error]="!rnd?.valid && rnd?.blur||errorMsg==='校验码码错误，请重新输入'">
+            <div class="register-input" [class.error]="!rnd?.valid && rnd?.blur||errorMsg==='校验码码错误，请重新输入'||errorMsg==='图形验证码不存在'">
                 <input type="text" name="rnd" class="w180 dib" #rnd="ngModel" [(ngModel)]="user.rnd" (keyup)="chkRnd($event);onInitError()" (blur)="blur(rnd,$event)" (focus)="blur(rnd,$event)" maxlength="4" autocomplete="off" required placeholder="请输入右侧图形校验码">
                 <img [src]="img" class="dib link ml10" alt="验证码" (click)="onChangeCode()">
                 <a class="dib link ml10" (click)="onChangeCode()">换一张</a>
@@ -28,16 +28,20 @@
                     <span class="text-error" *ngIf="errorMsg==='校验码码错误，请重新输入'">
                       校验码码错误，请重新输入
                     </span>
-                    <span class="text-error">请输入右侧图形校验码</span>
+                    <span class="text-error" *ngIf="errorMsg==='图形验证码不存在'">校验码已失效,请更换</span>
+                    <span class="text-error" *ngIf="!errorMsg">请输入右侧图形校验码</span>
                 </div>
             </div>
-            <div class="register-input" [class.error]="!code?.valid && code?.blur||errorMsg==='短信验证码错误，请重新输入'||errorPhoneCode==='您今天的短信发送已达到3次上限'">
+            <div class="register-input" [class.error]="!code?.valid && code?.blur||errorMsg==='短信验证码错误，请重新输入'||errorPhoneCode==='您今天的短信发送已达到3次上限'||errorMsg==='您离开的时间太长，请重新操作'">
                 <input type="text" name="code" class="inner-group" #code="ngModel" [(ngModel)]="user.code" (keyup)="onInitError()" (blur)="blur(code,$event)" (focus)="blur(code,$event)" maxlength="10" autocomplete="off" required placeholder="请输入短信验证码">
                 <a class="inner-btn" [class.disabled]="isCode||seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限'" (click)="!(isCode||seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限')&&onSeekPhone(rForm.value.phone,rForm.value.rnd)">{{seekBtnTitle}}</a>
                 <div class="msg">
                     <span class="text-error" *ngIf="errorMsg==='短信验证码错误，请重新输入'">短信验证码错误，请重新输入</span>
                     <span class="text-error" *ngIf="errorMsg==='您今天的短信发送已达到3次上限'">您今天的短信发送已达到3次上限</span>
-                    <span class="text-error" *ngIf="code.errors?.required">短信验证码不能为空</span>
+                    <span class="text-error" *ngIf="errorMsg==='您离开的时间太长，请重新操作'">
+                        手机验证码已失效,请更换
+                    </span>
+                    <span class="text-error" *ngIf="!errorMsg&&code.errors?.required">短信验证码不能为空</span>
                 </div>
             </div>
             <div class="register-input" [class.error]="!pwd?.valid && pwd?.blur">

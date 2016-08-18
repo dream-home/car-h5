@@ -147,7 +147,7 @@ export class RegisterComponent {
       return;
     }
     this.seekDisabeld = 1;
-    this.seekTime = 60;
+    this.seekTime = 3;
     this.getPhoneCode(phone, rnd).subscribe(data => {
       if (data.meta.code !== 200) {
         this.errorWin(data.error.message);

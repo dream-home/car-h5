@@ -25,13 +25,16 @@
                         </span>
                     </div>
                 </div>
-                <div class="login-min-input" [class.error]="!rnd?.valid && rnd?.blur||errorMsg==='校验码错误，请重新输入'">
+                <div class="login-min-input" [class.error]="!rnd?.valid && rnd?.blur||errorMsg==='校验码错误，请重新输入'||errorMsg==='图形验证码不存在'">
                     <input type="text" class="w180 dib" [(ngModel)]="user.rnd" name="rnd" #rnd="ngModel" (keyup)="onInitError()" (blur)="blur(rnd,$event)" (focus)="blur(rnd,$event)" required placeholder="验证码">
                     <img [src]="img" (click)="onChangeCodeImg()" class="dib link ml10" alt="验证码">
                     <a class="dib link ml10" (click)="onChangeCodeImg()">换一张</a>
                     <div class="msg">
                         <span class="text-error" *ngIf="errorMsg==='校验码错误，请重新输入'">
               校验码错误，请重新输入
+            </span>
+                        <span class="text-error" *ngIf="errorMsg==='图形验证码不存在'">
+              校验码已失效,请更换
             </span>
                         <span class="text-error" *ngIf="!rnd?.valid && rnd?.blur">
               <span *ngIf="rnd.errors?.required">验证码不能为空</span>
