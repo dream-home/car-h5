@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, DoCheck } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import * as _ from 'lodash';
 import { routes } from '../../app.routes';
@@ -11,14 +11,14 @@ import { ThzsUtil } from 'services';
     directives: [  ROUTER_DIRECTIVES ]
 })
 
-export class CrumbsComponent {
+export class CrumbsComponent implements DoCheck {
     routeConfig: any;
     crumbs: any;
     sub: any;
     customerInfoSub: any;
     constructor( private router: Router, private route: ActivatedRoute, private thzsUtil: ThzsUtil ) {
         this.routeConfig = this.formatConfig(routes);
-        
+        console.log(this.routeConfig);
         
         this.sub = this.router.events.filter( event => event instanceof NavigationEnd )
                                     .map( event => {
@@ -91,6 +91,49 @@ export class CrumbsComponent {
         this.sub.unsubscribe();
         this.customerInfoSub.unsubscribe();
     }
+
+    ngDoCheck() {
+        
+        let len = this.crumbs.length;
+        let url = this.router.url;
+        if (len > 0 && this.crumbs[len - 1] && this.crumbs[len - 1].title === '检索结果' && !url.includes('search-list')) {
+            if (url.includes('customer-add')) {
+                this.crumbs[len - 1].title = '添加顾客';
+                return;
+            }
+            if (url.includes('customer-edit')) {
+                this.crumbs[len - 1].title = this.thzsUtil.currentCustomerInfo.vehicleLicence;
+                return;
+            }
+            if (url.includes('employee-add')) {
+                this.crumbs[len - 1].title = '添加技师';
+                this.crumbs[len - 2].title = '我的技师';
+                return;
+            }
+            if (url.includes('employee-edit')) {
+                this.crumbs[len - 1].title = '编辑技师';
+                this.crumbs[len - 2].title = '我的技师';
+                return;
+            }
+            if (url.includes('modify-store')) {
+                this.crumbs[len - 1].title = '修改门店信息';
+                this.crumbs[len - 2].title = '我的账户';
+                return;
+            }
+            if (url.includes('add-store')) {
+                this.crumbs[len - 1].title = '新增门店';
+                this.crumbs[len - 2].title = '我的账户';
+                return;
+            }
+            if (url.includes('modify-pwd')) {
+                this.crumbs[len - 1].title = '修改密码';
+                this.crumbs[len - 2].title = '我的账户';
+                return;
+            }
+
+        }
+    }
+
     formatConfig(config = []) {
         let ret = [];
         const getRoute = function(cfgs) {
