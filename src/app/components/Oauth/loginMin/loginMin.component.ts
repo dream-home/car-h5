@@ -51,6 +51,11 @@ export class LoginMinComponent {
   ngOnInit() {
     this.getCodeImg();
   }
+
+  onInitError(){
+    this.errorMsg = null;
+  }
+  
   /**
    * 获取图片验证码
    * @return {[type]} [description]

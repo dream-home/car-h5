@@ -5,7 +5,7 @@
             <h2 class="forgetPwd-title">找回密码<a routerLink="/register" routerLinkActive="active" class="forgetPwd-register-link fr">注册新账户</a>
       </h2>
             <div class="forgetPwd-input" [class.error]="!phone?.valid && phone?.blur||errorMsg==='该手机号尚未注册，请更换手机号或者前往注册'">
-                <input type="text" name="phone" #phone="ngModel" [(ngModel)]="fp.phone" (blur)="blur(phone,$event)" (focus)="blur(phone,$event)" required pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$" placeholder="请输入您的手机号码">
+                <input type="text" name="phone" #phone="ngModel" [(ngModel)]="fp.phone" (keyup)="onInitError()" (blur)="blur(phone,$event)" (focus)="blur(phone,$event)" required pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$" placeholder="请输入您的手机号码">
                 <div class="msg">
                     <span class="text-error" *ngIf="errorMsg==='该手机号尚未注册，请更换手机号或者前往注册'">
                       该手机号尚未注册，请更换手机号或者前往注册
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="forgetPwd-input" [class.error]="!rnd?.valid && rnd?.blur||errorMsg==='验证码错误，请重新输入'">
-                <input type="" class="w180 dib" maxlength="4" #rnd="ngModel" [(ngModel)]="fp.rnd" (keyup)="chkRnd($event.target.value)" (blur)="blur(rnd,$event)" (focus)="blur(rnd,$event)" name="rnd" required placeholder="请输入右侧图形验证码">
+                <input type="" class="w180 dib" maxlength="4" #rnd="ngModel" [(ngModel)]="fp.rnd" (keyup)="onInitError()" (keyup)="chkRnd($event.target.value)" (blur)="blur(rnd,$event)" (focus)="blur(rnd,$event)" name="rnd" required placeholder="请输入右侧图形验证码">
                 <img [src]="img" class="dib link ml10" alt="验证码" (click)="onChangeCodeImg()">
                 <a class="dib link ml10" (click)="onChangeCodeImg()">换一张</a>
                 <div class="msg">
@@ -27,12 +27,15 @@
                     <span class="text-error" *ngIf="rnd?.errors?.required">请输入右侧图形校验码</span>
                 </div>
             </div>
-            <div class="forgetPwd-input" [class.error]="!code?.valid && code?.blur||errorMsg==='校验码错误，请重新输入'">
-                <input type="text" class="inner-group" maxlength="10" #code="ngModel" [(ngModel)]="fp.code" (blur)="blur(code,$event)" (focus)="blur(code,$event)" name="code" required placeholder="请输入短信验证码">
+            <div class="forgetPwd-input" [class.error]="!code?.valid && code?.blur||errorMsg==='校验码错误，请重新输入'||errorMsg==='您今天的短信发送已达到3次上限'">
+                <input type="text" class="inner-group" maxlength="10" #code="ngModel" [(ngModel)]="fp.code" (keyup)="onInitError()" (blur)="blur(code,$event)" (focus)="blur(code,$event)" name="code" required placeholder="请输入短信验证码">
                 <a class="inner-btn" [class.disabled]="isCode||seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限'" (click)="!(isCode||seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限')&&onSeekPhone(fp.phone,fp.rnd)">{{seekBtnTitle}}</a>
                 <div class="msg">
                     <span class="text-error" *ngIf="errorMsg==='校验码错误，请重新输入'">
                         校验码错误，请重新输入
+                    </span>
+                    <span class="text-error" *ngIf="errorMsg==='您今天的短信发送已达到3次上限'">
+                        您今天的短信发送已达到3次上限
                     </span>
                     <span class="text-error" *ngIf="code?.errors?.required">校验码不能为空</span>
                 </div>
@@ -47,7 +50,7 @@
         <div class="forgetPwd-block animated" [class.zoomOutRight]="0">
             <h2 class="forgetPwd-title">设置新密码</h2>
             <div class="forgetPwd-input" [class.error]="!pwd?.valid && pwd?.blur">
-                <input type="password" placeholder="请设置您的密码(6-16位长度)" #pwd="ngModel" [(ngModel)]="fp.pwd" (blur)="blur(pwd,$event)" (focus)="blur(pwd,$event)" name="pwd" minlength="6" maxlength="16" required>
+                <input type="password" placeholder="请设置您的密码(6-16位长度)" #pwd="ngModel" [(ngModel)]="fp.pwd" (keyup)="onInitError()" (blur)="blur(pwd,$event)" (focus)="blur(pwd,$event)" name="pwd" minlength="6" maxlength="16" required>
                 <div class="msg">
                     <span class="text-error">
             <span *ngIf="pwd?.errors?.required">密码不能为空</span>
@@ -57,7 +60,7 @@
                 </div>
             </div>
             <div class="forgetPwd-input" [class.error]="!checkPwd?.valid && checkPwd?.blur||diff">
-                <input type="password" placeholder="请确认您的密码(6-16位长度)" #checkPwd="ngModel" [(ngModel)]="fp.checkPwd" (blur)="blur(checkPwd,$event)" (focus)="blur(checkPwd,$event)" name="checkPwd" minlength="6" maxlength="16" required>
+                <input type="password" placeholder="请确认您的密码(6-16位长度)" #checkPwd="ngModel" [(ngModel)]="fp.checkPwd" (keyup)="onInitError()" (blur)="blur(checkPwd,$event)" (focus)="blur(checkPwd,$event)" name="checkPwd" minlength="6" maxlength="16" required>
                 <div class="msg">
                     <span class="text-error">
             <span *ngIf="checkPwd?.errors?.required">确认密码不能为空</span>
@@ -75,15 +78,4 @@
         </div>
     </form>
     <page-footer cls="white"></page-footer>
-</div>
-<div class="forgetPwd-protocol-overlay" *ngIf="openProtocol">
-    <div class="forgetPwd-protocol-block">
-        <div class="forgetPwd-protocol-content">
-            <h6>{{errorMsg}}</h6>
-        </div>
-        <div class="btn-block">
-            <button type="button" class="submit" (click)="onClose('okey')" name="button">确认</button>
-            <button type="button" class="cancel ml25" (click)="onClose()" name="button">取消</button>
-        </div>
-    </div>
 </div>

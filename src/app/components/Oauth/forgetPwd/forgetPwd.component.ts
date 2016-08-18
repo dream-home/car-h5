@@ -43,6 +43,11 @@ export class ForgetPwdComponent {
     this.getCodeImg();
     // this.initForm();
   }
+
+  onInitError(){
+    this.errorMsg = null;
+  }
+
   /**
    * 获取图片验证码
    * @return {[type]} [description]
@@ -135,7 +140,7 @@ export class ForgetPwdComponent {
 
   errorWin(message) {
     if (message === '短信验证码不存在' || message === '您离开的时间太长，请重新操作' || message === '您今天的短信发送已达到3次上限') {
-      this.openProtocol = true;
+      // this.openProtocol = true;
       if (message === '短信验证码不存在') {
         this.errorMsg = '验证码已失效,请更换';
       } else {

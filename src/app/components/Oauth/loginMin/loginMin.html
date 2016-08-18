@@ -1,59 +1,59 @@
 <div class="login-min">
-  <main-logo></main-logo>
-  <form (ngSubmit)="onLogin()" #loginForm="ngForm" novalidate>
-    <div class="login-min-block">
-      <div class="">
-        <h2 class="login-min-title">登录<a routerLink="/register" routerLinkActive="active" class="login-min-register-link fr">注册新账户</a>
+    <main-logo></main-logo>
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm" novalidate>
+        <div class="login-min-block">
+            <div class="">
+                <h2 class="login-min-title">登录<a routerLink="/register" routerLinkActive="active" class="login-min-register-link fr">注册新账户</a>
         </h2>
-        <div class="login-min-input" [class.error]="!phone?.valid && phone?.blur||errorMsg==='手机号或密码输入错误'">
-          <input type="text" name="phone" [(ngModel)]="user.phone" #phone="ngModel" (blur)="blur(phone,$event)" (focus)="blur(phone,$event)" required placeholder="请输入您的手机号码" pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$">
-          <div class="msg">
-            <span class="text-error" *ngIf="errorMsg==='手机号或密码输入错误'">
+                <div class="login-min-input" [class.error]="!phone?.valid && phone?.blur||errorMsg==='手机号或密码输入错误'">
+                    <input type="text" name="phone" [(ngModel)]="user.phone" #phone="ngModel" (keyup)="onInitError()" (blur)="blur(phone,$event)" (focus)="blur(phone,$event)" required placeholder="请输入您的手机号码" pattern="^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[57])[0-9]{8}$">
+                    <div class="msg">
+                        <span class="text-error" *ngIf="errorMsg==='手机号或密码输入错误'">
               手机号或密码输入错误
             </span>
-            <span class="text-error" *ngIf="!phone?.valid && phone?.blur">
+                        <span class="text-error" *ngIf="!phone?.valid && phone?.blur">
               <span *ngIf="phone.errors?.required">手机号码不能为空</span>
-              <span *ngIf="phone.errors?.pattern">请输入正确的手机号码</span>
-            </span>
-          </div>
-        </div>
-        <div class="login-min-input" [class.error]="!pwd?.valid && pwd?.blur">
-          <input type="password" name="pwd" [(ngModel)]="user.pwd" #pwd="ngModel" (blur)="blur(pwd,$event)" (focus)="blur(pwd,$event)" required placeholder="请输入您的账户密码">
-          <div class="msg">
-            <span class="text-error" *ngIf="!pwd?.valid && pwd?.blur">
+                        <span *ngIf="phone.errors?.pattern">请输入正确的手机号码</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="login-min-input" [class.error]="!pwd?.valid && pwd?.blur">
+                    <input type="password" name="pwd" [(ngModel)]="user.pwd" #pwd="ngModel" (keyup)="onInitError()" (blur)="blur(pwd,$event)" (focus)="blur(pwd,$event)" required placeholder="请输入您的账户密码">
+                    <div class="msg">
+                        <span class="text-error" *ngIf="!pwd?.valid && pwd?.blur">
               <span *ngIf="pwd.errors?.required">账户密码不能为空</span>
-            </span>
-          </div>
-        </div>
-        <div class="login-min-input" [class.error]="!rnd?.valid && rnd?.blur||errorMsg==='校验码错误，请重新输入'">
-          <input type="text" class="w180 dib" [(ngModel)]="user.rnd" name="rnd" #rnd="ngModel" (blur)="blur(rnd,$event)" (focus)="blur(rnd,$event)" required placeholder="验证码">
-          <img [src]="img" (click)="onChangeCodeImg()" class="dib link ml10" alt="验证码">
-          <a class="dib link ml10" (click)="onChangeCodeImg()">换一张</a>
-          <div class="msg">
-            <span class="text-error" *ngIf="errorMsg==='校验码错误，请重新输入'">
+                        </span>
+                    </div>
+                </div>
+                <div class="login-min-input" [class.error]="!rnd?.valid && rnd?.blur||errorMsg==='校验码错误，请重新输入'">
+                    <input type="text" class="w180 dib" [(ngModel)]="user.rnd" name="rnd" #rnd="ngModel" (keyup)="onInitError()" (blur)="blur(rnd,$event)" (focus)="blur(rnd,$event)" required placeholder="验证码">
+                    <img [src]="img" (click)="onChangeCodeImg()" class="dib link ml10" alt="验证码">
+                    <a class="dib link ml10" (click)="onChangeCodeImg()">换一张</a>
+                    <div class="msg">
+                        <span class="text-error" *ngIf="errorMsg==='校验码错误，请重新输入'">
               校验码错误，请重新输入
             </span>
-            <span class="text-error" *ngIf="!rnd?.valid && rnd?.blur">
+                        <span class="text-error" *ngIf="!rnd?.valid && rnd?.blur">
               <span *ngIf="rnd.errors?.required">验证码不能为空</span>
-            </span>
-          </div>
+                        </span>
+                    </div>
+                </div>
+                <button type="submit" class="login-min-btn-submit" [disabled]="!loginForm.valid||loading">登录</button>
+                <a routerLink="/forget-pwd" routerLinkActive="active" class="login-min-register-link">忘记密码</a>
+            </div>
+            <i></i>
         </div>
-        <button type="submit" class="login-min-btn-submit" [disabled]="!loginForm.valid||loading">登录</button>
-        <a routerLink="/forget-pwd" routerLinkActive="active" class="login-min-register-link">忘记密码</a>
-      </div>
-      <i></i>
-    </div>
-  </form>
-  <page-footer cls="white"></page-footer>
+    </form>
+    <page-footer cls="white"></page-footer>
 </div>
 <div class="login-min-protocol-overlay" *ngIf="openErrorProtocol">
-  <div class="login-min-protocol-block">
-    <div class="login-min-protocol-content">
-      <h6>{{errorPhoneCode}}</h6>
+    <div class="login-min-protocol-block">
+        <div class="login-min-protocol-content">
+            <h6>{{errorPhoneCode}}</h6>
+        </div>
+        <div class="btn-block">
+            <button type="button" class="submit" (click)="onErrorClose()" name="button">确认</button>
+            <button type="button" class="cancel ml25" (click)="onErrorClose()" name="button">取消</button>
+        </div>
     </div>
-    <div class="btn-block">
-      <button type="button" class="submit" (click)="onErrorClose()" name="button">确认</button>
-      <button type="button" class="cancel ml25" (click)="onErrorClose()" name="button">取消</button>
-    </div>
-  </div>
 </div>
