@@ -33,7 +33,7 @@
             </div>
             <div class="register-input" [class.error]="!code?.valid && code?.blur||errorMsg==='短信验证码错误，请重新输入'">
                 <input type="text" name="code" class="inner-group" #code="ngModel" [(ngModel)]="user.code" (blur)="blur(code,$event)" (focus)="blur(code,$event)" maxlength="10" autocomplete="off" required placeholder="请输入短信验证码">
-                <a class="inner-btn" [class.disabled]="isCode||seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限'" (click)="!(seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限')&&onSeekPhone(rForm.value.phone,rForm.value.rnd)">{{seekBtnTitle}}</a>
+                <a class="inner-btn" [class.disabled]="isCode||seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限'" (click)="!(isCode||seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限')&&onSeekPhone(rForm.value.phone,rForm.value.rnd)">{{seekBtnTitle}}</a>
                 <div class="msg">
                     <span class="text-error" *ngIf="errorMsg==='短信验证码错误，请重新输入'">短信验证码错误，请重新输入</span>
                     <span class="text-error" *ngIf="code.errors?.required">短信验证码不能为空</span>

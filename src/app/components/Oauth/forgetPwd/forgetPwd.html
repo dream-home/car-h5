@@ -29,7 +29,7 @@
             </div>
             <div class="forgetPwd-input" [class.error]="!code?.valid && code?.blur||errorMsg==='手机验证码不正确'">
                 <input type="text" class="inner-group" maxlength="10" #code="ngModel" [(ngModel)]="fp.code" (blur)="blur(code,$event)" (focus)="blur(code,$event)" name="code" required placeholder="请输入短信验证码">
-                <a class="inner-btn" [class.disabled]="isCode||seekDisabeld||!phone?.valid||!rnd?.valid" (click)="onSeekPhone(fp.phone,fp.rnd)">{{seekBtnTitle}}</a>
+                <a class="inner-btn" [class.disabled]="isCode||seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限'" (click)="!(isCode||seekDisabeld||!phone?.valid||!rnd?.valid||errorPhoneCode==='您今天的短信发送已达到3次上限')&&onSeekPhone(fp.phone,fp.rnd)">{{seekBtnTitle}}</a>
                 <div class="msg">
                     <span class="text-error" *ngIf="errorMsg==='手机验证码不正确'">
                         手机验证码不正确
