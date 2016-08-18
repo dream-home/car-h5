@@ -1,23 +1,23 @@
 <!-- 左侧导航 -->
 <div class="menu">
-	<div class="menus">
-		<a [routerLink]="['business-list']" routerLinkActive="active">
-			<i class="menu-ico ico-business"></i>
-			<div>我的服务</div>
-		</a>
-		<a [routerLink]="['report/week/satisfaction']" routerLinkActive="active">
-			<i class="menu-ico ico-week-chart"></i>
-			<div>我的周报</div>
-		</a>
-		<!--<a (click)="onGuide()">
+    <div class="menus">
+        <a [routerLink]="['business-list']" routerLinkActive="active">
+            <i class="menu-ico ico-business"></i>
+            <div>我的服务</div>
+        </a>
+        <a [routerLink]="['report/week/satisfaction']" routerLinkActive="active">
+            <i class="menu-ico ico-week-chart"></i>
+            <div>我的周报</div>
+        </a>
+        <!--<a (click)="onGuide()">
 			<i class="menu-ico ico-week-chart"></i>
 			<div>新手引导</div>
 		</a>-->
-	</div>
-	<div class="menus-btm">
-		<a (click)="onGuide()" class="guard"></a>
-		<a (click)="onExit()" class="exit"></a>
-	</div>
-		
+    </div>
+    <div class="menus-btm">
+        <!--<a (click)="onGuide()" class="guard"></a>-->
+        <a (click)="onExit()" class="exit"></a>
+    </div>
+
 </div>
 <!-- 左侧导航 end -->

@@ -62,6 +62,11 @@ export class RegisterComponent {
     window.clearInterval(this.timeout);
   }
 
+  onInitError(){
+    this.errorPhoneCode = null;
+    this.errorMsg = null;
+  }
+
   /**
    * 获取图片验证码
    * @return {[type]} [description]
@@ -96,12 +101,13 @@ export class RegisterComponent {
 
   errorWin(message) {
     if (message === '短信验证码不存在' || message === '短信验证码超时，导致userId不存在' || message === '您今天的短信发送已达到3次上限') {
-      this.openErrorProtocol = true;
+      // this.openErrorProtocol = true;
       if (message === '短信验证码不存在') {
         this.errorPhoneCode = '验证码已失效,请更换';
       } else {
         this.errorPhoneCode = message;
       }
+      this.errorMsg = message;
     } else {
       this.errorPhoneCode = message;
       this.errorMsg = message;
