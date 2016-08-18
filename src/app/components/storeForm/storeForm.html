@@ -152,7 +152,7 @@
   <div class="sf-btns">
     <button class="g-btn g-btn-green" type="submit" [disabled]="!formValid||loading">保存</button>
     <button class="g-btn g-btn-gray" type="button" *ngIf="id" (click)="onExit()">取消</button>
-    <button class="g-btn g-btn-red" type="button" *ngIf="id && !isCurrentStore" (click)="onDel()">删除门店</button>
+    <button class="g-btn g-btn-red" type="button" *ngIf="id && !isCurrentStore" (click)="onOpenDelWin()">删除门店</button>
   </div>
   <!-- 门店表单按钮 end -->
 </form>

@@ -164,7 +164,7 @@ export class StoreFormComponent {
     }
     this.seekDisabeld = 1;
     this.seekBtnTitle = '发送中...';
-    this.seekTime = 59;
+    this.seekTime = 60;
     this.getPhoneCode(phone, String(rnd)).subscribe(data => {
       if (data.meta.code !== 200) {
         this.errorPhoneCode = data.error.message;
@@ -181,6 +181,7 @@ export class StoreFormComponent {
             } else {
               this.seekBtnTitle = '重新发送';
               this.seekDisabeld = 0;
+              clearInterval(this.timeout);
             }
           });
         }, 1000);
@@ -308,19 +309,13 @@ export class StoreFormComponent {
       this.sApi.shopDeleteDelete(String(this.id), this.user.code).subscribe(data => {
         if (data.meta.code === 200) {
          
-          if (data.data && data.data.askForCode === 1) {
-            this.onOpenDelWin();
-          } else {
-            this.onCancelDelStore();
-            // 刷新导航中的门店列表
-            this.thzsUtil.refreshShopList(true);
-            this.router.navigate(['/dashbroad/my-account']);
-          }
+          this.onCancelDelStore();
+          // 刷新导航中的门店列表
+          this.thzsUtil.refreshShopList(true);
+          this.router.navigate(['/dashbroad/my-account']);
         } else {
           if (this.showDelWin) {
             this.user.codeErr = data.error.message;
-          } else {
-            alert(data.error.message);
           }
           
         }

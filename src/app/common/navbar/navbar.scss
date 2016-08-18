@@ -90,14 +90,22 @@
         margin: 0;
         padding: 8px 0;
         width:auto;
+
+        li {
+            display:block;
+            &:hover {
+                background:#565a5e;
+            }
+            
+        }
+
         a {
             display:block;
             line-height: 28px;
             padding:0 20px;
             text-decoration: none;
             font-size:12px;
-            min-width:89px;
-            max-width:120px;
+            
             white-space:nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -116,6 +124,26 @@
             }
         }
 
+    }
+    .c-drop-cont {
+        > div {
+            padding:10px 0 0 ;
+            background:#34383c;
+            border-radius: 2px 0 2px 2px;
+            > ul {
+                border-radius:none;
+                width:140px;
+                max-height:420px;
+                overflow:auto;
+                
+                a {
+                    width:120px;
+                    overflow:hidden;
+                    white-space:nowrap;
+                    text-overflow:ellipsis;
+                }
+            }
+        }
     }
 
 }

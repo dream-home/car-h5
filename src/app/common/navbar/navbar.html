@@ -7,9 +7,12 @@
             <div class="c-drop c-drop-store">
                 <div class="legend"><a >{{storeName}}</a><i *ngIf="list?.length > 1"></i></div>
                 <div class="c-drop-cont" *ngIf="list?.length > 1">
-                    <ul class="account-list-tip">
-                        <li *ngFor="let item of list, let i = index"><a href="javascript:void(0);" (click)="onChangeStore(item)">{{item.name}}</a></li>
-                    </ul>
+                    <div>
+                        <ul class="account-list-tip">
+                            <li *ngFor="let item of list, let i = index"><a href="javascript:void(0);" (click)="onChangeStore(item)">{{item.name}}</a></li>
+                        </ul>
+                    </div>
+                        
                 </div>
             </div>
             <div class="c-drop">
