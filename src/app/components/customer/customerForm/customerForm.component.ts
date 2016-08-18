@@ -248,6 +248,17 @@ export class CustomerFormComponent {
 		this.vehiclePlateLen = false;
 		// this.vehiclePlateHas = false;
 	}
+	onVehiclePlateBlur() {
+		const val = this.customerCurrent.vehicleLicence;
+		if (!val) {
+			this.vehiclePlateNull = true;
+			return false;
+		}
+		if (val.length < 7) {
+			this.vehiclePlateLen = true;
+			return false;
+		}
+	}
 
 	subjectAjax() {
 		const val = this.customerCurrent.vehicleLicence;

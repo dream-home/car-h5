@@ -7,7 +7,7 @@
               <div class="g-field">
                 <label for="customer_plate" class="g-label">车牌号</label>
                 <div class="g-ipt" [class.warnBorder]="vehiclePlateNull || vehiclePlateLen || vehiclePlateHas">
-                  <input type="text" id="customer_plate" placeholder="必填项" class="g-w343" maxlength="9" minlength="7" required [(ngModel)]="customerCurrent.vehicleLicence" name="vehicleLicence" #vehicleLicence="ngModel" (keyup)="subjectAjax()" (focus)="onVehiclePlateFocus()" >
+                  <input type="text" id="customer_plate" placeholder="必填项" class="g-w343" maxlength="9" minlength="7" required [(ngModel)]="customerCurrent.vehicleLicence" name="vehicleLicence" #vehicleLicence="ngModel" (keyup)="subjectAjax()" (blur)="onVehiclePlateBlur()" (focus)="onVehiclePlateFocus()" >
                   <div class="g-field-tip warning" *ngIf ="vehiclePlateNull || vehiclePlateLen || vehiclePlateHas">
                     <div *ngIf="vehiclePlateNull">
                         <span>*</span>请填写车牌号 
