@@ -101,6 +101,7 @@ a {
 .banner {
 	height:386px;
 	text-align: center;
+	overflow:hidden;
 	background: url(../images/banner.jpg) no-repeat center center;
 }
 .banner .txt {
