@@ -10,7 +10,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { UserApi, CommonApi } from 'client';
 import { MainLogoComponent, PageFooterComponent, NavbarComponent, MenusComponent, SearchBarComponent } from 'common';
 import { StoreFormComponent } from '../../storeForm/storeForm.component.ts';
-import { DialogService } from 'services';
+import { DialogService, ThzsUtil } from 'services';
 
 @Component({
 	selector: 'modify-store',
@@ -23,7 +23,7 @@ import { DialogService } from 'services';
 export class ModifyStoreComponent {
 	@ViewChild(StoreFormComponent) sf: StoreFormComponent;
 	isSuccess: boolean = false;
-	constructor(private router: Router, private route: ActivatedRoute, private dialogService: DialogService) {
+	constructor(private router: Router, private route: ActivatedRoute, private dialogService: DialogService, private thzsUtil: ThzsUtil) {
 
 	}
 
@@ -43,6 +43,7 @@ export class ModifyStoreComponent {
 		}
 		let p = this.dialogService.confirm('当前页面尚有信息未保存，是否离开？点击确定则显示搜索结果，点击取消还原原页面');
 		let o = Observable.fromPromise(p);
+		this.thzsUtil.willChangePage = o;
 		return o;
 	}
 

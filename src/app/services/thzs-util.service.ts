@@ -10,6 +10,8 @@ export class ThzsUtil {
     public refreshShopList$: Observable<any>;
     public currentShopInfo: any;
     public currentCustomerInfo: any;
+    // 判断页面是否跳转 为面包屑
+    public willChangePage: Observable<boolean>;
     private shopChangedSource = new Subject<number>();
     private customerInfoSource = new Subject<any>();
     private refreshShopListSource = new Subject<any>();

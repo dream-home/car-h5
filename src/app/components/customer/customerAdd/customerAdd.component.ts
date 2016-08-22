@@ -10,7 +10,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { UserApi, CommonApi, CustomerApi, Customer } from 'client';
 import { MainLogoComponent, PageFooterComponent, NavbarComponent, MenusComponent, SearchBarComponent } from 'common';
 import { CustomerFormComponent } from '../customerForm/customerForm.component';
-import { DialogService } from 'services';
+import { DialogService, ThzsUtil } from 'services';
 @Component({
 	moduleId: module.id,
 	selector: 'customer-add',
@@ -23,7 +23,7 @@ import { DialogService } from 'services';
 export class CustomerAddComponent {
 	customerFields: any;
 	@ViewChild(CustomerFormComponent) cf: CustomerFormComponent;
-	constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private cApi: CustomerApi, private dialogService: DialogService  ) {
+	constructor(private router: Router, private fb: FormBuilder, private route: ActivatedRoute, private cApi: CustomerApi, private dialogService: DialogService, private thzsUtil:ThzsUtil  ) {
 	}
 
 	ngOnInit() {
@@ -48,6 +48,7 @@ export class CustomerAddComponent {
 		}
 		let p = this.dialogService.confirm('当前页面尚有信息未保存，是否离开？点击确定则显示搜索结果，点击取消还原原页面');
 		let o = Observable.fromPromise(p);
+		this.thzsUtil.willChangePage = o;
 		return o;
 	}
 
