@@ -106,7 +106,7 @@ export class ModifyPwdComponent {
 		if ( this.hasSave || (this.oldPassword.trim() === '' && this.password.trim() === '' && this.rePassword.trim() === '') ) {
 			return true;
 		}
-		let p = this.dialogService.confirm('当前页面尚有信息未保存，是否离开？点击确定则显示搜索结果，点击取消还原原页面');
+		let p = this.dialogService.confirm('当前页面尚有信息未保存，是否离开？');
 		let o = Observable.fromPromise(p);
         this.thzsUtil.willChangePage = o;
 		return o;
