@@ -30,7 +30,7 @@ export class LoginMinComponent {
   loading: number = 0;
   openProtocol: number = 0;
   openErrorProtocol: boolean = false;
-  
+
   constructor(private router: Router, private route: ActivatedRoute, private uApi: UserApi, private cApi: CommonApi, private sApi: ShopApi) {
     this.zone = new NgZone({ enableLongStackTrace: false }); // 事务控制器
   }
@@ -55,7 +55,7 @@ export class LoginMinComponent {
   onInitError(){
     this.errorMsg = null;
   }
-  
+
   /**
    * 获取图片验证码
    * @return {[type]} [description]
@@ -79,13 +79,14 @@ export class LoginMinComponent {
       .subscribe((data) => {
         this.loading = 0;
         if (data.meta.code === 200) {
-          Cookie.save('token', data.data.User.token, 7);
-          Cookie.save('shopId', data.data.User.lastShopId);
-          this.sApi.defaultHeaders.set('token', data.data.User.token);
-          if (data.data.User.lastShopId === null) {
+          Cookie.save('token', data.data.token, 14);
+          Cookie.save('shopId', data.data.lastShopId, 14);
+          Cookie.save('clientType', 'pc', 14);
+          this.sApi.defaultHeaders.set('token', data.data.token);
+          if (data.data.lastShopId === null) {
             this.router.navigate(['/init-store']);
           } else {
-            this.sApi.defaultHeaders.set('shopId', data.data.User.lastShopId);
+            this.sApi.defaultHeaders.set('shopId', data.data.lastShopId);
             this.router.navigate(['/dashbroad/business-list']);
           }
         } else {

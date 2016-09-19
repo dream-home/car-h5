@@ -58,6 +58,7 @@ export class EmployeeApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         // verify required parameter 'id' is not null or undefined
         if (id === null || id === undefined) {
@@ -108,6 +109,7 @@ export class EmployeeApi {
         }
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
@@ -139,6 +141,7 @@ export class EmployeeApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         if (pageNumber !== undefined) {
             queryParameters.set('pageNumber', pageNumber);
@@ -186,6 +189,7 @@ export class EmployeeApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let formParams = new URLSearchParams();
 
@@ -228,6 +232,7 @@ export class EmployeeApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let formParams = new URLSearchParams();
 

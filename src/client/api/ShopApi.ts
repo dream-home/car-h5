@@ -58,6 +58,7 @@ export class ShopApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
         headerParams.set('Content-Type', 'application/json');
 
         // verify required parameter 'payload' is not null or undefined
@@ -95,6 +96,7 @@ export class ShopApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         // verify required parameter 'id' is not null or undefined
         if (id === null || id === undefined) {
@@ -139,6 +141,7 @@ export class ShopApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let formParams = new URLSearchParams();
 
@@ -189,6 +192,7 @@ export class ShopApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
@@ -219,6 +223,7 @@ export class ShopApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
         headerParams.set('Content-Type', 'application/json');
 
         // verify required parameter 'payload' is not null or undefined
@@ -257,6 +262,7 @@ export class ShopApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
         headerParams.set('Content-Type', 'application/json');
 
         let requestOptions: RequestOptionsArgs = {
@@ -288,6 +294,7 @@ export class ShopApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
         headerParams.set('Content-Type', 'application/json');
 
         // verify required parameter 'payload' is not null or undefined

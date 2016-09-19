@@ -193,7 +193,6 @@ module.exports = {
       {
           test: /\.(scss|sass)$/,
           loader: 'raw-loader!autoprefixer-loader!sass-loader?sourceMap'
-              // loader: 'raw-loader!style-loader!css-loader!autoprefixer-loader!sass-loader'
       },
     ]
 

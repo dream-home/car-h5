@@ -60,7 +60,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
-
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
         let formParams = new URLSearchParams();
 
         // verify required parameter 'oldPassword' is not null or undefined
@@ -112,6 +112,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let formParams = new URLSearchParams();
 
@@ -161,6 +162,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let requestOptions: RequestOptionsArgs = {
             method: 'POST',
@@ -191,6 +193,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let requestOptions: RequestOptionsArgs = {
             method: 'GET',
@@ -226,6 +229,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let formParams = new URLSearchParams();
 
@@ -279,6 +283,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let formParams = new URLSearchParams();
 
@@ -336,6 +341,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let formParams = new URLSearchParams();
 
@@ -386,6 +392,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let formParams = new URLSearchParams();
 
@@ -428,6 +435,7 @@ export class UserApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let formParams = new URLSearchParams();
 

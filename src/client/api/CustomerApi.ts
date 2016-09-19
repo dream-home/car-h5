@@ -59,6 +59,7 @@ export class CustomerApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         // verify required parameter 'customerId' is not null or undefined
         if (customerId === null || customerId === undefined) {
@@ -94,6 +95,7 @@ export class CustomerApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         // verify required parameter 'customerId' is not null or undefined
         if (customerId === null || customerId === undefined) {
@@ -138,6 +140,7 @@ export class CustomerApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         if (pageNumber !== undefined) {
             queryParameters.set('pageNumber', pageNumber);
@@ -186,6 +189,7 @@ export class CustomerApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         let formParams = new URLSearchParams();
 
@@ -240,6 +244,7 @@ export class CustomerApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
 
         // verify required parameter 'phoneOrVehicleLicence' is not null or undefined
         if (phoneOrVehicleLicence === null || phoneOrVehicleLicence === undefined) {
@@ -283,6 +288,7 @@ export class CustomerApi {
 
         headerParams.set('token', Cookie.load('token')); //tobeplus 缓存注入 header
         headerParams.set('shopId', Cookie.load('shopId')); //tobeplus 缓存注入 header
+    headerParams.set('clientType', Cookie.load('clientType')); //tobeplus 缓存注入 header
         
 
         // verify required parameter 'vehicleLicence' is not null or undefined

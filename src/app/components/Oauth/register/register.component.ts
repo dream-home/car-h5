@@ -193,7 +193,8 @@ export class RegisterComponent {
       .subscribe((data) => {
         this.loading = 0;
         if (data.meta.code == 200) {
-          Cookie.save('token', data.data.token, 7);
+          Cookie.save('token', data.data.token, 14);
+          Cookie.save('clientType', 'pc', 14);
           this.sApi.shopMyshopGet(data.data.token).subscribe(data => {
             if (data.meta.code === 200) {
               if (data.data.length > 0) {
